@@ -2,7 +2,7 @@
 #define INTERFACES
 #pragma once
 
-//#define DEBUG
+#define DEBUG
 
 #define CLIENT_DLL 
 
@@ -121,6 +121,7 @@ public:
 	IClientLeafSystem* g_pClientLeafSystem = nullptr;
 	INetworkStringTableContainer* g_pNetworkStringTableContainer = nullptr;
 	std::add_pointer_t<const char** __fastcall(const char* playerModelName)> getPlayerViewmodelArmConfigForPlayerModel;
+	std::add_pointer_t<const char** __fastcall(void* _this, void* edx)> fn_get_account_data;
 	IMDLCache* g_pMdlCache = nullptr;
 	IModelLoader* g_ModelLoader = nullptr;
 	IEngineSound* g_pEngineSound = nullptr;
