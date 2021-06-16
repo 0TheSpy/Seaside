@@ -48,7 +48,7 @@ std::vector<std::string> Split(const std::string& str, const char* delim) {
 class Config : public Singleton<Config> {
 public:
     void Save() {
-        std::ofstream fout("seaside210616.cfg", std::ios::binary);
+        std::ofstream fout("seaside210407.cfg", std::ios::binary);
         const auto sz = sizeof(Options);
         const auto var_sz = sizeof(Var<bool>);
         const auto cnt = sz / var_sz;
