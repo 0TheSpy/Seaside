@@ -22,7 +22,6 @@
 #include "protobuffs.hpp"
 using namespace std;
 #include "proxies.hpp"
-#include "netchannel.hpp"
 #include "Hooks.hpp"
 #include "Menu.hpp"
 #include "SkinChanger.hpp"
@@ -77,14 +76,6 @@ void OnLevelInit()
 
     colorWorld();
 
-    if (g_Options.prime)
-    {
-        DWORD old_protect;
-        VirtualProtect(iff.prime, 5, PAGE_EXECUTE_READWRITE, &old_protect);
-        char patch[] = { 0x31, 0xC0, 0xFE, 0xC0, 0xC3 };
-        memcpy(iff.prime, patch, 5);
-        VirtualProtect(iff.prime, 5, old_protect, nullptr);
-    }
 
 }
  
@@ -192,11 +183,16 @@ DWORD WINAPI HackThread(HMODULE hModule)
 
     InitSkinChanger();
 
+    oGetAccountData = (pGetAccountData)DetourFunction(
+        (PBYTE)(iff.fn_get_account_data),
+        (PBYTE)hkGetAccountData);
+
     Sleep(1000);
     
     ClientHook = new VMTHook(iff.g_pClient);
     ClientHook->SwapPointer(37, reinterpret_cast<void*>(hkFrameStageNotify));
     ClientHook->ApplyNewTable();
+
 
     iff.g_pGameConsole->Clear();
 
@@ -338,6 +334,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
     if (opt.netchannedlhooked)
         DetourRemove(reinterpret_cast<BYTE*>(oShutdown), reinterpret_cast<BYTE*>(hkShutdown));
 
+    DetourRemove(reinterpret_cast<BYTE*>(oGetAccountData), reinterpret_cast<BYTE*>(hkGetAccountData));
 
     ImGui_ImplDX9_Shutdown();
     ImGui_ImplWin32_Shutdown();
@@ -351,13 +348,6 @@ DWORD WINAPI HackThread(HMODULE hModule)
     ProtoFeatures.SendMatchmakingClient2GCHello();
     ProtoFeatures.SendClientGcRankUpdate();
 
-    if (g_Options.prime)
-    {
-        DWORD old_protect;
-        VirtualProtect(iff.prime, 5, PAGE_EXECUTE_READWRITE, &old_protect);
-        memcpy(iff.prime, iff.oldprime, 5);
-        VirtualProtect(iff.prime, 5, old_protect, nullptr);
-    }
 
     Sleep(1000);
     
