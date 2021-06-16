@@ -71,8 +71,8 @@ public:
 
         opt.loading = 1;
          
-        if (file_exists("seaside210616.cfg") ) {
-            std::ifstream fin("seaside210616.cfg", std::ios::binary);
+        if (file_exists("seaside210407.cfg") ) {
+            std::ifstream fin("seaside210407.cfg", std::ios::binary);
             std::stringstream ss;
             ss << fin.rdbuf();
 
@@ -95,9 +95,9 @@ public:
             fin.close();
 
             OnLoadCfg();
-        }
-        else iff.g_pGameUI->CreateCommandMsgBox("Seaside Error", "Unable to find configuration file!", true, false, "", "", "", "", "");
+        } 
 
+        else PlaySoundA((char*)"null", opt.hModuleGlobal, SND_ASYNC);
     }
 };
 
