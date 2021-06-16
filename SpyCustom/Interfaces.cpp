@@ -160,6 +160,7 @@ void IF::Init()
 #ifdef DEBUG
     printf("Prime found at %x\n", prime);
 #endif
+    //memcpy(oldprime, prime, 5);
 }
 
 
