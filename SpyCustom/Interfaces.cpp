@@ -160,7 +160,11 @@ void IF::Init()
 #ifdef DEBUG
     printf("Prime found at %x\n", prime);
 #endif
-    //memcpy(oldprime, prime, 5);
+
+    fn_get_account_data = relativeToAbsolute<decltype(fn_get_account_data)>(FindPatternV2("client.dll", "E8 ? ? ? ? 85 C0 74 EE") + 1);
+#ifdef DEBUG
+    printf("fn_get_account_data %x\n", fn_get_account_data);
+#endif
 }
 
 
