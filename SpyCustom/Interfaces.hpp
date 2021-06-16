@@ -54,7 +54,7 @@
 #include "sdk/itexture.h"
 #include "sdk/precipitation_shared.h"
 #include "sdk/iinputsystem.h"
-#include "vpkparser.h"
+#include "sdk/vpkparser.h"
 #include "sdk/itempents.h" 
 #include "sdk/c_te_legacytempents.h"
 
