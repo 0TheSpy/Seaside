@@ -2,7 +2,7 @@
 #define INTERFACES
 #pragma once
 
-#define DEBUG
+//#define DEBUG
 
 #define CLIENT_DLL 
 
