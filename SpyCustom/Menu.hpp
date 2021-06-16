@@ -1791,26 +1791,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
                     ImGui::TableNextColumn();
 
-                    DisableElements(0, 1);
-                    if (ImGui::Checkbox("Prime (unavailable)", g_Options.prime))
-                    {
-                        if (g_Options.prime)
-                        {
-                            DWORD old_protect;
-                            VirtualProtect(iff.prime, 5, PAGE_EXECUTE_READWRITE, &old_protect);
-                            char patch[] = { 0x31, 0xC0, 0xFE, 0xC0, 0xC3 };
-                            memcpy(iff.prime, patch, 5);
-                            VirtualProtect(iff.prime, 5, old_protect, nullptr);
-                        }
-                        else
-                        {
-                            DWORD old_protect;
-                            VirtualProtect(iff.prime, 5, PAGE_EXECUTE_READWRITE, &old_protect);
-                            memcpy(iff.prime, iff.oldprime, 5);
-                            VirtualProtect(iff.prime, 5, old_protect, nullptr);
-                        }
-                    }
-                    DisableElements(0, 0);
+                    ImGui::Checkbox("Prime", g_Options.prime); 
 
                     ImGui::InputInt("level", g_Options.level, 0);
                     ImGui::InputInt("XP", g_Options.xp, 0);
