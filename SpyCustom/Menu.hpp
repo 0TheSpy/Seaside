@@ -545,6 +545,8 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     {
                         if (g_Options.fogactive)
                         {
+                            iff.g_pCVar->FindVar("fog_enable")->SetValue(true); 
+                            iff.g_pCVar->FindVar("fog_enableskybox ")->SetValue(true); 
                             iff.g_pCVar->FindVar("fog_override")->SetValue(true);
                             iff.g_pCVar->FindVar("fog_color")->SetValue(
                                 std::string("").
