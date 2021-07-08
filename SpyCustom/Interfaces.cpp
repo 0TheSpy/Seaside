@@ -1,5 +1,6 @@
 #include "Interfaces.hpp"
 #include "PatternScan.hpp"
+#include "Options.hpp"
 
 IF iff;
 
@@ -180,6 +181,55 @@ auto is_code_ptr(void* ptr) -> bool
         && out.Protect & protect_flags;
 }
 
+ 
+const char* GetVisibleValue(const char* cvar)
+{
+    PVOID addr = iff.g_pCVar->FindVar(cvar);
+    if (!addr) return 0;
+    char dummy[255];
+    memcpy(dummy, *(PVOID*)PVOID(*(int*)&addr + 0x24), 255);
+    return dummy;
+}
+ 
+float GetVisibleFloat(const char* cvar)
+{
+    return std::stof(GetVisibleValue(cvar));
+}
 
+ 
+void SetFloatUnrestricted(const char* cvar, float value)
+{
+    PVOID addr = iff.g_pCVar->FindVar(cvar);
+    if (!addr)
+    {
+#ifdef DEBUG
+        printf("Can't find cvar %s\n", cvar);
+#endif
+        PlaySoundA((char*)"null", opt.hModuleGlobal, SND_ASYNC);
+        return;
+    }
+    float valX = value;
+    int valXX = *(int*)&valX ^ (DWORD)addr;
+    memcpy(PVOID(*(int*)&addr + 0x2C), &valXX, sizeof(valXX));
+}
+ 
+void SetIntUnrestricted(const char* cvar, int value)
+{
+    PVOID addr = iff.g_pCVar->FindVar(cvar);
+    if (!addr)
+    {
+#ifdef DEBUG
+        printf("Can't find cvar %s\n", cvar);
+#endif
+        PlaySoundA((char*)"null", opt.hModuleGlobal, SND_ASYNC);
+        return;
+    }
+    int valXX = value ^ (DWORD)addr;
+    memcpy(PVOID(*(int*)&addr + 0x30), &valXX, sizeof(valXX));
+}
 
-
+void SetValueUnrestricted(const char* cvar, float value)
+{
+    SetFloatUnrestricted(cvar, value);
+    SetIntUnrestricted(cvar, (int)value);
+}
