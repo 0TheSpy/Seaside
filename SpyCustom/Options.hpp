@@ -681,6 +681,7 @@ public:
     OPTION(bool, shadows, false);
     OPTION(float, ragdollgravity, 600.0f);
     OPTION(float, ragdolltime, 1.0f);
+    OPTION(int, fullbright, 0);
 };
 
 inline Options g_Options;
