@@ -1826,9 +1826,9 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         SetValueUnrestricted(cvarbuf, floatbuf); 
                 }
 
-                ImGui::Separator();
-
-                ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 20.0f);
+                ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 10.0f);
+                ImGui::Separator(); 
+                ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.0f);
 
                 ImGui::Columns(2, nullptr, false);
                  
@@ -1843,17 +1843,65 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 if (ImGui::Checkbox("No shadows", g_Options.shadows)) 
                     SetValueUnrestricted("cl_csm_enabled", !g_Options.shadows); 
                  
+
+                style->WindowPadding = ImVec2(5.0f, 5.0f); 
+                static string types[3] = { "0", "1", "2" };
+                if (ImGui::BeginCombo("Fullbright", types[g_Options.fullbright].c_str()))
+                {
+                    ImGui::PushFont(ifontmini);
+                    style->ItemSpacing = ImVec2(7.0f, 2.0f);
+                    for (int n = 0; n < 3; n++)
+                    {
+                        bool selected = (g_Options.fullbright == n);
+                        if (ImGui::Selectable(types[n].c_str(), false, 0, ImVec2(0, 0), false))
+                        {
+                            memcpy(g_Options.fullbright, &n, 4);
+                            SetValueUnrestricted("mat_fullbright", g_Options.fullbright);
+                        }
+                        if (selected)
+                            ImGui::SetItemDefaultFocus();
+                    }
+                    style->ItemSpacing = ImVec2(7.0f, 15.0f);
+                    ImGui::PushFont(ifont);
+                    ImGui::EndCombo();
+                }
+                style->WindowPadding = ImVec2(20.f, 20.0f);
+
+
                 if (ImGui::InputFloat("Ragdoll Gravity", g_Options.ragdollgravity))
                     iff.g_pCVar->FindVar("cl_ragdoll_gravity")->SetValue(g_Options.ragdollgravity);
 
                 if (ImGui::InputFloat("Ragdoll Timescale", g_Options.ragdolltime))
                     SetValueUnrestricted("cl_phys_timescale", g_Options.ragdolltime);
 
+                 
+                 
+
                 ImGui::NextColumn();
                  
 
                 if (ImGui::SliderFloat("FOV", g_Options.fov, 0, 360))
                     SetValueUnrestricted("fov_cs_debug", g_Options.fov);
+
+                if (ImGui::Checkbox("No viewmodel bob", g_Options.viewmodel_moving))
+                {
+                    if (g_Options.viewmodel_moving)
+                    {
+                        SetValueUnrestricted("cl_viewmodel_shift_left_amt", 0);
+                        SetValueUnrestricted("cl_viewmodel_shift_right_amt", 0);
+                        SetValueUnrestricted("cl_bob_lower_amt", 0);
+                        SetValueUnrestricted("cl_bobamt_lat", 0);
+                        SetValueUnrestricted("cl_bobamt_vert", 0);
+                    }
+                    else
+                    {
+                        SetValueUnrestricted("cl_viewmodel_shift_left_amt", GetVisibleFloat("cl_viewmodel_shift_left_amt"));
+                        SetValueUnrestricted("cl_viewmodel_shift_right_amt", GetVisibleFloat("cl_viewmodel_shift_right_amt"));
+                        SetValueUnrestricted("cl_bob_lower_amt", GetVisibleFloat("cl_bob_lower_amt"));
+                        SetValueUnrestricted("cl_bobamt_lat", GetVisibleFloat("cl_bobamt_lat"));
+                        SetValueUnrestricted("cl_bobamt_vert", GetVisibleFloat("cl_bobamt_vert"));
+                    }
+                }
 
                 if (ImGui::SliderFloat("Viewmodel FOV", g_Options.viewmodel_fov, 0, 180.0f))
                     SetValueUnrestricted("viewmodel_fov", g_Options.viewmodel_fov); 
@@ -1864,6 +1912,8 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 if (ImGui::SliderFloat("Viewmodel Z", g_Options.viewmodel_z, -90.0f, 90.0f))
                     SetValueUnrestricted("viewmodel_offset_z", g_Options.viewmodel_z);
                  
+                
+
                 ImGui::Columns(1, nullptr, false);
 
                 ImGui::EndChild();
