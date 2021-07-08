@@ -76,6 +76,19 @@ void OnLevelInit()
 
     iff.g_pCVar->FindVar("mat_force_tonemap_scale")->SetValue(g_Options.tonemapscale);
 
+
+    SetValueUnrestricted("r_aspectratio", g_Options.aspectratio);
+    iff.g_pCVar->FindVar("mat_postprocess_enable")->SetValue(!g_Options.postproc);
+    iff.g_pCVar->FindVar("cl_csm_enabled")->SetValue(!g_Options.shadows);
+    iff.g_pCVar->FindVar("cl_ragdoll_gravity")->SetValue(g_Options.ragdollgravity);
+    SetValueUnrestricted("cl_phys_timescale", g_Options.ragdolltime);
+    SetValueUnrestricted("fov_cs_debug", g_Options.fov);
+    SetValueUnrestricted("viewmodel_fov", g_Options.viewmodel_fov);
+    SetValueUnrestricted("viewmodel_offset_x", g_Options.viewmodel_x);
+    SetValueUnrestricted("viewmodel_offset_y", g_Options.viewmodel_y);
+    SetValueUnrestricted("viewmodel_offset_z", g_Options.viewmodel_z);
+
+
     colorWorld();
 
 
