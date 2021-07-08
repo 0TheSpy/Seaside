@@ -15,7 +15,6 @@ IMaterial* CreateMaterial(std::string matname, std::string mat_data = "")
 }
 
 
-
 void colorWorld(bool on = 1) noexcept
 {
     if (on) {
@@ -243,7 +242,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 }
 
                 DisableElements(*g_Options.beamtrace, 0);
-
+                 
                 ImGui::NextColumn();
 
                 ImGui::Checkbox("Bullet impact effect", g_Options.attacheffects);
@@ -442,8 +441,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
                     ImGui::EndTable();
                 }
-
-
+                 
                 ImGui::Columns(1, nullptr, false);
 
                 ImGui::EndChild();
@@ -1532,15 +1530,11 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     style->WindowPadding = ImVec2(20.f, 20.0f);
 
                     DisableElements(disabledDefIndex, 0);
-
-
+                      
                     ImGui::TableNextColumn();
-
-
+                     
                     DisableElements(disabledKFIcon, 1);
-
-
-
+                      
                     style->WindowPadding = ImVec2(5.0f, 5.0f);
                     if (ImGui::BeginCombo("Killfeed icon", g_Options.weapons.value->arr[selectedwep].killfeediconreplace))
                     {
@@ -1562,21 +1556,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         ImGui::EndCombo();
                     }
                     style->WindowPadding = ImVec2(20.f, 20.0f);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                      
                     DisableElements(disabledKFIcon, 0);
 
                     ImGui::EndTable();
@@ -1822,6 +1802,76 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
         }
 
+
+        if (ImGui::BeginTabItem("Player"))
+        {
+            style->ChildBorderSize = 0; style->WindowPadding = ImVec2(20.0f, 5.0f);
+            if (ImGui::BeginChild("ChildTab", ImVec2(665, 350), true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysUseWindowPadding)) {
+                style->ChildBorderSize = 1; style->WindowPadding = ImVec2(20.0f, 20.0f);
+
+                ImGui::Text("Set ConVar");
+                ImGui::SameLine();
+
+                static char cvarbuf[255] = "";
+                ImGui::PushItemWidth(200.0f);
+                ImGui::InputText("##Set ConVar", cvarbuf, 255);
+                ImGui::SameLine();
+                static float floatbuf = 0;
+
+                ImGui::PushItemWidth(200.0f); 
+                    ImGui::InputFloat("Value##f", &floatbuf);
+                ImGui::SameLine();
+                if (ImGui::Button("Apply", ImVec2(70, 22)))
+                {
+                        SetValueUnrestricted(cvarbuf, floatbuf); 
+                }
+
+                ImGui::Separator();
+
+                ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 20.0f);
+
+                ImGui::Columns(2, nullptr, false);
+                 
+
+                if (ImGui::SliderFloat("Aspect Ratio", g_Options.aspectratio, 0, 25.0f))
+                    SetValueUnrestricted("r_aspectratio", g_Options.aspectratio);
+                 
+                if (ImGui::Checkbox("No postprocessing", g_Options.postproc))
+                    SetValueUnrestricted("mat_postprocess_enable", !g_Options.postproc);
+                      
+
+                if (ImGui::Checkbox("No shadows", g_Options.shadows)) 
+                    SetValueUnrestricted("cl_csm_enabled", !g_Options.shadows); 
+                 
+                if (ImGui::InputFloat("Ragdoll Gravity", g_Options.ragdollgravity))
+                    iff.g_pCVar->FindVar("cl_ragdoll_gravity")->SetValue(g_Options.ragdollgravity);
+
+                if (ImGui::InputFloat("Ragdoll Timescale", g_Options.ragdolltime))
+                    SetValueUnrestricted("cl_phys_timescale", g_Options.ragdolltime);
+
+                ImGui::NextColumn();
+                 
+
+                if (ImGui::SliderFloat("FOV", g_Options.fov, 0, 360))
+                    SetValueUnrestricted("fov_cs_debug", g_Options.fov);
+
+                if (ImGui::SliderFloat("Viewmodel FOV", g_Options.viewmodel_fov, 0, 180.0f))
+                    SetValueUnrestricted("viewmodel_fov", g_Options.viewmodel_fov); 
+                if (ImGui::SliderFloat("Viewmodel X", g_Options.viewmodel_x, -90.0f, 90.0f))
+                    SetValueUnrestricted("viewmodel_offset_x", g_Options.viewmodel_x); 
+                if (ImGui::SliderFloat("Viewmodel Y", g_Options.viewmodel_y, -90.0f, 90.0f))
+                    SetValueUnrestricted("viewmodel_offset_y", g_Options.viewmodel_y);
+                if (ImGui::SliderFloat("Viewmodel Z", g_Options.viewmodel_z, -90.0f, 90.0f))
+                    SetValueUnrestricted("viewmodel_offset_z", g_Options.viewmodel_z);
+                 
+                ImGui::Columns(1, nullptr, false);
+
+                ImGui::EndChild();
+            }
+            ImGui::EndTabItem();
+        }
+
+
         if (ImGui::BeginTabItem("About"))
         {
             static ImVec4 colwhite = { 0.8f, 0.8f, 0.8f, 1.0f };
@@ -1833,7 +1883,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::Columns(2, nullptr, false);
 
                 ImGui::TextColored(colwhite, XorStr("Seaside"));
-                ImGui::Text(XorStr("Build 21/07/01"));
+                ImGui::Text(XorStr("Build 21/06/16"));
                 ImGui::InvisibleButton("##inv", ImVec2(0, 0));
                 ImGui::TextColored(colwhite, XorStr("Developer"));
                 ImGui::Text(XorStr("0TheSpy"));
@@ -1892,6 +1942,8 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
             ImGui::EndTabItem();
         }
+
+         
 
         ImGui::EndTabBar();
 
