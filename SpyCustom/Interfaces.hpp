@@ -2,7 +2,7 @@
 #define INTERFACES
 #pragma once
 
-//#define DEBUG
+#define DEBUG
 
 #define CLIENT_DLL 
 
@@ -322,6 +322,12 @@ enum Sequence
 	SEQUENCE_BOWIE_IDLE1 = 1,
 };
 
+
+void SetValueUnrestricted(const char* cvar, float value);
+void SetIntUnrestricted(const char* cvar, int value);
+void SetFloatUnrestricted(const char* cvar, float value);
+float GetVisibleFloat(const char* cvar);
+const char* GetVisibleValue(const char* cvar);
 
 
 #endif
