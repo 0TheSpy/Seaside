@@ -88,6 +88,16 @@ void OnLevelInit()
     SetValueUnrestricted("viewmodel_offset_y", g_Options.viewmodel_y);
     SetValueUnrestricted("viewmodel_offset_z", g_Options.viewmodel_z);
 
+    if (g_Options.viewmodel_moving)
+    {
+        SetValueUnrestricted("cl_viewmodel_shift_left_amt", 0);
+        SetValueUnrestricted("cl_viewmodel_shift_right_amt", 0);
+        SetValueUnrestricted("cl_bob_lower_amt", 0);
+        SetValueUnrestricted("cl_bobamt_lat", 0);
+        SetValueUnrestricted("cl_bobamt_vert", 0);
+    }
+
+    SetValueUnrestricted("mat_fullbright", g_Options.fullbright);
 
     colorWorld();
 
