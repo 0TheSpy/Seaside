@@ -629,6 +629,7 @@ public:
     OPTION(float3, worldcolor, float3(1.0f, 1.0f, 1.0f));
     OPTION(float3, staticpropcolor, float3(1.0f, 1.0f, 1.0f));
     OPTION(float3, modelcolor, float3(1.0f, 1.0f, 1.0f));
+    OPTION(float3, smokeskycolor, float3(1.0f, 1.0f, 1.0f));
     OPTION(Models, models, Models());
     OPTION(int, soundhook_count, 0);
     OPTION(int, entityloop_count, 0);
