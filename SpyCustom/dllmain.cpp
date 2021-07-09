@@ -25,7 +25,7 @@ using namespace std;
 #include "Hooks.hpp"
 #include "Menu.hpp"
 #include "SkinChanger.hpp"
- 
+  
 
 void OnLevelInit()
 {
@@ -95,9 +95,13 @@ void OnLevelInit()
         SetValueUnrestricted("cl_bob_lower_amt", 0);
         SetValueUnrestricted("cl_bobamt_lat", 0);
         SetValueUnrestricted("cl_bobamt_vert", 0);
+        SetValueUnrestricted("cl_wpn_sway_scale", 0);
     }
 
     SetValueUnrestricted("mat_fullbright", g_Options.fullbright);
+    SetValueUnrestricted("mat_drawgray", g_Options.drawgray); 
+    SetValueUnrestricted("mat_showlowresimage", g_Options.showlowresimage); 
+
 
     colorWorld();
 
@@ -200,6 +204,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
     
     ClientModeHook = new VMTHook(iff.g_ClientMode);
     ClientModeHook->SwapPointer(44, reinterpret_cast<void*>(hkdoPostScreenEffects));
+    ClientModeHook->SwapPointer(18, reinterpret_cast<void*>(hkOverrideView));
     ClientModeHook->ApplyNewTable();
 
     FileSystemHook = new VMTHook(iff.g_pFullFileSystem);
@@ -217,7 +222,6 @@ DWORD WINAPI HackThread(HMODULE hModule)
     ClientHook = new VMTHook(iff.g_pClient);
     ClientHook->SwapPointer(37, reinterpret_cast<void*>(hkFrameStageNotify));
     ClientHook->ApplyNewTable();
-
 
     iff.g_pGameConsole->Clear();
 
@@ -344,6 +348,9 @@ DWORD WINAPI HackThread(HMODULE hModule)
 
     iff.g_pCVar->FindVar("fog_override")->SetValue(0);
     iff.g_pCVar->FindVar("mat_force_tonemap_scale")->SetValue(0.0f);
+    
+    ResetMisc();
+
 
     DMEHook->RestoreOldTable(); 
     D3DHook->RestoreOldTable();
@@ -355,7 +362,6 @@ DWORD WINAPI HackThread(HMODULE hModule)
     VGUISurfHook->RestoreOldTable();
     ClientModeHook->RestoreOldTable();
     FileSystemHook->RestoreOldTable();
-
     if (opt.netchannedlhooked)
         DetourRemove(reinterpret_cast<BYTE*>(oShutdown), reinterpret_cast<BYTE*>(hkShutdown));
 
