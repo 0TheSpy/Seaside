@@ -161,6 +161,11 @@ void IF::Init()
 #ifdef DEBUG
     printf("fn_get_account_data %x\n", fn_get_account_data);
 #endif
+
+    ParticleCollectionSimulateAdr = relativeToAbsolute<decltype(ParticleCollectionSimulateAdr)>(FindPatternV2("client.dll", "E8 ? ? ? ? 8B 0E 83 C1 10") + 1);
+#ifdef DEBUG
+    printf("ParticleCollectionSimulateAdr %x\n", ParticleCollectionSimulateAdr);
+#endif
 }
 
 
