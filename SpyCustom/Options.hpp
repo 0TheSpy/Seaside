@@ -672,9 +672,12 @@ public:
     OPTION(bool, postproc, false); 
     OPTION(float, fov, 90.0f);
     OPTION(float, viewmodel_fov, 60.0f);
-    OPTION(float, viewmodel_x, 0.0f);
-    OPTION(float, viewmodel_y, 0.0f);
-    OPTION(float, viewmodel_z, 0.0f);
+    OPTION(float, viewmodel_x, 1.0f);
+    OPTION(float, viewmodel_y, 1.0f);
+    OPTION(float, viewmodel_z, -1.0f);
+    OPTION(float, viewmodel_ang_x, 0.0f);
+    OPTION(float, viewmodel_ang_y, 0.0f);
+    OPTION(float, viewmodel_ang_z, 0.0f);
     OPTION(bool, lefthand, false);
     OPTION(bool, viewmodel_moving, false);
     OPTION(float, aspectratio, 0.0f);
@@ -682,6 +685,8 @@ public:
     OPTION(float, ragdollgravity, 600.0f);
     OPTION(float, ragdolltime, 1.0f);
     OPTION(int, fullbright, 0);
+    OPTION(bool, drawgray, 0);
+    OPTION(bool, showlowresimage, 0); 
 };
 
 inline Options g_Options;
