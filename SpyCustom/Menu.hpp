@@ -16,7 +16,8 @@ IMaterial* CreateMaterial(std::string matname, std::string mat_data = "")
 
 
 void colorWorld(bool on = 1) noexcept
-{
+{ 
+
     if (on) {
         if (!*g_Options.worldcoloractive) return;
 
@@ -31,9 +32,13 @@ void colorWorld(bool on = 1) noexcept
                 pMaterial->ColorModulate(g_Options.worldcolor.value->r, g_Options.worldcolor.value->g, g_Options.worldcolor.value->b);
             if (strstr(textureGroup, "StaticProp"))
                 pMaterial->ColorModulate(g_Options.staticpropcolor.value->r, g_Options.staticpropcolor.value->g, g_Options.staticpropcolor.value->b);
+            if (strstr(textureGroup, "SkyBox"))
+                pMaterial->ColorModulate(g_Options.staticpropcolor.value->r, g_Options.staticpropcolor.value->g, g_Options.staticpropcolor.value->b); 
             if (strstr(textureGroup, "Model"))
                 pMaterial->ColorModulate(g_Options.modelcolor.value->r, g_Options.modelcolor.value->g, g_Options.modelcolor.value->b);
+             
         }
+          
     }
     else
     {
@@ -51,6 +56,7 @@ void colorWorld(bool on = 1) noexcept
             if (strstr(textureGroup, "Model"))
                 pMaterial->ColorModulate(1.0f, 1.0f, 1.0f);
         }
+         
     }
 }
 
@@ -676,7 +682,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     colorWorld();
 
                 ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 20.0f);
-                if (ImGui::BeginTable("##Colorworld", 3, ImGuiTableFlags_NoSavedSettings))
+                if (ImGui::BeginTable("##Colorworld", 4, ImGuiTableFlags_NoSavedSettings))
                 {
                     ImGui::TableNextColumn();
                     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 3.0f);
@@ -684,13 +690,17 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     ImGui::ColorEdit3("##W1", (float*)g_Options.worldcolor.value.get(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaPreviewHalf);
 
                     ImGui::TableNextColumn();
-                    ImGui::Text("StaticProp");
+                    ImGui::Text("Prop/Sky");
                     ImGui::ColorEdit3("##W2", (float*)g_Options.staticpropcolor.value.get(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaPreviewHalf);
+
+                    ImGui::TableNextColumn();
+                    ImGui::Text("Particles");
+                    ImGui::ColorEdit4("##W4", (float*)g_Options.smokeskycolor.value.get(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaPreviewHalf | ImGuiColorEditFlags_AlphaBar);
+
 
                     ImGui::TableNextColumn();
                     ImGui::Text("Model");
                     ImGui::ColorEdit3("##W3", (float*)g_Options.modelcolor.value.get(), ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaPreviewHalf);
-
 
                     ImGui::EndTable();
                 }
