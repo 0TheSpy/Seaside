@@ -157,11 +157,6 @@ void IF::Init()
     g_pInputSystem = (IInputSystem*)GetInterface("inputsystem.dll", "InputSystemVersion001");
     g_pVGuiSurface = (vgui::ISurface*)GetInterface("vguimatsurface.dll", "VGUI_Surface031");  
 
-    prime = (uint8_t*)FindPatternV2("client.dll", "A1 ? ? ? ? 85 C0 75 07 83 F8 05 0F 94 C0 C3");
-#ifdef DEBUG
-    printf("Prime found at %x\n", prime);
-#endif
-
     fn_get_account_data = relativeToAbsolute<decltype(fn_get_account_data)>(FindPatternV2("client.dll", "E8 ? ? ? ? 85 C0 74 EE") + 1);
 #ifdef DEBUG
     printf("fn_get_account_data %x\n", fn_get_account_data);
@@ -230,6 +225,9 @@ void SetIntUnrestricted(const char* cvar, int value)
 
 void SetValueUnrestricted(const char* cvar, float value)
 {
+#ifdef DEBUG
+    printf("Set %s to %f\n", cvar, value);
+#endif
     SetFloatUnrestricted(cvar, value);
     SetIntUnrestricted(cvar, (int)value);
 }
