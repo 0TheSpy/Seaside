@@ -69,7 +69,7 @@ void ResetMisc()
     memcpy(g_Options.viewmodel_ang_x, &f0, 4);
     memcpy(g_Options.viewmodel_ang_y, &f0, 4);
     memcpy(g_Options.viewmodel_ang_z, &f0, 4);
-    SetValueUnrestricted("fov_cs_debug", 90.0f);  memcpy(g_Options.fov, &f90, 4);
+    memcpy(g_Options.fov, &f90, 4);
     SetValueUnrestricted("viewmodel_fov", 60.0f); memcpy(g_Options.viewmodel_fov, &f60, 4);
     memcpy(g_Options.viewmodel_moving, &f0, 4);
     SetValueUnrestricted("cl_viewmodel_shift_left_amt", GetVisibleFloat("cl_viewmodel_shift_left_amt"));
@@ -1917,10 +1917,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                  
                 ImGui::NextColumn();
                 
-                
-                if (ImGui::SliderFloat("FOV", g_Options.fov, 0, 360))
-                    SetValueUnrestricted("fov_cs_debug", g_Options.fov);
-
+                ImGui::SliderFloat("FOV", g_Options.fov, 0, 360); 
 
                 if (ImGui::SliderFloat("Viewmodel FOV", g_Options.viewmodel_fov, 0, 180.0f))
                     SetValueUnrestricted("viewmodel_fov", g_Options.viewmodel_fov);
