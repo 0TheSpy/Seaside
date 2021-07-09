@@ -216,6 +216,10 @@ DWORD WINAPI HackThread(HMODULE hModule)
         (PBYTE)(iff.fn_get_account_data),
         (PBYTE)hkGetAccountData);
 
+    oParticleCollectionSimulate = (pParticleCollectionSimulate)DetourFunction(
+        (PBYTE)(iff.ParticleCollectionSimulateAdr),
+        (PBYTE)hkParticleCollectionSimulate);
+
     Sleep(1000);
     
     ClientHook = new VMTHook(iff.g_pClient);
@@ -365,7 +369,8 @@ DWORD WINAPI HackThread(HMODULE hModule)
         DetourRemove(reinterpret_cast<BYTE*>(oShutdown), reinterpret_cast<BYTE*>(hkShutdown));
 
     DetourRemove(reinterpret_cast<BYTE*>(oGetAccountData), reinterpret_cast<BYTE*>(hkGetAccountData));
-
+    DetourRemove(reinterpret_cast<BYTE*>(oParticleCollectionSimulate), reinterpret_cast<BYTE*>(hkParticleCollectionSimulate));
+      
     ImGui_ImplDX9_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
