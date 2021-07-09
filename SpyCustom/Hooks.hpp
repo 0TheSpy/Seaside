@@ -184,6 +184,10 @@ void __stdcall hkOverrideView(CViewSetup* vsView) {
     C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(iff.g_pEngineClient->GetLocalPlayer()));
     if (iff.g_pEngineClient->IsInGame() && localplayer)  
     {
+
+        if (!localplayer->IsScoped())
+        vsView->fov = g_Options.fov;
+
         auto ViewModel = reinterpret_cast<C_BaseViewModel*>(iff.g_pEntityList->GetClientEntityFromHandle(localplayer->GetViewModel()));
         if (ViewModel)
         {
