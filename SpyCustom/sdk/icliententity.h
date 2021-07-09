@@ -34,7 +34,7 @@ public:
 		return getvfunc<GetAbsOriginFn>(this, 10)(this);
 	}
 	
-	const Vector& GetAbsAngles(void)  
+	 Vector& GetAbsAngles(void)  
 	{
 		typedef Vector& (__thiscall* GetAbsAnglesFn)(void*);
 		return getvfunc<GetAbsAnglesFn>(this, 11)(this);
