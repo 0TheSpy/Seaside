@@ -2,7 +2,7 @@
 #define INTERFACES
 #pragma once
 
-//#define DEBUG
+#define DEBUG
 
 #define CLIENT_DLL 
 
@@ -131,6 +131,7 @@ public:
 	CGlobalVarsBase* g_Globals = nullptr;
 	IInputSystem* g_pInputSystem = nullptr;
 	ITempEnts* g_pTempEnts = nullptr; 
+	DWORD ParticleCollectionSimulateAdr = 0;
 };
 
 extern IF iff;
