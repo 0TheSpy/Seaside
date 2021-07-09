@@ -177,6 +177,28 @@ static void __stdcall hkdoPostScreenEffects(void* param) noexcept
     ofunc(iff.g_ClientMode, param);
 }
 
+void __stdcall hkOverrideView(CViewSetup* vsView) {
+
+    static auto ofunc = ClientModeHook->GetOriginal<void(__stdcall*)(CViewSetup*)>(18);
+     
+    C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(iff.g_pEngineClient->GetLocalPlayer()));
+    if (iff.g_pEngineClient->IsInGame() && localplayer)  
+    {
+        auto ViewModel = reinterpret_cast<C_BaseViewModel*>(iff.g_pEntityList->GetClientEntityFromHandle(localplayer->GetViewModel()));
+        if (ViewModel)
+        {
+            Vector eyeAng = vsView->angles; 
+            eyeAng.x += g_Options.viewmodel_ang_x; 
+            eyeAng.y += g_Options.viewmodel_ang_y;
+            eyeAng.z += g_Options.viewmodel_ang_z;
+            ViewModel->GetAbsAngles() = eyeAng; 
+        }
+    }
+     
+    ofunc(vsView);
+}
+
+
 
 VMTHook* VGUISurfHook = nullptr;
 void __fastcall hkLockCursor(void* _this)
@@ -202,7 +224,6 @@ int __stdcall hkGetUnverifiedFileHashes(void* _this, void* someclass, int nMaxFi
 
 
 
-
 enum class account_status_t : int
 {
     none = 0,
@@ -210,7 +231,7 @@ enum class account_status_t : int
     awaiting_cooldown,
     eligible,
     eligible_with_takeover,
-    elevated, // prime
+    elevated,  
     account_cooldown
 };
 
@@ -221,7 +242,7 @@ int __fastcall hkGetAccountData(void* _this, void* edx) noexcept
     const auto ret = oGetAccountData(_this);
 
     account_status_t& account_status = *reinterpret_cast<account_status_t*>(ret + 24);
-    static const bool is_originally_prime_account = account_status == account_status_t::elevated; // not good fix
+    static const bool is_originally_prime_account = account_status == account_status_t::elevated;    
     if (!is_originally_prime_account)
     {
         account_status = g_Options.prime ? account_status_t::elevated : account_status_t::none;
