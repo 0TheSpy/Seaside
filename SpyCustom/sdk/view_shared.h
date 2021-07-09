@@ -32,17 +32,9 @@ enum StereoEye_t
 class CViewSetup
 {
 public:
-	CViewSetup()
-	{
-		m_flAspectRatio = 0.0f;
-		m_bRenderToSubrectOfLargerScreen = false;
-		m_bDoBloomAndToneMapping = true;
-		m_bOrtho = false;
-		m_bOffCenter = false;
-		m_bCacheFullSceneState = false;
-		m_bViewToProjectionOverride = false;
-		m_eStereoEye = STEREO_EYE_MONO;
-	}
+	
+
+	float ComputeViewMatrices(VMatrix* pWorldToView, VMatrix* pViewToProjection, VMatrix* pWorldToProjection) const;
 
 	int			x;
 	int			m_nUnscaledX;
@@ -51,43 +43,68 @@ public:
 	int			width;
 	int			m_nUnscaledWidth;
 	int			height;
-	StereoEye_t m_eStereoEye;
 	int			m_nUnscaledHeight;
-
+	  
 	bool		m_bOrtho;
 	float		m_OrthoLeft;
 	float		m_OrthoTop;
 	float		m_OrthoRight;
 	float		m_OrthoBottom;
 
+	bool		m_bCustomViewMatrix;
+	matrix3x4_t	m_matCustomViewMatrix;
+
+	bool		m_bCustomProjMatrix;
+	VMatrix		m_matCustomProjMatrix;
+
+	const CVolumeCuller* m_pCSMVolumeCuller;
+
 	float		fov;
 	float		fovViewmodel;
 
 	Vector		origin;
 
-	QAngle		angles;
+	Vector		angles;
 	float		zNear;
 	float		zFar;
 
 	float		zNearViewmodel;
 	float		zFarViewmodel;
 
-	bool		m_bRenderToSubrectOfLargerScreen;
-
 	float		m_flAspectRatio;
 
-	bool		m_bOffCenter;
+	float		m_flNearBlurDepth;
+	float		m_flNearFocusDepth;
+	float		m_flFarFocusDepth;
+	float		m_flFarBlurDepth;
+	float		m_flNearBlurRadius;
+	float		m_flFarBlurRadius;
+	int			m_nDoFQuality;
+
+	void*	m_nMotionBlurMode;
+	float	m_flShutterTime;				  
+	Vector	m_vShutterOpenPosition;			      
+	QAngle	m_shutterOpenAngles;			
+	Vector	m_vShutterClosePosition;		      
+	QAngle	m_shutterCloseAngles;			 
+
 	float		m_flOffCenterTop;
 	float		m_flOffCenterBottom;
 	float		m_flOffCenterLeft;
 	float		m_flOffCenterRight;
+	bool		m_bOffCenter : 1;
 
-	bool		m_bDoBloomAndToneMapping;
+	bool		m_bRenderToSubrectOfLargerScreen : 1;
 
-	bool		m_bCacheFullSceneState;
+	bool		m_bDoBloomAndToneMapping : 1;
+	bool		m_bDoDepthOfField : 1;
+	bool		m_bHDRTarget : 1;
+	bool		m_bDrawWorldNormal : 1;
+	bool		m_bCullFrontFaces : 1;
 
-	bool        m_bViewToProjectionOverride;
-	VMatrix     m_ViewToProjection;
+	bool		m_bCacheFullSceneState : 1;
+
+	bool		m_bCSMView : 1;
 };
 
 
