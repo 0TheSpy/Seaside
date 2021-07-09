@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sdk/particles.h"
 
 VMTHook* SoundHook = nullptr;
 void __fastcall hkEmitSound1(void* _this, int edx, IRecipientFilter& filter, int iEntIndex, int iChannel, char* pSoundEntry, unsigned int nSoundEntryHash, const char* pSample, float flVolume, int nSeed, float flAttenuation, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, void* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity, int unk) {
@@ -18,9 +19,7 @@ void __fastcall hkEmitSound1(void* _this, int edx, IRecipientFilter& filter, int
     return ofunc(iff.g_pEngineSound, edx, filter, iEntIndex, iChannel, pSoundEntry, nSoundEntryHash, pSample, flVolume, nSeed, flAttenuation, iFlags, iPitch, pOrigin, pDirection, pUtlVecOrigins, bUpdatePositions, soundtime, speakerentity, unk);
 
 }
-
  
-
 VMTHook* DMEHook = nullptr;
 
 void replacemat(int d)
@@ -50,7 +49,7 @@ void __stdcall DrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& 
 
 
     const char* szName = iff.g_pMdlInfo->GetModelName(pInfo.pModel);
-
+      
     if (g_Options.materials.value->arr[3].active)
         if (strstr(szName, "player/legacy/t") != nullptr)
             replacemat(3);
@@ -89,6 +88,40 @@ void __stdcall DrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& 
     ofunc(iff.g_pMdlRender, ctx, state, pInfo, pCustomBoneToWorld);
 
     iff.g_pMdlRender->ForcedMaterialOverride(nullptr);
+}
+
+  
+typedef const void(__thiscall* pParticleCollectionSimulate)(void*);
+pParticleCollectionSimulate oParticleCollectionSimulate; 
+void __fastcall hkParticleCollectionSimulate(CParticleCollection* thisPtr, void* edx)
+{
+
+    static auto original = reinterpret_cast<bool(__thiscall*)(CParticleCollection * thisPtr)>(oParticleCollectionSimulate);
+    
+    if (!g_Options.worldcoloractive || !iff.g_pEngineClient->IsConnected())
+    {
+        original(thisPtr);
+        return;
+    }
+    
+    original(thisPtr);
+
+    CParticleCollection* root_colection = thisPtr;
+    while (root_colection->m_pParent)
+        root_colection = root_colection->m_pParent;
+
+    const char* root_name = root_colection->m_pDef.m_pObject->m_Name.buffer;
+
+    for (int i = 0; i < thisPtr->m_nActiveParticles; i++)
+    {
+        float* pColor = thisPtr->m_ParticleAttributes.FloatAttributePtr(PARTICLE_ATTRIBUTE_TINT_RGB, i);
+        pColor[0] = g_Options.smokeskycolor.value->r;
+        pColor[4] = g_Options.smokeskycolor.value->g;
+        pColor[8] = g_Options.smokeskycolor.value->b;
+        float* pAlpha = thisPtr->m_ParticleAttributes.FloatAttributePtr(PARTICLE_ATTRIBUTE_ALPHA, i);
+        *pAlpha = g_Options.smokeskycolor.value->a;
+    }
+     
 }
 
 
