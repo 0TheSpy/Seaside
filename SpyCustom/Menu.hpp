@@ -54,6 +54,33 @@ void colorWorld(bool on = 1) noexcept
     }
 }
 
+void ResetMisc()
+{
+    float f0 = 0, fm1 = -1.0f, f1 = 1.0f, f60 = 60.0f, f90 = 90.0f, f600 = 600.0f;
+    SetValueUnrestricted("r_aspectratio", 0); memcpy(g_Options.aspectratio, &f0, 4);
+    SetValueUnrestricted("mat_postprocess_enable", 1); memcpy(g_Options.postproc, &f0, 4);
+    SetValueUnrestricted("cl_csm_enabled", 1); memcpy(g_Options.shadows, &f0, 4);
+    SetValueUnrestricted("mat_fullbright", 0); memcpy(g_Options.fullbright, &f0, 4);
+    SetValueUnrestricted("mat_drawgray", 0); memcpy(g_Options.drawgray, &f0, 4);
+    SetValueUnrestricted("mat_showlowresimage", 0); memcpy(g_Options.showlowresimage, &f0, 4);
+    SetValueUnrestricted("viewmodel_offset_x", 1.0f); memcpy(g_Options.viewmodel_x, &f1, 4);
+    SetValueUnrestricted("viewmodel_offset_y", 1.0f); memcpy(g_Options.viewmodel_y, &f1, 4);
+    SetValueUnrestricted("viewmodel_offset_z", -1.0f); memcpy(g_Options.viewmodel_z, &fm1, 4);
+    memcpy(g_Options.viewmodel_ang_x, &f0, 4);
+    memcpy(g_Options.viewmodel_ang_y, &f0, 4);
+    memcpy(g_Options.viewmodel_ang_z, &f0, 4);
+    SetValueUnrestricted("fov_cs_debug", 90.0f);  memcpy(g_Options.fov, &f90, 4);
+    SetValueUnrestricted("viewmodel_fov", 60.0f); memcpy(g_Options.viewmodel_fov, &f60, 4);
+    memcpy(g_Options.viewmodel_moving, &f0, 4);
+    SetValueUnrestricted("cl_viewmodel_shift_left_amt", GetVisibleFloat("cl_viewmodel_shift_left_amt"));
+    SetValueUnrestricted("cl_viewmodel_shift_right_amt", GetVisibleFloat("cl_viewmodel_shift_right_amt"));
+    SetValueUnrestricted("cl_bob_lower_amt", GetVisibleFloat("cl_bob_lower_amt"));
+    SetValueUnrestricted("cl_bobamt_lat", GetVisibleFloat("cl_bobamt_lat"));
+    SetValueUnrestricted("cl_bobamt_vert", GetVisibleFloat("cl_bobamt_vert"));
+    SetValueUnrestricted("cl_wpn_sway_scale", GetVisibleFloat("cl_wpn_sway_scale"));
+    iff.g_pCVar->FindVar("cl_ragdoll_gravity")->SetValue(600.0f);  memcpy(g_Options.ragdollgravity, &f600, 4);
+    SetValueUnrestricted("cl_phys_timescale", 1.0f); memcpy(g_Options.ragdolltime, &f1, 4);
+}
 
 void RefreshThread(int* skinid)
 {
@@ -543,9 +570,9 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     {
                         if (g_Options.fogactive)
                         {
-                            iff.g_pCVar->FindVar("fog_enable")->SetValue(true); 
-                            iff.g_pCVar->FindVar("fog_enableskybox")->SetValue(true); 
-                            iff.g_pCVar->FindVar("fog_override")->SetValue(true);
+                            SetValueUnrestricted("fog_enable", 1); 
+                            SetValueUnrestricted("fog_enableskybox", 1);  
+                            SetValueUnrestricted("fog_override", 1);
                             iff.g_pCVar->FindVar("fog_color")->SetValue(
                                 std::string("").
                                 append(to_string(g_Options.fogcolor.value->r * 255)).
@@ -564,14 +591,15 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                                 append(std::to_string(g_Options.fogcolor.value->b * 255)).
                                 append(" ").c_str()
                             );
-                            iff.g_pCVar->FindVar("fog_maxdensity")->SetValue(g_Options.fogdensity);
-                            iff.g_pCVar->FindVar("fog_maxdensityskybox")->SetValue(g_Options.fogdensity);
-                            iff.g_pCVar->FindVar("fog_start")->SetValue(g_Options.fogstart);
-                            iff.g_pCVar->FindVar("fog_startskybox")->SetValue(g_Options.fogstart);
-                            iff.g_pCVar->FindVar("fog_end")->SetValue(g_Options.fogend);
-                            iff.g_pCVar->FindVar("fog_endskybox")->SetValue(g_Options.fogend);
-                        }
-                        else iff.g_pCVar->FindVar("fog_override")->SetValue(false);
+                            SetValueUnrestricted("fog_maxdensity", g_Options.fogdensity); 
+                            SetValueUnrestricted("fog_maxdensityskybox", g_Options.fogdensity); 
+                            SetValueUnrestricted("fog_start", g_Options.fogstart);
+                            SetValueUnrestricted("fog_startskybox", g_Options.fogstart);
+                            SetValueUnrestricted("fog_end", g_Options.fogend);
+                            SetValueUnrestricted("fog_endskybox", g_Options.fogend); 
+                        } 
+                        else
+                            SetValueUnrestricted("fog_override", 0);
                     }
 
                     ImGui::TableNextColumn();
@@ -1823,14 +1851,14 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::SameLine();
                 if (ImGui::Button("Apply", ImVec2(70, 22)))
                 {
-                        SetValueUnrestricted(cvarbuf, floatbuf); 
+                    SetValueUnrestricted(cvarbuf, floatbuf); 
                 }
 
                 ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 10.0f);
                 ImGui::Separator(); 
                 ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.0f);
 
-                ImGui::Columns(2, nullptr, false);
+                ImGui::Columns(3, nullptr, false);
                  
 
                 if (ImGui::SliderFloat("Aspect Ratio", g_Options.aspectratio, 0, 25.0f))
@@ -1867,21 +1895,36 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 }
                 style->WindowPadding = ImVec2(20.f, 20.0f);
 
+                if (ImGui::Checkbox("Gray world", g_Options.drawgray))
+                    SetValueUnrestricted("mat_drawgray", g_Options.drawgray);
 
-                if (ImGui::InputFloat("Ragdoll Gravity", g_Options.ragdollgravity))
-                    iff.g_pCVar->FindVar("cl_ragdoll_gravity")->SetValue(g_Options.ragdollgravity);
-
-                if (ImGui::InputFloat("Ragdoll Timescale", g_Options.ragdolltime))
-                    SetValueUnrestricted("cl_phys_timescale", g_Options.ragdolltime);
-
-                 
-                 
+                if (ImGui::Checkbox("Low res world", g_Options.showlowresimage))
+                    SetValueUnrestricted("mat_showlowresimage", g_Options.showlowresimage);
 
                 ImGui::NextColumn();
                  
 
+                
+                if (ImGui::SliderFloat("Viewmodel pos X", g_Options.viewmodel_x, -90.0f, 90.0f))
+                    SetValueUnrestricted("viewmodel_offset_x", g_Options.viewmodel_x); 
+                if (ImGui::SliderFloat("Viewmodel pos Y", g_Options.viewmodel_y, -90.0f, 90.0f))
+                    SetValueUnrestricted("viewmodel_offset_y", g_Options.viewmodel_y);
+                if (ImGui::SliderFloat("Viewmodel pos Z", g_Options.viewmodel_z, -90.0f, 90.0f))
+                    SetValueUnrestricted("viewmodel_offset_z", g_Options.viewmodel_z);
+                ImGui::SliderFloat("Viewmodel ang X", g_Options.viewmodel_ang_x, -180.0f, 180.0f);
+                ImGui::SliderFloat("Viewmodel ang Y", g_Options.viewmodel_ang_y, -180.0f, 180.0f);
+                ImGui::SliderFloat("Viewmodel ang Z", g_Options.viewmodel_ang_z, -180.0f, 180.0f);
+                 
+                ImGui::NextColumn();
+                
+                
                 if (ImGui::SliderFloat("FOV", g_Options.fov, 0, 360))
                     SetValueUnrestricted("fov_cs_debug", g_Options.fov);
+
+
+                if (ImGui::SliderFloat("Viewmodel FOV", g_Options.viewmodel_fov, 0, 180.0f))
+                    SetValueUnrestricted("viewmodel_fov", g_Options.viewmodel_fov);
+
 
                 if (ImGui::Checkbox("No viewmodel bob", g_Options.viewmodel_moving))
                 {
@@ -1892,6 +1935,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         SetValueUnrestricted("cl_bob_lower_amt", 0);
                         SetValueUnrestricted("cl_bobamt_lat", 0);
                         SetValueUnrestricted("cl_bobamt_vert", 0);
+                        SetValueUnrestricted("cl_wpn_sway_scale", 0);
                     }
                     else
                     {
@@ -1900,19 +1944,21 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         SetValueUnrestricted("cl_bob_lower_amt", GetVisibleFloat("cl_bob_lower_amt"));
                         SetValueUnrestricted("cl_bobamt_lat", GetVisibleFloat("cl_bobamt_lat"));
                         SetValueUnrestricted("cl_bobamt_vert", GetVisibleFloat("cl_bobamt_vert"));
+                        SetValueUnrestricted("cl_wpn_sway_scale", GetVisibleFloat("cl_wpn_sway_scale"));
                     }
                 }
-
-                if (ImGui::SliderFloat("Viewmodel FOV", g_Options.viewmodel_fov, 0, 180.0f))
-                    SetValueUnrestricted("viewmodel_fov", g_Options.viewmodel_fov); 
-                if (ImGui::SliderFloat("Viewmodel X", g_Options.viewmodel_x, -90.0f, 90.0f))
-                    SetValueUnrestricted("viewmodel_offset_x", g_Options.viewmodel_x); 
-                if (ImGui::SliderFloat("Viewmodel Y", g_Options.viewmodel_y, -90.0f, 90.0f))
-                    SetValueUnrestricted("viewmodel_offset_y", g_Options.viewmodel_y);
-                if (ImGui::SliderFloat("Viewmodel Z", g_Options.viewmodel_z, -90.0f, 90.0f))
-                    SetValueUnrestricted("viewmodel_offset_z", g_Options.viewmodel_z);
                  
-                
+                if (ImGui::InputFloat("Ragdoll Gravity", g_Options.ragdollgravity))
+                    iff.g_pCVar->FindVar("cl_ragdoll_gravity")->SetValue(g_Options.ragdollgravity);
+
+                if (ImGui::InputFloat("Ragdoll Timescale", g_Options.ragdolltime))
+                    SetValueUnrestricted("cl_phys_timescale", g_Options.ragdolltime);
+
+
+                ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 67.0f);
+                if (ImGui::Button("Reset", ImVec2(70, 22))) 
+                    ResetMisc(); 
+
 
                 ImGui::Columns(1, nullptr, false);
 
@@ -1933,7 +1979,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::Columns(2, nullptr, false);
 
                 ImGui::TextColored(colwhite, XorStr("Seaside"));
-                ImGui::Text(XorStr("Build July 8, 2021"));
+                ImGui::Text(XorStr("Build July 9, 2021"));
                 ImGui::InvisibleButton("##inv", ImVec2(0, 0));
                 ImGui::TextColored(colwhite, XorStr("Developer"));
                 ImGui::Text(XorStr("0TheSpy"));
