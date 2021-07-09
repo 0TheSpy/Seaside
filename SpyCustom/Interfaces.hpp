@@ -131,8 +131,6 @@ public:
 	CGlobalVarsBase* g_Globals = nullptr;
 	IInputSystem* g_pInputSystem = nullptr;
 	ITempEnts* g_pTempEnts = nullptr; 
-	uint8_t* prime;
-	char oldprime[5];
 };
 
 extern IF iff;
