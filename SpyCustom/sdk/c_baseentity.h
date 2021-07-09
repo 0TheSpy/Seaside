@@ -63,9 +63,12 @@ public:
 		NETVAR(GetModelScale, "CBaseAnimating", "m_flModelScale", float);
 		NETVAR(GetScaleType, "CBaseAnimating", "m_ScaleType", float);
 		NETVAR(GetFrozen, "CBaseAnimating", "m_flFrozen", float);
-		 
+		  
 		NETVAR(GetMins, "CBaseEntity", "m_vecMins", Vector); 
 		NETVAR(GetMaxs, "CBaseEntity", "m_vecMaxs", Vector);  
+
+		NETVAR2(IsScoped, "DT_CSPlayer", "m_bIsScoped", bool);
+		
 
 		int GetSequenceActivity(int sequence, studiohdr_t* hdr)
 		{
