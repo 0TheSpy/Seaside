@@ -2002,7 +2002,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::NextColumn();
 
                 static int selected = 0; 
-                static char name[255] = ""; 
+                static char name[255] = "";  
 
                 style->ItemSpacing = ImVec2(7.0f, 2.0f);
                 if (ImGui::BeginListBox("##cfgs", ImVec2(251.0f, 5 * ImGui::GetTextLineHeightWithSpacing())))
@@ -2118,22 +2118,14 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
 
             ImGui::EndTabItem();
-        }
-
-         
-
-        ImGui::EndTabBar();
-
-
-        ImGui::End();
-
+        } 
+        ImGui::EndTabBar(); 
+        ImGui::End(); 
         ImGui::EndFrame();
         ImGui::Render();
         ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
     }
-
-
-
+     
     if (*g_Options.hitmarker && iff.g_pEngineClient->IsInGame()) {
         iff.g_pDebugOverlay->ClearAllOverlays();
         for (int i = 0; i < bulletdata.size(); i++) {
@@ -2152,10 +2144,6 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 bulletdata.erase(bulletdata.begin() + i);
             bulletdata[i].time += iff.g_pGlobals->curtime - bulletdata[i].time;
         }
-    }
-
-
-
-
+    } 
     return oEndScene(pDevice);
 }
