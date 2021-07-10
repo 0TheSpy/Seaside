@@ -253,15 +253,41 @@ DWORD WINAPI HackThread(HMODULE hModule)
         }
     }
       
+    Config::Get().Refresh();
+
     ifstream loadcfg("seaside_autoload");
     if (loadcfg.is_open())
     {
 #ifdef DEBUG
         printf("autoload found\n"); 
 #endif
-        opt.autoload = true;
-        Sleep(1000);
-        Config::Get().Load();
+        string line; 
+        getline(loadcfg, line);
+         
+#ifdef DEBUG
+        printf("Trying to load %s CFG \n", line.c_str());
+#endif
+
+        for (int i = 0; i < Config::Get().configs.size(); i++) 
+            if (Config::Get().configs[i] == line)
+            {
+#ifdef DEBUG
+                printf("Loading %s CFG \n", line.c_str());
+#endif
+                opt.autoconfig = i;
+            }
+            
+        if (opt.autoconfig == -1)
+            {
+#ifdef DEBUG
+                printf("Cannot find %s CFG \n", line.c_str());
+#endif
+            }
+        else
+        {
+            Sleep(1000);
+            Config::Get().Load(opt.autoconfig);
+        }
         loadcfg.close();
     }
     else
@@ -269,8 +295,6 @@ DWORD WINAPI HackThread(HMODULE hModule)
 #ifdef DEBUG
         printf("autoload NOT found, creatin mat\n");
 #endif
-        opt.autoload = false;
-
         g_Options.customtextures.value->arr[0].texturelink = CreateMaterial(
             string(g_Options.customtextures.value->arr[0].Name),
             string(g_Options.customtextures.value->arr[0].keyvalue));
