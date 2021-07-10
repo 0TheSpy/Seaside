@@ -786,8 +786,6 @@ public:
     };
 
 
-
-
     HMODULE hModuleGlobal = NULL;
 
     int needtogetseqact = 0;
@@ -795,8 +793,7 @@ public:
 
     bool disconnected = 0;
     bool needupdate = 0;
-    bool loading = 0;
-    bool autoload = 0;
+    bool loading = 0; 
     bool unhook = 0;
 
     std::vector<std::string> names = {
@@ -986,10 +983,9 @@ public:
         std::string icon;
         bool isSelected;
     };
-
-
+     
     bool show = false;
-
+    int autoconfig = -1;
 };
 
 inline Options_my opt; 
