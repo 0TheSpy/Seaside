@@ -1625,7 +1625,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 }
                 style->ItemSpacing = ImVec2(7.0f, 15.0f);
 
-                ImGui::InvisibleButton("##invisfuckyou", ImVec2(0, 10.0f));
+                ImGui::InvisibleButton("##invis", ImVec2(0, 10.0f));
 
                 ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.0f);
 
@@ -1994,48 +1994,122 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::TextColored(colwhite, XorStr("Check for updates"));
                 ImGui::Text(XorStr("unknowncheats.me"));
 
+                ImGui::InvisibleButton("##inv", ImVec2(0, 24));
+                if (ImGui::Button("Unhook", ImVec2(70, 22)))
+                    opt.unhook = true;
 
+                 
                 ImGui::NextColumn();
+
+                static int selected = 0; 
+                static char name[255] = ""; 
+
+                style->ItemSpacing = ImVec2(7.0f, 2.0f);
+                if (ImGui::BeginListBox("##cfgs", ImVec2(251.0f, 5 * ImGui::GetTextLineHeightWithSpacing())))
+                {
+                    ImGui::PushFont(ifontmini);
+                    if (ImGui::BeginTable("split", 3, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings )) 
+                    {   
+                            ImGui::TableSetColumnWidth(0, 10);
+                            ImGui::TableSetColumnWidth(1, 80);
+
+                        for (int n = 0; n < Config::Get().configs.size(); n++)
+                        {
+                            bool isselected = selected == n;
+
+                            ImGui::TableNextRow();  
+                            ImGui::TableNextColumn();
+                            
+                            ImGui::Text(opt.autoconfig == n ?  " *" : "  ");
+                            ImGui::TableNextColumn();
+                            
+                            if (ImGui::Selectable(Config::Get().configs[n].c_str(), isselected, ImGuiSelectableFlags_SpanAllColumns, ImVec2(0, 0), true)) {
+                                selected = n;
+                                string namewithoutss = Config::Get().configs[n].substr(0, Config::Get().configs[n].size() - 3);
+                                memcpy(name, namewithoutss.c_str(), 255);
+                            }
+                            ImGui::TableNextColumn();
+                            ImGui::Text(Config::Get().times[n].c_str());
+
+                            if (isselected)
+                                ImGui::SetItemDefaultFocus();
+                        }
+                        ImGui::EndTable();
+                    }
+                    ImGui::PushFont(ifont);
+                    ImGui::EndListBox();
+                }
+                style->ItemSpacing = ImVec2(7.0f, 15.0f);
+
+                ImGui::InvisibleButton("##invis", ImVec2(0, 10.0f));
+                ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 5.0f);
+
+                ImGui::PushItemWidth(130.0f);
+                ImGui::InputText("File name", name, 255);
+                ImGui::PopItemWidth();
+                ImGui::SameLine();
+                bool isloadonstartup = opt.autoconfig == selected;
+                if (ImGui::Checkbox("Load on startup", &isloadonstartup)) 
+                {
+                    if (isloadonstartup)
+                    {
+                        ofstream autoload;
+                        autoload.open("seaside_autoload");
+                        autoload << Config::Get().configs[selected];
+                        autoload.close();
+                        opt.autoconfig = selected;
+                    }
+                    else
+                    {
+                        if (remove("seaside_autoload") != 0)
+                            perror("Error deleting file");
+                        else
+                        {
+                            puts("File successfully deleted");
+                            opt.autoconfig = -1;
+                        }
+                    }
+                }
 
                 if (ImGui::BeginTable("##tablexz", 2))
                 {
                     ImGui::TableNextRow();
                     ImGui::TableNextRow();
                     ImGui::TableNextColumn();
+                     
 
+                    if (ImGui::Button("Create", ImVec2(70, 22)))
+                        Config::Get().Create(name);
+                     
+                    DisableElements(Config::Get().configs.size(), 1);
                     if (ImGui::Button("Save", ImVec2(70, 22)))
-                        Config::Get().Save();
+                        Config::Get().Save(selected, name);
+                    DisableElements(Config::Get().configs.size(), 0);
 
-                    if (ImGui::Checkbox("Load config on startup", &opt.autoload))
-                    {
-                        if (opt.autoload)
-                        {
-                            ofstream autoload;
-                            autoload.open("seaside_autoload");
-                            autoload.close();
-                        }
-                        else
-                        {
-                            if (remove("seaside_autoload") != 0)
-                                perror("Error deleting file");
-                            else
-                                puts("File successfully deleted");
-                        }
-                    }
+                    if (ImGui::Button("Refresh", ImVec2(70, 22)))
+                        Config::Get().Refresh();
 
                     ImGui::TableNextColumn();
 
-                    if (ImGui::Button("Load", ImVec2(70, 22)))
-                        Config::Get().Load();
+                    if (ImGui::Button("Delete", ImVec2(70, 22)))
+                    {
+                        Config::Get().Delete(selected);
+                        if (selected >= Config::Get().configs.size()) selected = 0;
+                        if (selected == opt.autoconfig) opt.autoconfig = -1;
+                    }
 
-                    if (ImGui::Button("Unhook", ImVec2(70, 22)))
-                        opt.unhook = true;
+                    DisableElements(Config::Get().configs.size(), 1);
+                    if (ImGui::Button("Load", ImVec2(70, 22)))
+                        Config::Get().Load(selected);
+                    DisableElements(Config::Get().configs.size(), 0);
+                     
+                    if (ImGui::Button("Folder", ImVec2(70, 22)))
+                        Config::Get().OpenFolder();
 
                     ImGui::EndTable();
                 }
                 ImGui::Columns(1, nullptr, false);
 
-                ImGui::InvisibleButton("##inv", ImVec2(0, 30.0f));
                 ImGui::TextColored(colwhite, "                      Author does not take any responsibility for bans caused by this software");
                 ImGui::TextColored(colwhite, "                                         Please use VAC Bypass for better protection");
 
