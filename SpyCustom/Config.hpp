@@ -152,9 +152,7 @@ public:
     void OpenFolder() {
         ShellExecute(NULL, NULL, "", NULL, NULL, SW_SHOWNORMAL);
     }
-
-    
-
+     
     void Refresh() { 
         configs.clear(); times.clear(); 
         std::string search_path = "*.ss";
@@ -184,8 +182,6 @@ public:
     }
 
 };
-
-
-
+ 
 
 #endif
