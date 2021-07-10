@@ -160,20 +160,25 @@ public:
         std::string search_path = "*.ss";
         WIN32_FIND_DATA fd;
         HANDLE hFind = ::FindFirstFile(search_path.c_str(), &fd);
+        std::string vremya;
         if (hFind != INVALID_HANDLE_VALUE) {
             do {
                 if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-                    configs.push_back(fd.cFileName);
+                    configs.push_back(fd.cFileName); 
                     time_t epoch = to_time_t(fd.ftLastWriteTime);
-                    std::string vremya = asctime(gmtime(&epoch));
-                    times.push_back(vremya);
+                    time_t creation = to_time_t(fd.ftCreationTime);
+                        if (epoch != creation) 
+                            vremya = asctime(localtime(&epoch)); 
+                        else
+                            vremya = "empty";
+                        times.push_back(vremya);
 #ifdef DEBUG
                     printf("fn %s %s", fd.cFileName, vremya.c_str());
 #endif
                 }
             } while (::FindNextFile(hFind, &fd));
             ::FindClose(hFind);
-        } 
+        }
 
 
     }
