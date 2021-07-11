@@ -65,6 +65,7 @@ void OnLevelInit()
         iff.g_pCVar->FindVar("fog_end")->SetValue(g_Options.fogend);
         iff.g_pCVar->FindVar("fog_endskybox")->SetValue(g_Options.fogend);
     }
+    else iff.g_pCVar->FindVar("fog_override")->SetValue(false);
 
     iff.g_pCVar->FindVar("r_rainlength")->SetValue(*g_Options.rainlength);
     iff.g_pCVar->FindVar("r_rainspeed")->SetValue(*g_Options.rainspeed);
