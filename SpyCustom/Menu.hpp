@@ -664,8 +664,8 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
                 ImGui::InvisibleButton("##W4", ImVec2(0, 0.0f));
 
-                if (ImGui::SliderFloat("Tonemap scale", g_Options.tonemapscale, 0.001f, 1.0f))
-                    iff.g_pCVar->FindVar("mat_force_tonemap_scale")->SetValue(g_Options.tonemapscale);
+                if (ImGui::SliderFloat("Tonemap scale", g_Options.tonemapscale, 0.001f, 1.0f)) 
+                    SetValueUnrestricted("mat_force_tonemap_scale", g_Options.tonemapscale);
                 ImGui::PopItemWidth();
 
                 ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.0f);
