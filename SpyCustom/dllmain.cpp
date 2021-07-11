@@ -37,9 +37,11 @@ void OnLevelInit()
 
     if (g_Options.fogactive)
     {
-	iff.g_pCVar->FindVar("fog_enable")->SetValue(true); 
-        iff.g_pCVar->FindVar("fog_enableskybox")->SetValue(true); 
-        iff.g_pCVar->FindVar("fog_override")->SetValue(true);
+
+        SetValueUnrestricted("fog_enable", 1);
+        SetValueUnrestricted("fog_enableskybox", 1);
+        SetValueUnrestricted("fog_override", 1);
+         
         iff.g_pCVar->FindVar("fog_color")->SetValue(
             std::string("").
             append(std::to_string(g_Options.fogcolor.value->r * 255)).
@@ -58,12 +60,12 @@ void OnLevelInit()
             append(std::to_string(g_Options.fogcolor.value->b * 255)).
             append(" ").c_str()
         ); 
-        iff.g_pCVar->FindVar("fog_maxdensity")->SetValue(g_Options.fogdensity); 
-        iff.g_pCVar->FindVar("fog_maxdensityskybox")->SetValue(g_Options.fogdensity);
-        iff.g_pCVar->FindVar("fog_start")->SetValue(g_Options.fogstart); 
-        iff.g_pCVar->FindVar("fog_startskybox")->SetValue(g_Options.fogstart);
-        iff.g_pCVar->FindVar("fog_end")->SetValue(g_Options.fogend);
-        iff.g_pCVar->FindVar("fog_endskybox")->SetValue(g_Options.fogend);
+        SetValueUnrestricted("fog_maxdensity", g_Options.fogdensity);
+        SetValueUnrestricted("fog_maxdensityskybox", g_Options.fogdensity);
+        SetValueUnrestricted("fog_start", g_Options.fogstart);
+        SetValueUnrestricted("fog_startskybox", g_Options.fogstart);
+        SetValueUnrestricted("fog_end", g_Options.fogend);
+        SetValueUnrestricted("fog_endskybox", g_Options.fogend);
     }
     else iff.g_pCVar->FindVar("fog_override")->SetValue(false);
 
@@ -74,9 +76,8 @@ void OnLevelInit()
     iff.g_pCVar->FindVar("r_rainwidth")->SetValue(*g_Options.rainwidth);
     iff.g_pCVar->FindVar("r_RainSideVel")->SetValue(*g_Options.rainsidevel);
     iff.g_pCVar->FindVar("r_rainalpha")->SetValue(*g_Options.rainalpha);
-
-    iff.g_pCVar->FindVar("mat_force_tonemap_scale")->SetValue(g_Options.tonemapscale);
-
+     
+    SetValueUnrestricted("mat_force_tonemap_scale", g_Options.tonemapscale);
 
     SetValueUnrestricted("r_aspectratio", g_Options.aspectratio);
     iff.g_pCVar->FindVar("mat_postprocess_enable")->SetValue(!g_Options.postproc);
