@@ -36,8 +36,7 @@ void OnLevelInit()
     }
 
     if (g_Options.fogactive)
-    {
-
+    { 
         SetValueUnrestricted("fog_enable", 1);
         SetValueUnrestricted("fog_enableskybox", 1);
         SetValueUnrestricted("fog_override", 1);
