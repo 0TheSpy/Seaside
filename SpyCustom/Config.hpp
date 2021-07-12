@@ -181,6 +181,23 @@ public:
 
     }
 
+    void FindAutoexec() {
+        if (opt.autoconfig != -1) {
+            ifstream loadcfg("seaside_autoload");
+            if (loadcfg.is_open())
+            {
+                string line;
+                getline(loadcfg, line);
+
+                for (int i = 0; i < Config::Get().configs.size(); i++)
+                    if (Config::Get().configs[i] == line)
+                        opt.autoconfig = i;
+
+            }
+            else opt.autoconfig = -1;
+        }
+    }
+
 };
  
 
