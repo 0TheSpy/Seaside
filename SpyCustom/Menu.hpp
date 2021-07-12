@@ -2067,6 +2067,9 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         {
                             puts("File successfully deleted");
                             opt.autoconfig = -1;
+
+
+
                         }
                     }
                 }
@@ -2079,7 +2082,12 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                      
 
                     if (ImGui::Button("Create", ImVec2(70, 22)))
+                    {
                         Config::Get().Create(name);
+
+                        Config::Get().FindAutoexec();
+
+                    }
                      
                     DisableElements(Config::Get().configs.size(), 1);
                     if (ImGui::Button("Save", ImVec2(70, 22)))
@@ -2087,18 +2095,24 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     DisableElements(Config::Get().configs.size(), 0);
 
                     if (ImGui::Button("Refresh", ImVec2(70, 22)))
+                    {
                         Config::Get().Refresh();
+                        Config::Get().FindAutoexec();
+                    }
 
                     ImGui::TableNextColumn();
+
+                    DisableElements(Config::Get().configs.size(), 1);
 
                     if (ImGui::Button("Delete", ImVec2(70, 22)))
                     {
                         Config::Get().Delete(selected);
                         if (selected >= Config::Get().configs.size()) selected = 0;
                         if (selected == opt.autoconfig) opt.autoconfig = -1;
+                         
+                        Config::Get().FindAutoexec();
                     }
-
-                    DisableElements(Config::Get().configs.size(), 1);
+                     
                     if (ImGui::Button("Load", ImVec2(70, 22)))
                         Config::Get().Load(selected);
                     DisableElements(Config::Get().configs.size(), 0);
