@@ -12,6 +12,8 @@ typedef int HKeySymbol;
 class IKeyValuesSystem
 {
 public:
+    virtual ~IKeyValuesSystem() = 0;
+
     virtual void RegisterSizeofKeyValues(int size) = 0;
 
     virtual void* AllocKeyValuesMemory(int size) = 0;
