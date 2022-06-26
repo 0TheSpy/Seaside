@@ -282,6 +282,9 @@ public:
 	char	   m_bHasEscapeSequences;             
 	uint16	   m_iKeyNameCaseSensitive2;	         
 
+	uint32     m_iUnk1;
+	uint32     m_iUnk2;
+
 	KeyValues* m_pPeer;	      
 	KeyValues* m_pSub;	         
 	KeyValues* m_pChain;        
