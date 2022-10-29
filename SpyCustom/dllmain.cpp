@@ -163,7 +163,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
     AllocConsole();
     FILE* f;
     freopen_s(&f, "CONOUT$", "w", stdout);
-    printf("Cheat launched\n");
+    printfdbg("Cheat launched\n");
 #endif
 
     iff.Init();
@@ -259,30 +259,24 @@ DWORD WINAPI HackThread(HMODULE hModule)
     ifstream loadcfg("seaside_autoload");
     if (loadcfg.is_open())
     {
-#ifdef DEBUG
-        printf("autoload found\n"); 
-#endif
+        printfdbg("autoload found\n");
+
         string line; 
         getline(loadcfg, line);
          
-#ifdef DEBUG
-        printf("Trying to load %s CFG \n", line.c_str());
-#endif
+        printfdbg("Trying to load %s CFG \n", line.c_str());
+
 
         for (int i = 0; i < Config::Get().configs.size(); i++) 
             if (Config::Get().configs[i] == line)
             {
-#ifdef DEBUG
-                printf("Loading %s CFG \n", line.c_str());
-#endif
+                printfdbg("Loading %s CFG \n", line.c_str());
                 opt.autoconfig = i;
             }
             
         if (opt.autoconfig == -1)
             {
-#ifdef DEBUG
-                printf("Cannot find %s CFG \n", line.c_str());
-#endif
+            printfdbg("Cannot find %s CFG \n", line.c_str());
             }
         else
         {
@@ -293,9 +287,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
     }
     else
     {
-#ifdef DEBUG
-        printf("autoload NOT found, creatin mat\n");
-#endif
+        printfdbg("autoload NOT found, creatin mat\n");
         g_Options.customtextures.value->arr[0].texturelink = CreateMaterial(
             string(g_Options.customtextures.value->arr[0].Name),
             string(g_Options.customtextures.value->arr[0].keyvalue));
@@ -336,9 +328,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
                             strcpy(g_Options.materials.value->arr[i].texture_temp, matname);
                     }
                 }
-#ifdef DEBUG
-                printf("Model materials dumped\n");
-#endif
+                printfdbg("Model materials dumped\n");
                 *g_Options.dme_gettextures = true;
             }
         }
