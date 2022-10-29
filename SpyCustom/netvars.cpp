@@ -31,15 +31,12 @@ int NetvarSys::GetOffset(const char* tableName, const char* propName)
 {
     int offset = this->GetProp(tableName, propName);
     if (!offset)
-    {
-#ifdef DEBUG
-        printf("%s not found!\n", propName);
-#endif
+    { 
+        printfdbg("%s not found!\n", propName);
         return 0;
     }
-#ifdef DEBUG
-    printf("%s: 0x%02X\n", propName, offset);
-#endif
+    printfdbg("%s: 0x%02X\n", propName, offset);
+
     return offset;
 }
 
