@@ -582,7 +582,7 @@ void ConVar::Init()
 
 void ConVar::InternalSetValue(const char* value)
 {
-	printf("Executed ConVar::InternalSetValue to %s\n", value);
+	printfdbg("Executed ConVar::InternalSetValue to %s\n", value);
 
 	float fNewValue;
 	char  tempVal[32];
@@ -610,7 +610,7 @@ void ConVar::InternalSetValue(const char* value)
 
 void ConVar::ChangeStringValue(const char* tempVal, float flOldValue)
 {
-	printf("Executed ConVar::ChangeStringValue (tempVal %s; flOldValue %f)\n", tempVal, flOldValue);
+	printfdbg("Executed ConVar::ChangeStringValue (tempVal %s; flOldValue %f)\n", tempVal, flOldValue);
 
 	char* pszOldValue = (char*)stackalloc(m_Value.m_StringLength);
 	memcpy(pszOldValue, m_Value.m_pszString, m_Value.m_StringLength);
@@ -663,7 +663,7 @@ bool ConVar::ClampValue(float& value)
 
 void ConVar::InternalSetFloatValue(float fNewValue)
 {
-	printf("Executed ConVar::InternalSetFloatValue to %f\n",fNewValue);
+	printfdbg("Executed ConVar::InternalSetFloatValue to %f\n",fNewValue);
 
 	if (fNewValue == m_Value.m_fValue)
 		return;
@@ -685,7 +685,7 @@ void ConVar::InternalSetFloatValue(float fNewValue)
 
 void ConVar::InternalSetIntValue(int nValue)
 {
-	printf("Executed ConVar::InternalSetIntValue to %d\n",nValue);
+	printfdbg("Executed ConVar::InternalSetIntValue to %d\n",nValue);
 
 	if (nValue == ((int)m_Value.m_nValue ^ (int)this))
 		return;
@@ -740,21 +740,21 @@ void ConVar::Create(const char* pName, const char* pDefaultValue, int flags  ,
 
 void ConVar::SetValue(const char* value)
 {
-	printf("Executed ConVar::SetValue to %s\n",value);
+	printfdbg("Executed ConVar::SetValue to %s\n",value);
 	ConVar* var = (ConVar*)m_pParent;
 	var->InternalSetValue(value);
 }
 
 void ConVar::SetValue(float value)
 {
-	printf("Executed ConVar::SetValue to %f\n", value);
+	printfdbg("Executed ConVar::SetValue to %f\n", value);
 	ConVar* var = (ConVar*)m_pParent;
 	var->InternalSetFloatValue(value);
 }
 
 void ConVar::SetValue(int value)
 {
-	printf("Executed ConVar::SetValue to %d\n", value);
+	printfdbg("Executed ConVar::SetValue to %d\n", value);
 	ConVar* var = (ConVar*)m_pParent;
 	var->InternalSetIntValue(value);
 }
@@ -842,7 +842,7 @@ void ConVarRef::Init(const char* pName, bool bIgnoreMissing)
 		{
 			if (!bIgnoreMissing)
 			{
-				printf("ConVarRef %s doesn't point to an existing ConVar\n", pName);
+				printfdbg("ConVarRef %s doesn't point to an existing ConVar\n", pName);
 			}
 			bFirst = false;
 		}
