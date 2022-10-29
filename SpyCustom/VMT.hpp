@@ -4,6 +4,7 @@
 #include <Windows.h>
 
 #include <iostream>
+#include "Interfaces.hpp"
 
 class VMTHook
 {
@@ -31,35 +32,24 @@ public:
 
     void SwapPointer(size_t index, void* new_function)
     {
-#ifdef DEBUG
-        printf("Swapping pointer 0x%X to 0x%X\n", new_table_pointer[index], reinterpret_cast<uintptr_t>(new_function));
-#endif
+        printfdbg("Swapping pointer 0x%X to 0x%X\n", new_table_pointer[index], reinterpret_cast<uintptr_t>(new_function));
         new_table_pointer[index] = reinterpret_cast<uintptr_t>(new_function);
-#ifdef DEBUG
-        printf("Swapped pointer!\n");
-#endif
+        printfdbg("Swapped pointer!\n");
+
     }
 
     void ApplyNewTable()
     {
-#ifdef DEBUG
-        printf("Applying new table... (0x%X to 0x%X)\n", reinterpret_cast<uintptr_t>(*class_pointer), reinterpret_cast<uintptr_t>(new_table_pointer));
-#endif
-        *class_pointer = new_table_pointer;
-#ifdef DEBUG
-        printf("New table applyed!\n");
-#endif
+        printfdbg("Applying new table... (0x%X to 0x%X)\n", reinterpret_cast<uintptr_t>(*class_pointer), reinterpret_cast<uintptr_t>(new_table_pointer));
+        * class_pointer = new_table_pointer;
+        printfdbg("New table applyed!\n");
     }
 
     void RestoreOldTable()
     {
-#ifdef DEBUG
-        printf("Restoring old table... (0x%X to 0x%X)\n", reinterpret_cast<uintptr_t>(*class_pointer), reinterpret_cast<uintptr_t>(original_pointer));
-#endif
-        *class_pointer = original_pointer;
-#ifdef DEBUG
-        printf("Old table restored!\n");
-#endif
+        printfdbg("Restoring old table... (0x%X to 0x%X)\n", reinterpret_cast<uintptr_t>(*class_pointer), reinterpret_cast<uintptr_t>(original_pointer));
+        * class_pointer = original_pointer;
+        printfdbg("Old table restored!\n");
     }
 
     template<typename T>
