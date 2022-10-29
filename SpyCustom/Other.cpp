@@ -110,9 +110,7 @@ void FlashlightRun(C_BasePlayer* local)
 
     if (opt.disconnected)
     {
-#ifdef DEBUG
-        printf("nullify pFlashlight bc disconnected\n");
-#endif
+        printfdbg("nullify pFlashlight bc disconnected\n"); 
         pFlashLight = NULL;
         opt.disconnected = 0;
     }
@@ -120,18 +118,14 @@ void FlashlightRun(C_BasePlayer* local)
     if (ToggleButton(KEY_L))
     {
         if (!pFlashLight)
-        {
-#ifdef DEBUG
-            printf("creating fl\n");
-#endif
+        { 
+            printfdbg("creating fl\n"); 
             pFlashLight = CreateFlashLight(local->GetIndex(), g_Options.flashlightTexture.value->mystring, *g_Options.flashlightFOV, *g_Options.flashlightFarZ, *g_Options.flashlightLinearAtten); 
             iff.g_pEngineClient->ExecuteClientCmd("play items/flashlight1.wav");
         }
         else
-        {
-#ifdef DEBUG
-            printf("destroying fl\n");
-#endif
+        { 
+            printfdbg("destroying fl\n"); 
             DestroyFlashLight(pFlashLight);
             pFlashLight = NULL;
             iff.g_pEngineClient->ExecuteClientCmd("play items/flashlight1.wav");
@@ -220,10 +214,8 @@ void do_precipitation() {
     if (!precipitation_client_class) {
         for (auto pclass = iff.g_pClient->GetAllClasses(); pclass && !precipitation_client_class; pclass = pclass->m_pNext)
             if (strstr(pclass->GetName(), "CPrecipitation"))  
-            {
-#ifdef DEBUG
-                printf("class found %x\n", pclass);
-#endif
+            { 
+                printfdbg("class found %x\n", pclass); 
                 precipitation_client_class = pclass;
             }
 
@@ -232,10 +224,8 @@ void do_precipitation() {
 
     else {
         if (!rain_ent && precipitation_client_class && precipitation_client_class->m_pCreateFn) {
-
-#ifdef DEBUG
-            printf("Creating precipitation\n");
-#endif
+             
+            printfdbg("Creating precipitation\n"); 
 
             rain_networkable = ((void* (*)(int, int))precipitation_client_class->m_pCreateFn)(MAX_EDICTS - 1, 0);
 
@@ -252,10 +242,8 @@ void do_precipitation() {
 
                 rain_ent->OnDataChanged(DataUpdateType_t::DATA_UPDATE_CREATED);
                 rain_ent->PostDataUpdate(DataUpdateType_t::DATA_UPDATE_CREATED);
-
-#ifdef DEBUG
-                printf("Created precipitation %x\n", rain_ent);
-#endif
+                 
+                printfdbg("Created precipitation %x\n", rain_ent); 
             }
         }
     }
