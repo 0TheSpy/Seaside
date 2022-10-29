@@ -8,9 +8,7 @@ IMaterial* CreateMaterial(std::string matname, std::string mat_data = "")
     keyValues->Init();
     keyValues->LoadFromBuffer(matname.c_str(), mat_data.c_str());
     IMaterial* newmat = iff.g_pMaterialSystem->CreateMaterial(matname.c_str(), keyValues);
-#ifdef DEBUG
-    printf("Material %s created\n", matname.c_str());
-#endif
+    printfdbg("Material %s created\n", matname.c_str());
     return newmat;
 }
 
@@ -164,9 +162,8 @@ void InitImGui(LPDIRECT3DDEVICE9 pDevice)
 
     ImGui_ImplWin32_Init(window);
     ImGui_ImplDX9_Init(pDevice);
-#ifdef DEBUG
-    printf("Imgui initiated\n");
-#endif
+
+    printfdbg("Imgui initiated\n");
 }
 bool init = false;
 
@@ -781,9 +778,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                                 *g_Options.playerloop_count += 1;
                             else *g_Options.playerloop_count -= 1;
 
-#ifdef DEBUG
-                            printf("pl count %d\n", *g_Options.playerloop_count);
-#endif
+                            printfdbg("pl count %d\n", *g_Options.playerloop_count);
                         }
 
 
@@ -826,9 +821,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                             *g_Options.entityloop_count += 1;
                         else *g_Options.entityloop_count -= 1;
 
-#ifdef DEBUG
-                        printf("el count %d\n", *g_Options.entityloop_count);
-#endif
+                        printfdbg("el count %d\n", *g_Options.entityloop_count);
                     }
 
                     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 30.0f);
@@ -850,9 +843,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                             *g_Options.entityloop_count += 1;
                         else *g_Options.entityloop_count -= 1;
 
-#ifdef DEBUG
-                        printf("el count %d\n", *g_Options.entityloop_count);
-#endif
+                        printfdbg("el count %d\n", *g_Options.entityloop_count);
 
                     }
 
@@ -962,9 +953,8 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     if (g_Options.models.value->arr[selectedwep].sound_active)
                         *g_Options.soundhook_count += 1;
                     else *g_Options.soundhook_count -= 1;
-#ifdef DEBUG
-                    printf("sh count %d\n", *g_Options.soundhook_count);
-#endif
+
+                    printfdbg("sh count %d\n", *g_Options.soundhook_count);
 
                 }
                 DisableElements(selectedwep > 3 ? true : false, 0);
@@ -1071,9 +1061,8 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     if (g_Options.materials.value->arr[selectedwep].active)
                         *g_Options.dmeloop_count += 1;
                     else *g_Options.dmeloop_count -= 1;
-#ifdef DEBUG
-                    printf("dl count %d\n", *g_Options.dmeloop_count);
-#endif
+
+                    printfdbg("dl count %d\n", *g_Options.dmeloop_count);
                 }
 
                 ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 20.0f);
@@ -1099,9 +1088,8 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     else if (strstr(g_Options.materials.value->arr[selectedwep].texture_temp, "(4)"))
                         g_Options.materials.value->arr[selectedwep].customtextureselected = 4;
                     else g_Options.materials.value->arr[selectedwep].customtextureselected = -1;
-#ifdef DEBUG
-                    printf("Custom texture selected? %d\n", g_Options.materials.value->arr[selectedwep].customtextureselected);
-#endif
+
+                    printfdbg("Custom texture selected? %d\n", g_Options.materials.value->arr[selectedwep].customtextureselected);
                     strcpy(g_Options.materials.value->arr[selectedwep].texture, g_Options.materials.value->arr[selectedwep].texture_temp);
                 }
 
