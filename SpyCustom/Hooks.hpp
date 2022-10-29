@@ -134,17 +134,13 @@ MDLHandle_t __fastcall hkFindMDL(void* ecx, void* edx, char* FilePath)
 
     if (g_Options.models.value->arr[2].active && strstr(FilePath, "models/weapons/v_models/arms") && !strstr(FilePath, "gloves"))
     {
-#ifdef DEBUG
-        printf("Replacing %s with %s\n", FilePath, g_Options.models.value->arr[2].vmodel_repl);
-#endif
+        printfdbg("Replacing %s with %s\n", FilePath, g_Options.models.value->arr[2].vmodel_repl);
         sprintf(FilePath, g_Options.models.value->arr[2].vmodel_repl);
     }
 
     if (g_Options.models.value->arr[3].active && strstr(FilePath, "models/weapons/v_knife"))
-    {
-#ifdef DEBUG
-        printf("Replacing %s with %s\n", FilePath, g_Options.models.value->arr[3].vmodel_repl);
-#endif
+    { 
+        printfdbg("Replacing %s with %s\n", FilePath, g_Options.models.value->arr[3].vmodel_repl);
         sprintf(FilePath, g_Options.models.value->arr[3].vmodel_repl);
     }
 
@@ -152,9 +148,7 @@ MDLHandle_t __fastcall hkFindMDL(void* ecx, void* edx, char* FilePath)
     {
         if (g_Options.models.value->arr[i].active && g_Options.models.value->arr[i].findMDLmethode && strstr(FilePath, g_Options.models.value->arr[i].vmodel_orig))
         {
-#ifdef DEBUG
-            printf("Replacing %s with %s\n", FilePath, g_Options.models.value->arr[i].vmodel_repl);
-#endif
+            printfdbg("Replacing %s with %s\n", FilePath, g_Options.models.value->arr[i].vmodel_repl);
             sprintf(FilePath, g_Options.models.value->arr[i].vmodel_repl);
         }
     }
@@ -294,14 +288,10 @@ typedef const void(__thiscall* pShutdown)(void*, void*, const char*);
 pShutdown oShutdown;
 void __fastcall hkShutdown(void* thisptr, void* unk1, void* unk2, const char* reason) noexcept
 {
-#ifdef DEBUG
-    printf("shutdown (%x) HOOKED %s\n", thisptr, reason);
-#endif
+    printfdbg("shutdown (%x) HOOKED %s\n", thisptr, reason);
 
     if (*g_Options.discmsg_active) {
-#ifdef DEBUG
-        printf("set new reason %s\n", g_Options.discmsg.value->mystring);
-#endif
+        printfdbg("set new reason %s\n", g_Options.discmsg.value->mystring);
         char customreason[256] = "#";
         strcat_s(customreason, MakeControlChars(g_Options.discmsg.value->mystring));
 
@@ -318,9 +308,7 @@ inline void HookNetchannel()
     oShutdown = (pShutdown)DetourFunction(
         (PBYTE)(addrShutdown),
         (PBYTE)hkShutdown);
-#ifdef DEBUG
-    printf("Detoured at %x\n", addrShutdown);
-#endif
+    printfdbg("Detoured at %x\n", addrShutdown);
     opt.netchannedlhooked = 1;
 }
 
