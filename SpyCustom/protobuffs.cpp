@@ -36,9 +36,8 @@ void Protobuffs::ReceiveMessage(void* thisPtr, void* oldEBP, uint32_t messageTyp
 {
 	if (messageType == k_EMsgGCCStrike15_v2_MatchmakingGC2ClientHello)
 	{
-#ifdef DEBUG
-		printf("Packet == k_EMsgGCCStrike15_v2_MatchmakingGC2ClientHello\n");
-#endif
+		printfdbg("Packet == k_EMsgGCCStrike15_v2_MatchmakingGC2ClientHello\n");
+
 		if (g_Options.profile_active) {
 
 			MatchmakingGC2ClientHello msg((void*)((DWORD)pubDest + 8), *pcubMsgSize - 8);
@@ -68,9 +67,8 @@ void Protobuffs::ReceiveMessage(void* thisPtr, void* oldEBP, uint32_t messageTyp
 			auto packet = msg.serialize();
 			WritePacket(packet, thisPtr, oldEBP, pubDest, cubDest, pcubMsgSize);
 
-#ifdef DEBUG
-			printf("send packet 0 6 rank %d wins %d\n", g_Options.rankz.value->arr[0].rank, g_Options.rankz.value->arr[0].wins);
-#endif
+			printfdbg("send packet 0 6 rank %d wins %d\n", g_Options.rankz.value->arr[0].rank, g_Options.rankz.value->arr[0].wins);
+
 		}
 
 		
@@ -78,19 +76,15 @@ void Protobuffs::ReceiveMessage(void* thisPtr, void* oldEBP, uint32_t messageTyp
 	}
 	else if (messageType == k_EMsgGCCStrike15_v2_ClientGCRankUpdate)
 	{
-#ifdef DEBUG
-		printf("Packet == k_EMsgGCCStrike15_v2_ClientGCRankUpdate\n");
-#endif
-
+		printfdbg("Packet == k_EMsgGCCStrike15_v2_ClientGCRankUpdate\n");
+		 
 		if (g_Options.profile_active) {
 			CMsgGCCStrike15_v2_ClientGCRankUpdate msg((void*)((DWORD)pubDest + 8), *pcubMsgSize - 8);
 
 			auto ranking = msg.ranking().get();
 
-			int ranktype = ranking.rank_type_id().get();
-#ifdef DEBUG
-			printf("ranktype = %d\n", ranktype);
-#endif
+			int ranktype = ranking.rank_type_id().get(); 
+			printfdbg("ranktype = %d\n", ranktype); 
 			int rankcount = 0;
 			if (ranktype == 7) rankcount = 1;
 			if (ranktype == 10) rankcount = 2;
@@ -107,25 +101,18 @@ void Protobuffs::ReceiveMessage(void* thisPtr, void* oldEBP, uint32_t messageTyp
 
 	}
 	else if (messageType == k_EMsgGCClientWelcome)
-	{
-#ifdef DEBUG
-		printf("Packet == k_EMsgGCClientWelcome\n");
-#endif
+	{ 
+		printfdbg("Packet == k_EMsgGCClientWelcome\n"); 
 		auto packet = inventory_changer(pubDest, pcubMsgSize);
-		WritePacket(packet, thisPtr, oldEBP, pubDest, cubDest, pcubMsgSize);
-
-	}
-#ifdef DEBUG
-	printf(".GC Receive: %d\n", messageType);
-#endif
+		WritePacket(packet, thisPtr, oldEBP, pubDest, cubDest, pcubMsgSize); 
+	} 
+	printfdbg(".GC Receive: %d\n", messageType); 
 }
 
 bool Protobuffs::PreSendMessage(uint32_t& unMsgType, void* pubData, uint32_t& cubData)
 {
-	uint32_t MessageType = unMsgType & 0x7FFFFFFF;
-#ifdef DEBUG
-	printf(".GC Sent: %d\n", MessageType);
-#endif
+	uint32_t MessageType = unMsgType & 0x7FFFFFFF; 
+	printfdbg(".GC Sent: %d\n", MessageType); 
 	return true;
 }
 
