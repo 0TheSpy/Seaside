@@ -373,9 +373,7 @@ public:
                     iff.g_pEngineClient->GetPlayerInfo(id, &pinfo);
 
                     if (pinfo.name) {
-#ifdef DEBUG
-                        printf("%s voted %d\n", pinfo.name, vote);
-#endif
+                        printfdbg("%s voted %d\n", pinfo.name, vote);
                         iff.g_pChatElement->ChatPrintf2(0, 0, std::string("").
                             append(" \x06").
                             append(pinfo.name).
@@ -389,9 +387,7 @@ public:
 
         if (!strcmp(event->GetName(), "game_newmap"))
         {
-#ifdef DEBUG
-            printf("game_newmap\n");
-#endif
+            printfdbg("game_newmap\n");
             OnLevelInit();
         }
 
