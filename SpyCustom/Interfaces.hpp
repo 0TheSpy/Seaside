@@ -4,6 +4,12 @@
 
 //#define DEBUG
 
+#ifdef DEBUG
+#define printfdbg printf
+#else
+#define printfdbg(...)
+#endif
+
 #define CLIENT_DLL 
 
 #include "GetVfunc.hpp"
@@ -183,7 +189,7 @@ class ICvar2 : public ICvar
 public:
 	ConVar* FindVar2(const char* var)
 	{
-		printf("Trying to find var %s\n", var);
+		printfdbg("Trying to find var %s\n", var);
 		typedef ConVar* (*oFindVar)(void*, const char*);
 		return getvfunc<oFindVar>(this, 16)(this, var);
 	}
@@ -191,7 +197,7 @@ public:
 	template <typename... Values>
 	void ConsoleColorPrintf2(const Color& MsgColor, const char* szMsgFormat, Values... Parameters)
 	{
-		printf("Trying to print %s\n", szMsgFormat);
+		printfdbg("Trying to print %s\n", szMsgFormat);
 		typedef void(*oConsoleColorPrintf)(void*, const Color&, const char*, ...);
 		return getvfunc<oConsoleColorPrintf>(this, 25)(this, MsgColor, szMsgFormat, Parameters...);
 	}
