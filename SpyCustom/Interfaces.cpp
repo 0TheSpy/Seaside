@@ -64,77 +64,71 @@ void IF::Init()
     typedef PVOID(__cdecl* oKeyValuesSystem)();
     oKeyValuesSystem pkeyValuesSystem = (oKeyValuesSystem)GetProcAddress(GetModuleHandleA("vstdlib.dll"), "KeyValuesSystem");
     keyValuesSystem = (IKeyValuesSystem*)pkeyValuesSystem();
-#ifdef DEBUG
-    printf("KeyValuesSystem = %x\n", keyValuesSystem);
-#endif
+
+    printfdbg("KeyValuesSystem = %x\n", keyValuesSystem);
+
     myConMsg = (CONMSGPROC)GetProcAddress(GetModuleHandleA("tier0.dll"), "?ConMsg@@YAXPBDZZ");
     myConColorMsg = (CONCOLORMSGPROC)GetProcAddress(GetModuleHandleA("tier0.dll"), "?ConColorMsg@@YAXABVColor@@PBDZZ");
 
     g_pGlobals = **(CGlobalVarsBase***)(FindPatternV2("client.dll", "A1 ? ? ? ? 5E 8B 40 10") + 1);
     g_pInput = *(CInput**)(FindPatternV2("client.dll", "B9 ? ? ? ? F3 0F 11 04 24 FF 50 10") + 1);
     g_pViewRenderBeams = *(IViewRenderBeams**)(FindPatternV2("client.dll", "B9 ?? ?? ?? ?? A1 ?? ?? ?? ?? FF 10 A1 ?? ?? ?? ?? B9") + 0x1);
-#ifdef DEBUG
-    printf("g_pGlobals = %x\n", g_pGlobals);
-    printf("g_pInput = %x\n", g_pInput);
-    printf("g_pViewRenderBeams = %x\n", g_pViewRenderBeams);
-#endif
+
+    printfdbg("g_pGlobals = %x\n", g_pGlobals);
+    printfdbg("g_pInput = %x\n", g_pInput);
+    printfdbg("g_pViewRenderBeams = %x\n", g_pViewRenderBeams);
+
     FX_Tesla = (FX_TeslaFn)FindPatternV2("client.dll", "55 8B EC 81 EC ? ? ? ? 56 57 8B F9 8B 47 18");
-#ifdef DEBUG
-    printf("FX_TeslaFn %x\n", FX_Tesla);
-#endif
+
+    printfdbg("FX_TeslaFn %x\n", FX_Tesla);
+
     BloodSprayFn = (FX_BloodSprayFn)FindPatternV2("client.dll", "55 8B EC 8B 4D 08 F3 0F 10 51 ? 8D");
-#ifdef DEBUG
-    printf("FX_BloodSprayFn %x\n", BloodSprayFn);
-#endif
+
+    printfdbg("FX_BloodSprayFn %x\n", BloodSprayFn);
+
     DispatchEffect = (FXDispatchEffect)FindPatternV2("client.dll", "55 8B EC 83 E4 F8 83 EC 20 56 57 8B F9 C7 44 24");
-#ifdef DEBUG
-    printf("DispatchEffect %x\n", DispatchEffect);
-#endif
+
+    printfdbg("DispatchEffect %x\n", DispatchEffect);
+
     g_pChatElement = (CHudChat*)FindHudElement("CHudChat");
-#ifdef DEBUG
-    printf("Chat element %x\n", g_pChatElement);
-#endif
+
+    printfdbg("Chat element %x\n", g_pChatElement);
 
     LoadFromFile = (void*)FindPatternV2("client.dll", "55 8B EC 83 EC 0C 53 8B 5D 08 56 8B F1 3B"); 
-#ifdef DEBUG
-    printf("LoadFromFile %x\n", LoadFromFile);
-#endif
+
+    printfdbg("LoadFromFile %x\n", LoadFromFile);
+
     g_pD3DDevice9 = **(IDirect3DDevice9***)(FindPatternV2("shaderapidx9.dll", "A1 ? ? ? ? 50 8B 08 FF 51 0C") + 1);
-#ifdef DEBUG
-    printf("g_pD3DDevice9 %x\n", g_pD3DDevice9);
-#endif
+
+    printfdbg("g_pD3DDevice9 %x\n", g_pD3DDevice9);
+
     g_pMemAlloc = *(IMemAlloc**)(GetProcAddress(GetModuleHandle("tier0.dll"), "g_pMemAlloc"));
-#ifdef DEBUG
-    printf("g_pMemAlloc %x\n", g_pMemAlloc);
-#endif
+
+    printfdbg("g_pMemAlloc %x\n", g_pMemAlloc);
 
     g_pClientState = **reinterpret_cast<CClientState***>(getvfunc<uintptr_t>(g_pEngineClient, 12) + 0x10); 
-#ifdef DEBUG
-    printf("g_pClientState %x\n", g_pClientState);
-#endif
+
+    printfdbg("g_pClientState %x\n", g_pClientState);
 
     CHudElement* g_pHudElement = (CHudElement*)FindHudElement("CCSGO_HudDeathNotice");  
-#ifdef DEBUG
-    printf("Hud element %x\n", g_pHudElement);
-#endif
+
+    printfdbg("Hud element %x\n", g_pHudElement);
 
     auto SteamClient = ((ISteamClient * (__cdecl*)(void))GetProcAddress(GetModuleHandleA("steam_api.dll"), "SteamClient"))();
     g_SteamGameCoordinator = (ISteamGameCoordinator*)SteamClient->GetISteamGenericInterface((void*)1, (void*)1, "SteamGameCoordinator001");
     g_SteamUser = SteamClient->GetISteamUser((void*)1, (void*)1, "SteamUser019");
-#ifdef DEBUG
-    printf("SteamClient %X\n", SteamClient);
-    printf("g_SteamGameCoordinator %X\n", g_SteamGameCoordinator);
-    printf("g_SteamUser %X\n", g_SteamUser);
-#endif
-    
+
+    printfdbg("SteamClient %X\n", SteamClient);
+    printfdbg("g_SteamGameCoordinator %X\n", g_SteamGameCoordinator);
+    printfdbg("g_SteamUser %X\n", g_SteamUser);
+
     g_pClientLeafSystem = (IClientLeafSystem*)GetInterface("client.dll", "ClientLeafSystem002");
-#ifdef DEBUG
-    printf("g_pClientLeafSystem %x\n", g_pClientLeafSystem);
-#endif
+
+    printfdbg("g_pClientLeafSystem %x\n", g_pClientLeafSystem);
+
     g_pNetworkStringTableContainer = (INetworkStringTableContainer*)GetInterface("engine.dll", "VEngineClientStringTable001");
-#ifdef DEBUG
-    printf("g_pNetworkStringTableContainer %x\n", g_pNetworkStringTableContainer);
-#endif
+
+    printfdbg("g_pNetworkStringTableContainer %x\n", g_pNetworkStringTableContainer);
 
     getPlayerViewmodelArmConfigForPlayerModel = relativeToAbsolute<decltype(getPlayerViewmodelArmConfigForPlayerModel)>(FindPatternV2("client.dll", "E8 ? ? ? ? 89 87 ? ? ? ? 6A") + 1);
 
@@ -142,30 +136,28 @@ void IF::Init()
     g_pEngineSound = (IEngineSound*)GetInterface("engine.dll", "IEngineSoundClient003");
 
     g_pClientShadowMgr = *(IClientShadowMgr**)(FindPatternV2("client.dll", "A1 ? ? ? ? FF 90 ? ? ? ? 6A 00 6A 00") + 1);
-#ifdef DEBUG
-    printf("g_pClientShadowMgr %x\n", g_pClientShadowMgr);
-#endif
+
+    printfdbg("g_pClientShadowMgr %x\n", g_pClientShadowMgr);
+
     g_ViewRender = *(CCSViewRender**)(FindPatternV2("client.dll", "A1 ? ? ? ? B9 ? ? ? ? C7 05 ? ? ? ? ? ? ? ? FF 10") + 1); 
-#ifdef DEBUG
-    printf("g_ViewRender %x\n", g_ViewRender);
-#endif
+
+    printfdbg("g_ViewRender %x\n", g_ViewRender);
+
     g_ClientMode = **(IClientMode***)((*(DWORD**)g_pClient)[10] + 0x5);
-#ifdef DEBUG
-    printf("g_ClientMode %x\n", g_ClientMode);
-#endif
+
+    printfdbg("g_ClientMode %x\n", g_ClientMode);
 
     g_pInputSystem = (IInputSystem*)GetInterface("inputsystem.dll", "InputSystemVersion001");
     g_pVGuiSurface = (vgui::ISurface*)GetInterface("vguimatsurface.dll", "VGUI_Surface031");  
 
     fn_get_account_data = relativeToAbsolute<decltype(fn_get_account_data)>(FindPatternV2("client.dll", "E8 ? ? ? ? 85 C0 74 EE") + 1);
-#ifdef DEBUG
-    printf("fn_get_account_data %x\n", fn_get_account_data);
-#endif
+
+    printfdbg("fn_get_account_data %x\n", fn_get_account_data);
 
     ParticleCollectionSimulateAdr = relativeToAbsolute<decltype(ParticleCollectionSimulateAdr)>(FindPatternV2("client.dll", "E8 ? ? ? ? 8B 0E 83 C1 10") + 1);
-#ifdef DEBUG
-    printf("ParticleCollectionSimulateAdr %x\n", ParticleCollectionSimulateAdr);
-#endif
+
+    printfdbg("ParticleCollectionSimulateAdr %x\n", ParticleCollectionSimulateAdr);
+
 }
 
 
@@ -202,9 +194,8 @@ void SetFloatUnrestricted(const char* cvar, float value)
     PVOID addr = iff.g_pCVar->FindVar(cvar);
     if (!addr)
     {
-#ifdef DEBUG
-        printf("Can't find cvar %s\n", cvar);
-#endif
+        printfdbg("Can't find cvar %s\n", cvar);
+
         PlaySoundA((char*)"null", opt.hModuleGlobal, SND_ASYNC);
         return;
     }
@@ -218,9 +209,8 @@ void SetIntUnrestricted(const char* cvar, int value)
     PVOID addr = iff.g_pCVar->FindVar(cvar);
     if (!addr)
     {
-#ifdef DEBUG
-        printf("Can't find cvar %s\n", cvar);
-#endif
+        printfdbg("Can't find cvar %s\n", cvar);
+
         PlaySoundA((char*)"null", opt.hModuleGlobal, SND_ASYNC);
         return;
     }
@@ -230,9 +220,8 @@ void SetIntUnrestricted(const char* cvar, int value)
 
 void SetValueUnrestricted(const char* cvar, float value)
 {
-#ifdef DEBUG
-    printf("Set %s to %f\n", cvar, value);
-#endif
+    printfdbg("Set %s to %f\n", cvar, value);
+
     SetFloatUnrestricted(cvar, value);
     SetIntUnrestricted(cvar, (int)value);
 }
