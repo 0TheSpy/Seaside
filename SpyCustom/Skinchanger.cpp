@@ -109,9 +109,8 @@ bool __fastcall hkFireEventClientSide(void* thisptr, void* edx, IGameEvent* even
     if (event) {
         if (!strcmp(event->GetName(), "player_death") && iff.g_pEngineClient->GetPlayerForUserID(event->GetInt("attacker")) == iff.g_pEngineClient->GetLocalPlayer())
         {
-#ifdef DEBUG
-            printf("BE playerdeath with %s\n", event->GetString("weapon"));
-#endif
+            printfdbg("BE playerdeath with %s\n", event->GetString("weapon"));
+
             for (int i = 0; i < g_Options.weapons.value->weaponzcount; i++)  
             {
                 if (_tcsstr(g_Options.weapons.value->arr[i].killfeedicon, event->GetString("weapon")))
@@ -146,9 +145,7 @@ bool Changer()
         const auto team_prop = team_arr_prop->m_pDataTable->m_pProps;
         const auto proxy_addr = std::uintptr_t(team_prop->m_ProxyFn);
         g_player_resource = *reinterpret_cast<C_CS_PlayerResource***>(proxy_addr + 0x10);
-#ifdef DEBUG
-        printf("g_player_resource initiated %x\n", g_player_resource);
-#endif
+        printfdbg("g_player_resource initiated %x\n", g_player_resource);
         initinterface = 1;
     }
 
@@ -231,10 +228,8 @@ bool Changer()
             auto destroyglove = iff.g_pEntityList->GetClientEntityFromHandle(localplayer->GetWearables()[0]);
             if (destroyglove) {
                 destroyglove->GetClientNetworkable()->SetDestroyedOnRecreateEntities();
-                destroyglove->GetClientNetworkable()->Release();
-#ifdef DEBUG
-                printf("destroyed glove\n");
-#endif
+                destroyglove->GetClientNetworkable()->Release(); 
+                printfdbg("destroyed glove\n"); 
             }
         }
         return 0;
@@ -528,10 +523,8 @@ void __fastcall hkFrameStageNotify(IBaseClientDLL* thisptr, void* edx, ClientFra
 void InitSkinChanger()
 {
     itemSystem = relativeToAbsolute<decltype(itemSystem)>(FindPatternV2("client.dll", "E8 ? ? ? ? 0F B7 0F") + 1);
-
-#ifdef DEBUG
-    printf("itemschema2 %x\n", itemSystem()->getItemSchema());
-#endif
+     
+    printfdbg("itemschema2 %x\n", itemSystem()->getItemSchema()); 
 
     for (const auto& node : itemSystem()->getItemSchema()->itemsSorted) {           
         const auto item = node.value;
@@ -591,11 +584,9 @@ void InitSkinChanger()
         opt.sc_stickers.push_back(Options_my::stickerstruct(stickerKit->id, stickerKit->name.szBuffer, stickercount));
         stickercount++; 
     }
-
-#ifdef DEBUG
-    printf("counts %d %d %d %d %d %d %d\n", 
-        knives.size(), gloves.size(), agents.size(), medals.size(), musickits.size(), opt.sc_skins.size(), opt.sc_stickers.size());
-#endif
+     
+    printfdbg("counts %d %d %d %d %d %d %d\n",
+        knives.size(), gloves.size(), agents.size(), medals.size(), musickits.size(), opt.sc_skins.size(), opt.sc_stickers.size()); 
 
     const auto& prefabMap = itemSystem()->getItemSchema()->prefabs;
     for (const auto& node : prefabMap) {
