@@ -85,9 +85,7 @@ public:
         string name = configs[selected];
         if (remove(name.c_str()) != 0)
         {
-#ifdef DEBUG
-            printf("Error deleting file %s\n", name.c_str());
-#endif
+            printfdbg("Error deleting file %s\n", name.c_str());
         }
         Refresh();
     }
@@ -170,9 +168,7 @@ public:
                         else
                             vremya = "empty";
                         times.push_back(vremya);
-#ifdef DEBUG
-                    printf("fn %s %s", fd.cFileName, vremya.c_str());
-#endif
+                        printfdbg("fn %s %s", fd.cFileName, vremya.c_str());
                 }
             } while (::FindNextFile(hFind, &fd));
             ::FindClose(hFind);
