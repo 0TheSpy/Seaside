@@ -1259,22 +1259,22 @@ public:
 
 	void ReportError(const char* pError)
 	{
-		printf("KeyValues Error: %s in file %s\n", pError, m_pFilename);
+		printfdbg("KeyValues Error: %s in file %s\n", pError, m_pFilename);
 		for (int i = 0; i < m_maxErrorIndex; i++)
 		{
 			if (m_errorStack[i] != INVALID_KEY_SYMBOL)
 			{
 				if (i < m_errorIndex)
 				{
-					printf("%s, ", iff.keyValuesSystem->GetStringForSymbol(m_errorStack[i]));
+					printfdbg("%s, ", iff.keyValuesSystem->GetStringForSymbol(m_errorStack[i]));
 				}
 				else
 				{
-					printf("(*%s*), ", iff.keyValuesSystem->GetStringForSymbol(m_errorStack[i]));
+					printfdbg("(*%s*), ", iff.keyValuesSystem->GetStringForSymbol(m_errorStack[i]));
 				}
 			}
 		}
-		printf("\n");
+		printfdbg("\n");
 	}
 
 private:
@@ -1577,7 +1577,7 @@ void KeyValues::ParseIncludedKeys(char const* resourceName, const char* filetoin
 	}
 	else
 	{
-		printf("KeyValues::ParseIncludedKeys: Couldn't load included keyvalue file %s\n", fullpath);
+		printfdbg("KeyValues::ParseIncludedKeys: Couldn't load included keyvalue file %s\n", fullpath);
 		newKV->deleteThis();
 	}
 
