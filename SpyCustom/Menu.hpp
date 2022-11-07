@@ -1980,7 +1980,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::Text(XorStr("0TheSpy"));
                 ImGui::InvisibleButton("##inv", ImVec2(0, 0));
                 ImGui::TextColored(colwhite, XorStr("Check for updates"));
-                ImGui::Text(XorStr("unknowncheats.me"));
+                ImGui::Text(XorStr("github.com/0TheSpy/Seaside"));
 
                 ImGui::InvisibleButton("##inv", ImVec2(0, 24));
                 if (ImGui::Button("Unhook", ImVec2(70, 22)))
