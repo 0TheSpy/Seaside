@@ -280,6 +280,7 @@ public:
 	virtual void		SaveFreeMemory(void* pSaveMem) = 0;
 
 	virtual INetChannelInfo* GetNetChannelInfo(void) = 0;
+	//virtual INetChannel* GetNetChannelInfo(void) = 0;
 
 	virtual void		DebugDrawPhysCollide(const CPhysCollide* pCollide, IMaterial* pMaterial, matrix3x4_t& transform, const color32& color) = 0;
 	virtual void		CheckPoint(const char* pName) = 0;
