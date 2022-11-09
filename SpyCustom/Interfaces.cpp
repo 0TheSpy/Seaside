@@ -225,3 +225,24 @@ void SetValueUnrestricted(const char* cvar, float value)
     SetFloatUnrestricted(cvar, value);
     SetIntUnrestricted(cvar, (int)value);
 }
+
+void NET_SetConVar(const char* name, const char* value)
+{
+    //__asm pushad
+
+    static void* pvSetConVar = NULL;
+
+    if (!pvSetConVar)
+        pvSetConVar = (void*)FindPatternV2(XorStr("engine.dll"), XorStr("8D 4C 24 1C E8 ? ? ? ? 56"));
+
+    if (pvSetConVar)
+        Invoke_NET_SetConVar(pvSetConVar, name, value);
+
+    //__asm popad
+}
+
+void SetName(const char* pszName)
+{
+    static void* pvSetConVar = NULL; 
+    NET_SetConVar(XorStr("name"), pszName);
+}
