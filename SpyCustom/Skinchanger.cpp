@@ -503,13 +503,13 @@ void __fastcall hkFrameStageNotify(IBaseClientDLL* thisptr, void* edx, ClientFra
               
 
         if (opt.needupdate) {
-         //broken
-            static auto clear_hud_weapon_icon_ptr = FindPatternV2("client.dll", "E8 ? ? ? ? 8B F0 C6 44 24 ? ? C6 44 24") + 1; 
+            static PVOID clear_hud_weapon_icon_ptr = relativeToAbsolute<PVOID>(FindPatternV2("client.dll", "E8 ? ? ? ? 8B F0 C6 44 24 ? ? C6 44 24") + 1);
             static auto clearHudWeapon = reinterpret_cast<std::int32_t(__thiscall*)(void*, std::int32_t)>(clear_hud_weapon_icon_ptr);
+
             auto element = FindHudElement("CCSGO_HudWeaponSelection"); 
-            auto hud_weapons = reinterpret_cast<int32_t*>(std::uintptr_t(element) - 0x28);
-              
-            printfdbg("clearHudWeapon %x hud_weapons %x \n", clearHudWeapon, hud_weapons);
+            auto hud_weapons = reinterpret_cast<int32_t*>(std::uintptr_t(element) - 0xA0);
+             
+            printfdbg("p clearHudWeapon %x hud_weapons %x c %d\n", clearHudWeapon, hud_weapons, *(hud_weapons + 32));
 
             if (hud_weapons) {
                 for (int i = 0; i < *(hud_weapons + 32); i++) {
@@ -517,7 +517,7 @@ void __fastcall hkFrameStageNotify(IBaseClientDLL* thisptr, void* edx, ClientFra
                     i = clearHudWeapon(hud_weapons, i);
                 }
             }
-              
+
             opt.needupdate = 0;
         }
     }
@@ -635,8 +635,7 @@ void InitSkinChanger()
         }
         g_Options.models.value->arr[cfgindex].soundcount = soundcount;
     }
-
-
+     
 
     c_vpk_archive pak01_archive;
     if (pak01_archive.load("csgo/pak01_dir.vpk"))
