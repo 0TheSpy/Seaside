@@ -182,8 +182,8 @@ void SetViewModelSequence(const CRecvProxyData* pDataConst, void* pStruct, void*
 				}
 
 #ifdef DEBUG
-				cout << "activ " << (char*)pViewModel->GetSequenceActivity(m_nSequence);
-				printf(" new seq %d (%s)\n ", m_nSequence, szModel);
+				cout << "active " << (char*)pViewModel->GetSequenceActivity(m_nSequence);
+				printf(" ~new seq %d (%s)\n ", m_nSequence, szModel);
 #endif
 
 
