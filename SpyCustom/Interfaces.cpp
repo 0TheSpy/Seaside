@@ -243,6 +243,5 @@ void NET_SetConVar(const char* name, const char* value)
 
 void SetName(const char* pszName)
 {
-    static void* pvSetConVar = NULL; 
     NET_SetConVar(XorStr("name"), pszName);
 }
