@@ -688,6 +688,11 @@ public:
     OPTION(int, fullbright, 0);
     OPTION(bool, drawgray, 0);
     OPTION(bool, showlowresimage, 0); 
+
+    OPTION(bool, bunnyhop, 0);
+    OPTION(bool, slidewalk, 0);
+    OPTION(bool, fastduck, 0);
+    OPTION(int, changing_name, 0);
 };
 
 inline Options g_Options;
