@@ -1458,6 +1458,24 @@ private:
 	QAngle(const QAngle& vOther);
 
 #endif
+
+	void Clamp(void)
+	{ 
+		if (this->z < -89.f)
+			this->x = 89.f;
+
+		if (this->x > 89.f)
+			this->x = 89.f;
+
+		while (this->y < -180.f)
+			this->y += 360.f;
+
+		while (this->y > 180.f)
+			this->y -= 360.f;
+
+		this->z = 0.f;
+	}
+
 };
 
 FORCEINLINE void NetworkVarConstruct(QAngle& q) { q.x = q.y = q.z = 0.0f; }
