@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -24,401 +24,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="icliententitylist.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="interface.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="CGameUI.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IPanel.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="VGUI.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlvector.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEventManager.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="keyvalues.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="igameevents.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlsymbol.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="bitbuf.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="mathlib.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vector.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="basetypes.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vector2d.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="math_pfns.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="wchartypes.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="commonmacros.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="networkstringtabledefs.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="steamtypes.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="threadtools.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="platform.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlrbtree.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlmemory.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="strtools.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="memalloc.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="mem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="dbg.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="annotations.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vcrmode.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlbuffer.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="byteswap.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="datamap.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="memdbgon.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="memdbgoff.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlblockmemory.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="random.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vstdlib.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlfixedmemory.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="cdll_int.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="const.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="modes.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ButtonCode.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="InputEnums.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="checksum_crc.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="xboxstubs.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ISurface.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IHTML.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseCode.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyCode.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IImage.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Cursor.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="imageformat.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IAppSystem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ichromehtmlwrapper.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="htmlmessages.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IVguiMatInfo.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IVguiMatInfoVar.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="EditablePanel.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Panel.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyBindingMap.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Controls.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IKeyValuesSystem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="tier3.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="tier2.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="tier1.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="convar.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iconvar.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlstring.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="icvar.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlflags.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Dar.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IClientPanel.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IScheme.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="PHandle.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="PanelAnimationVar.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="BuildGroup.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlhandletable.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlqueue.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="FocusNavGroup.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IEngineVgui.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Label.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IGameUI.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
     <ClInclude Include="EventListener.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MessageMap.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="filesystem_passthru.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IVGUI.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ILocalize.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="filesystem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="checksum_md5.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="refcount.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ISystem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
     <ClInclude Include="NetVarManager.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dt_recv.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="dt_common.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="client_class.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iclientnetworkable.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iclientunknown.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ihandleentity.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iclientrenderable.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ivmodelrender.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="istudiorender.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vector4d.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="imaterial.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="imaterialsystem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="deformations.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="imaterialsystemhardwareconfig.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IColorCorrection.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vmatrix.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vplane.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="texture_group_names.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vtf.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="studio.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="compressed_vector.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlhash.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utllinkedlist.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="generichash.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="localflexcontroller.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="imdlcache.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="client_render_handle.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="lightdesc.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ssemath.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="valve_off.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="valve_minmax_on.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="fasttimer.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="valve_on.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="usercmd.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="imovehelper.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_input.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ivmodelinfo.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="idatacache.h">
-      <Filter>Header Files\sdk</Filter>
     </ClInclude>
     <ClInclude Include="PatternScan.hpp">
       <Filter>Header Files</Filter>
@@ -426,512 +36,8 @@
     <ClInclude Include="VMT.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vprof.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="l2cache.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vprof_sn.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vprof_telemetry.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="exprevaluator.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="dbgflag.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="logging.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="win32consoleio.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="icommandline.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utldict.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlmap.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="mempool.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="tslist.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IInput.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IBorder.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Tooltip.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuItem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="UtlSortVector.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="minidump.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="dmxelement.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="dmxattribute.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="dmxloader.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="dmattributetypes.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="dmelementhandle.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="uniqueid.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlsymbollarge.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utltshash.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="stringpool.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="timeutils.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="functors.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlenvelope.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
     <ClInclude Include="Interfaces.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="enginetrace.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ienginetrace.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="basehandle.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="gameconsole.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="igameconsole.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ivrenderview.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ivdebugoverlay.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vphysics_interface.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vcollide.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iefx.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="dlight.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="icliententity.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iclient.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iclientthinkable.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="string_t.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="userid.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="SteamCommon.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="inetmsghandler.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="inetmessage.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="globalvars_base.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="cmodel.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="trace.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="gametrace.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="bspflags.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ispatialpartition.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="messagebox.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Frame.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IEffects.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ipredictionsystem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="predictable_entity.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="predictioncopy.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ehandle.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="entitylist_base.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="shared_classnames.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="sendproxy.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="dt_send.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="bitvec.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iviewrender_beams.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="beam_flags.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="tempentity.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="fx.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="particles_simple.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="particlemgr.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="clientleafsystem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSphereRenderer.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="particle_util.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="particledraw.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="cdll_client_int.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="timedevent.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IMesh.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="meshutils.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IGameSystem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="IClientLeafSystem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="shareddefs.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="tier2_logging.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="eiface.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="edict.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iserverentity.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iserverunknown.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iservernetworkable.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="bspfile.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="bumpvects.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="compressed_light_cube.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ICollideable.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iserverplugin.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="smartptr.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlintrusivelist.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlobjectreference.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="zip_uncompressed.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="particle_iterators.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="meshreader.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_pixel_visibility.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_baseplayer.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_playerlocaldata.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_basecombatcharacter.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_baseflex.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_baseanimating.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_baseentity.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="icliententityinternal.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iclientshadowmgr.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="itoolentity.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ishadowmgr.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="client_thinklist.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="cliententitylist.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="cdll_util.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="shake.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="predictableid.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="networkvar.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="interpolatedvar.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="rangecheckedvar.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="lerp_functions.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="animationlayer.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="collisionproperty.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="particle_property.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="particles_new.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="particles.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="UtlStringMap.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="MaterialSystemUtil.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlsoacontainer.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="particle_parse.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ifilelist.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="particle_property_inlines.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="touchlink.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="groundlink.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ragdoll.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ragdoll_shared.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="bone_accessor.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="mouthinfo.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ai_activity.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="sequence_Transitioner.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="bone_merge_cache.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_baseanimatingoverlay.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="sceneentity_shared.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iscenetokenprocessor.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="baseentity_shared.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="baseentity.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="entitylist.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="playernet_vars.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="bittools.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="sdk_hud_chat.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="hud_basechat.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="hudelement.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlpriorityqueue.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="hud.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="hudtexturehandle.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="hud_element_helper.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEventListener.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vgui_basepanel.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="RichText.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="TextEntry.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ListPanel.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckButton.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="ToggleButton.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="TextImage.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Image.h">
-      <Filter>Header Files\sdk</Filter>
     </ClInclude>
     <ClInclude Include="PlayerInventory.hpp">
       <Filter>Header Files</Filter>
@@ -963,17 +69,11 @@
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>Header Files\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="flashlighteffect.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
     <ClInclude Include="Other.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Options.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="baseclientstate.h">
-      <Filter>Header Files\sdk</Filter>
     </ClInclude>
     <ClInclude Include="Config.hpp">
       <Filter>Header Files</Filter>
@@ -986,15 +86,6 @@
     </ClInclude>
     <ClInclude Include="SkinChanger.hpp">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inetchannel.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="inetchannelinfo.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="steam.h">
-      <Filter>Header Files\sdk</Filter>
     </ClInclude>
     <ClInclude Include="protobuffs.hpp">
       <Filter>Header Files</Filter>
@@ -1014,122 +105,14 @@
     <ClInclude Include="proxies.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="iclassmap.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="recvproxy.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="cs_shareddefs.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="cs_achievementdefs.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="econ_item_view.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="game_item_schema.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="econ_item_schema.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="econ_item_constants.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="item_selection_criteria.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="econ_item_interface.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="expressioncalculator.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="utlstack.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="weapon_parse.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestringpool.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
     <ClInclude Include="netvars.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="detours.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="modelloader.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cs_view_scene.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="viewrender.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iviewrender.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="view_shared.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="volumeculler.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="jobthread.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="seemath.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="fltx4.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="vertexcolor.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iclientmode.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="client_virtualreality.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iclientvirtualreality.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="itexture.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="precipitation_shared.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="iinputsystem.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="AnalogCode.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="itempents.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="shattersurfacetypes.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_te_legacytempents.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_basetempentity.h">
-      <Filter>Header Files\sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="c_recipientfilter.h">
-      <Filter>Header Files\sdk</Filter>
     </ClInclude>
     <ClInclude Include="XorStr.hpp">
       <Filter>Header Files</Filter>
@@ -1139,6 +122,1047 @@
     </ClInclude>
     <ClInclude Include="Menu.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\AnalogCode.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\animationlayer.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\annotations.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\baseclientstate.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\baseentity.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\baseentity_shared.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\basehandle.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\basetypes.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\beam_flags.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\bitbuf.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\bittools.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\bitvec.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\bone_accessor.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\bone_merge_cache.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\bspfile.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\bspflags.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\BuildGroup.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\bumpvects.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Button.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ButtonCode.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\byteswap.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_baseanimating.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_baseanimatingoverlay.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_basecombatcharacter.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_baseentity.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_baseflex.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_baseplayer.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_basetempentity.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_input.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_pixel_visibility.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_playerlocaldata.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_recipientfilter.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\c_te_legacytempents.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\cdll_client_int.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\cdll_int.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\cdll_util.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CGameUI.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CheckButton.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\checksum_crc.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\checksum_md5.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\client_class.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\client_render_handle.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\client_thinklist.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\client_virtualreality.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\cliententitylist.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\clientleafsystem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\cmodel.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\collisionproperty.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Color.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\commonmacros.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\compressed_light_cube.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\compressed_vector.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\const.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Controls.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\convar.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\cs_achievementdefs.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\cs_shareddefs.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\cs_view_scene.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Cursor.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Dar.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\datamap.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dbg.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dbgflag.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\deformations.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dlight.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dmattributetypes.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dmelementhandle.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dmxattribute.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dmxelement.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dmxloader.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dt_common.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dt_recv.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\dt_send.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\econ_item_constants.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\econ_item_interface.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\econ_item_schema.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\econ_item_view.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\edict.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\EditablePanel.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ehandle.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\eiface.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\enginetrace.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\entitylist.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\entitylist_base.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\expressioncalculator.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\exprevaluator.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\fasttimer.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\filesystem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\filesystem_passthru.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\flashlighteffect.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\fltx4.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\FocusNavGroup.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Frame.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\functors.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\fx.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\game_item_schema.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\gameconsole.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\GameEventListener.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\GameEventManager.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\gamestringpool.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\gametrace.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\generichash.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\globalvars_base.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\groundlink.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\htmlmessages.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\hud.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\hud_basechat.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\hud_element_helper.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\hudelement.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\hudtexturehandle.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IAppSystem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IBorder.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ichromehtmlwrapper.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iclassmap.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iclient.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\icliententity.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\icliententityinternal.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\icliententitylist.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IClientLeafSystem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iclientmode.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iclientnetworkable.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IClientPanel.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iclientrenderable.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iclientshadowmgr.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iclientthinkable.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iclientunknown.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iclientvirtualreality.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ICollideable.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IColorCorrection.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\icommandline.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iconvar.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\icvar.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\idatacache.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IEffects.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iefx.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IEngineSound.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ienginetrace.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IEngineVgui.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ifilelist.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\igameconsole.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\igameevents.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IGameSystem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IGameUI.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iglobalvarsbase.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ihandleentity.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IHTML.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IImage.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IInput.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iinputsystem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IKeyValuesSystem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ILocalize.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Image.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\imageformat.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\imaterial.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\imaterialsystem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\imaterialsystemhardwareconfig.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\imdlcache.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IMesh.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\imovehelper.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\inetchannel.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\inetchannelinfo.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\inetmessage.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\inetmsghandler.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\InputEnums.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\interface.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\interpolatedvar.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IPanel.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iprediction.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ipredictionsystem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\irecipientfilter.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iscenetokenprocessor.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IScheme.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iserverentity.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iservernetworkable.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iserverplugin.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iserverunknown.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ishadowmgr.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ispatialpartition.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\istudiorender.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ISurface.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ISystem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\item_selection_criteria.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\itempents.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\itexture.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\itoolentity.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ivdebugoverlay.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IVGUI.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IVguiMatInfo.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\IVguiMatInfoVar.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iviewrender.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\iviewrender_beams.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ivmodelinfo.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ivmodelrender.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ivrenderview.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\jobthread.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\KeyBindingMap.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\KeyCode.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\keyvalues.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\l2cache.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Label.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\lerp_functions.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\lightdesc.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ListPanel.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\localflexcontroller.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\logging.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\MaterialSystemUtil.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\math_pfns.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\mathlib.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\mem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\memalloc.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\memdbgoff.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\memdbgon.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\mempool.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Menu.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\MenuItem.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\meshreader.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\meshutils.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\messagebox.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\MessageMap.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\minidump.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\modelloader.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\modes.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\MouseCode.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\mouthinfo.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\networkstringtabledefs.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\networkvar.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Panel.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\PanelAnimationVar.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\particle_iterators.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\particle_parse.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\particle_property.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\particle_property_inlines.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\particle_util.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\particledraw.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\particlemgr.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\particles.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\particles_new.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\particles_simple.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ParticleSphereRenderer.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\PHandle.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\platform.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\playernet_vars.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\precipitation_shared.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\predictable_entity.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\predictableid.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\predictioncopy.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ragdoll.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ragdoll_shared.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\random.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\rangecheckedvar.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\recvproxy.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\refcount.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\RichText.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\sceneentity_shared.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\sdk_hud_chat.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\seemath.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\sendproxy.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\sequence_Transitioner.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\shake.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\shared_classnames.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\shareddefs.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\shattersurfacetypes.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\smartptr.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\SndInfo.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\soundflags.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ssemath.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\steam.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\SteamCommon.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\steamtypes.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\string_t.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\stringpool.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\strtools.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\studio.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\tempentity.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\TextEntry.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\TextImage.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\texture_group_names.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\threadtools.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\tier1.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\tier2.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\tier2_logging.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\tier3.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\timedevent.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\timeutils.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ToggleButton.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Tooltip.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\touchlink.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\trace.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\tslist.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\uniqueid.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\usercmd.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\userid.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlblockmemory.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlbuffer.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utldict.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlenvelope.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlfixedmemory.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlflags.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlhandletable.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlhash.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlintrusivelist.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utllinkedlist.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlmap.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlmemory.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlobjectreference.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlpriorityqueue.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlqueue.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlrbtree.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlsoacontainer.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\UtlSortVector.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlstack.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlstring.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\UtlStringMap.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlsymbol.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlsymbollarge.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utltshash.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\utlvector.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\valve_minmax_on.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\valve_off.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\valve_on.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vcollide.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vcrmode.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vector.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vector2d.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vector4d.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vertexcolor.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\VGUI.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vgui_basepanel.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\view_shared.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\viewrender.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vmatrix.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\volumeculler.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vphysics_interface.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vpkparser.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vplane.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vprof.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vprof_sn.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vprof_telemetry.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vstdlib.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\vtf.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\wchartypes.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\weapon_parse.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\win32consoleio.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\xboxstubs.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\zip_uncompressed.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\ClientNetMessage.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\protocol.h">
+      <Filter>Header Files\sdk</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
