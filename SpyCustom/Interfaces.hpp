@@ -334,5 +334,24 @@ void SetFloatUnrestricted(const char* cvar, float value);
 float GetVisibleFloat(const char* cvar);
 const char* GetVisibleValue(const char* cvar);
 
+static __declspec(naked) void __cdecl Invoke_NET_SetConVar(void* pfn, const char* cvar, const char* value)
+{
+	__asm
+	{
+		push    ebp
+		mov     ebp, esp
+		and esp, 0FFFFFFF8h
+		sub     esp, 44h
+		push    ebx
+		push    esi
+		push    edi
+		mov     edi, cvar
+		mov     esi, value
+		jmp     pfn
+	}
+}
+
+void NET_SetConVar(const char* name, const char* value);
+void SetName(const char* pszName);
 
 #endif
