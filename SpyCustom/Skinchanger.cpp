@@ -505,12 +505,18 @@ void __fastcall hkFrameStageNotify(IBaseClientDLL* thisptr, void* edx, ClientFra
         if (opt.needupdate) {
             static auto clear_hud_weapon_icon_ptr = FindPatternV2("client.dll", "E8 ? ? ? ? 8B F0 C6 44 24 ? ? C6 44 24") + 1; 
             static auto clearHudWeapon = reinterpret_cast<std::int32_t(__thiscall*)(void*, std::int32_t)>(clear_hud_weapon_icon_ptr);
-            auto element = FindHudElement("CCSGO_HudWeaponSelection");
-            auto hud_weapons = reinterpret_cast<hud_weapons_t*>(std::uintptr_t(element) - 0x28); 
+            auto element = FindHudElement("CCSGO_HudWeaponSelection"); 
+            auto hud_weapons = reinterpret_cast<int32_t*>(std::uintptr_t(element) - 0x28);
+              
+            printfdbg("clearHudWeapon %x hud_weapons %x \n", clearHudWeapon, hud_weapons);
 
-            if (hud_weapons && *hud_weapons->get_weapon_count() > 0)
-                for (std::int32_t i = 0; i < *hud_weapons->get_weapon_count(); i++)
+            if (hud_weapons) {
+                for (int i = 0; i < *(hud_weapons + 32); i++) {
+                    printfdbg("hud_weapons %d\n", i);
                     i = clearHudWeapon(hud_weapons, i);
+                }
+            }
+             
 
             opt.needupdate = 0;
         }
