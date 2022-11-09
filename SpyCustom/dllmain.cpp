@@ -381,8 +381,10 @@ DWORD WINAPI HackThread(HMODULE hModule)
     VGUISurfHook->RestoreOldTable();
     ClientModeHook->RestoreOldTable();
     FileSystemHook->RestoreOldTable();
-    if (opt.netchannedlhooked)
+    if (opt.netchannedlhooked) {
         DetourRemove(reinterpret_cast<BYTE*>(oShutdown), reinterpret_cast<BYTE*>(hkShutdown));
+        DetourRemove(reinterpret_cast<BYTE*>(oSendNetMsg), reinterpret_cast<BYTE*>(hkSendNetMsg));
+    }
 
     DetourRemove(reinterpret_cast<BYTE*>(oGetAccountData), reinterpret_cast<BYTE*>(hkGetAccountData));
     DetourRemove(reinterpret_cast<BYTE*>(oParticleCollectionSimulate), reinterpret_cast<BYTE*>(hkParticleCollectionSimulate));
