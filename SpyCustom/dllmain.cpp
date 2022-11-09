@@ -205,8 +205,9 @@ DWORD WINAPI HackThread(HMODULE hModule)
     ClientModeHook = new VMTHook(iff.g_ClientMode);
     ClientModeHook->SwapPointer(44, reinterpret_cast<void*>(hkdoPostScreenEffects));
     ClientModeHook->SwapPointer(18, reinterpret_cast<void*>(hkOverrideView));
+    ClientModeHook->SwapPointer(24, reinterpret_cast<void*>(hkCreateMove));
     ClientModeHook->ApplyNewTable();
-
+     
     FileSystemHook = new VMTHook(iff.g_pFullFileSystem);
     FileSystemHook->SwapPointer(101, reinterpret_cast<void*>(hkGetUnverifiedFileHashes));
     FileSystemHook->ApplyNewTable();
