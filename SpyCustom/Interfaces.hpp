@@ -5,7 +5,7 @@
 #define DEBUG
 
 #ifdef DEBUG
-#define printfdbg printf
+#define printfdbg(data, ...) printf(XorStr(data), __VA_ARGS__)
 #else
 #define printfdbg(...)
 #endif
