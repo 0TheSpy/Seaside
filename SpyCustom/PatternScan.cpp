@@ -23,7 +23,7 @@ DWORD FindPatternV2(std::string moduleName, std::string pattern)
     for (DWORD pCur = rangeStart; pCur < rangeEnd; pCur++)
     {
         if (!*pat) {
-            printfdbg(XorStr("FP %s: Found %s at %x\n"), moduleName.c_str(), pattern.c_str(), firstMatch);
+            printfdbg("FP %s: Found %s at %x\n", moduleName.c_str(), pattern.c_str(), firstMatch);
             return firstMatch;
         }
 
@@ -33,7 +33,7 @@ DWORD FindPatternV2(std::string moduleName, std::string pattern)
                 firstMatch = pCur;
 
             if (!pat[2]) {
-                printfdbg(("FP %s: Found %s at %x\n"), moduleName.c_str(), pattern.c_str(), firstMatch);
+                printfdbg("FP %s: Found %s at %x\n", moduleName.c_str(), pattern.c_str(), firstMatch);
                 return firstMatch;
             }
 
@@ -49,7 +49,7 @@ DWORD FindPatternV2(std::string moduleName, std::string pattern)
             firstMatch = 0;
         }
     }
-    printfdbg(XorStr("FP %s: Nothing found! %s\n"), moduleName.c_str(), pattern.c_str());
+    printfdbg("FP %s: Nothing found! %s\n", moduleName.c_str(), pattern.c_str());
     return NULL;
 }
 
