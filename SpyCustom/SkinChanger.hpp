@@ -41,8 +41,7 @@ struct iitem
 };
 
 
-
-
+/*
 struct hud_weapons_t
 {
     std::int32_t* get_weapon_count()
@@ -50,7 +49,7 @@ struct hud_weapons_t
         return reinterpret_cast<std::int32_t*>(std::uintptr_t(this) + 0x80);
     }
 };
-
+*/
 
 struct String_t
 {
