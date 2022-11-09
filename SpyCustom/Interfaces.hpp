@@ -2,7 +2,7 @@
 #define INTERFACES
 #pragma once
 
-//#define DEBUG
+#define DEBUG
 
 #ifdef DEBUG
 #define printfdbg printf
@@ -63,6 +63,10 @@
 #include "sdk/vpkparser.h"
 #include "sdk/itempents.h" 
 #include "sdk/c_te_legacytempents.h"
+#include "sdk/iglobalvarsbase.h"
+#include "sdk/iprediction.h"
+#include "sdk/inetmessage.h"
+#include "sdk/ClientNetMessage.h"
 
 #include "XorStr.hpp"
 
@@ -137,7 +141,9 @@ public:
 	CGlobalVarsBase* g_Globals = nullptr;
 	IInputSystem* g_pInputSystem = nullptr;
 	ITempEnts* g_pTempEnts = nullptr; 
-	DWORD ParticleCollectionSimulateAdr = 0;
+	DWORD ParticleCollectionSimulateAdr = 0; 
+	CPrediction* g_pPrediction = nullptr; 
+
 };
 
 extern IF iff;
@@ -333,7 +339,7 @@ void SetIntUnrestricted(const char* cvar, int value);
 void SetFloatUnrestricted(const char* cvar, float value);
 float GetVisibleFloat(const char* cvar);
 const char* GetVisibleValue(const char* cvar);
-
+  
 static __declspec(naked) void __cdecl Invoke_NET_SetConVar(void* pfn, const char* cvar, const char* value)
 {
 	__asm
@@ -351,7 +357,8 @@ static __declspec(naked) void __cdecl Invoke_NET_SetConVar(void* pfn, const char
 	}
 }
 
-void NET_SetConVar(const char* name, const char* value);
+void NETSetConVar(const char* name, const char* value);
 void SetName(const char* pszName);
+
 
 #endif
