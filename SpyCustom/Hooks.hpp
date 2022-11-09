@@ -225,7 +225,7 @@ void __stdcall hkOverrideView(CViewSetup* vsView) {
             ViewModel->GetAbsAngles() = eyeAng; 
         }
     }
-     
+      
     ofunc(vsView);
 }
 
@@ -301,6 +301,25 @@ void __fastcall hkShutdown(void* thisptr, void* unk1, void* unk2, const char* re
         oShutdown(thisptr, nullptr, reason);
 }
 
+
+typedef const bool(__thiscall* pSendNetMsg)(void*, INetMessage*, bool, bool);
+pSendNetMsg oSendNetMsg;
+bool __fastcall hkSendNetMsg(void* channel, uint32_t, INetMessage* msg, bool reliable, bool voice)
+{ 
+    if (*g_Options.changing_name && msg->GetType() == net_SetConVar)
+    {
+        printfdbg("sendnetmsg net_SetConVar %d\n", *g_Options.changing_name);  
+        *g_Options.changing_name -= 1; 
+
+        if (*g_Options.changing_name) {
+            printfdbg("blocking packet\n");
+            return false;
+        }
+    }
+     
+    return oSendNetMsg(channel, msg, reliable, voice);
+}
+
 inline void HookNetchannel()
 {
     DWORD ptrShutdown = *((DWORD*)iff.g_pEngineClient->GetNetChannelInfo()) + 36 * 4;
@@ -308,7 +327,38 @@ inline void HookNetchannel()
     oShutdown = (pShutdown)DetourFunction(
         (PBYTE)(addrShutdown),
         (PBYTE)hkShutdown);
-    printfdbg("Detoured at %x\n", addrShutdown);
+    printfdbg("Netchannel:Shutdown detoured at %x\n", addrShutdown);
+
+    DWORD ptrSendNetMsg = *((DWORD*)iff.g_pEngineClient->GetNetChannelInfo()) + 40 * 4;
+    DWORD addrSendNetMsg = *(DWORD*)ptrSendNetMsg;
+    oSendNetMsg = (pSendNetMsg)DetourFunction(
+        (PBYTE)(addrSendNetMsg),
+        (PBYTE)hkSendNetMsg);
+    printfdbg("Netchannel:SendNetMsg detoured at %x\n", addrSendNetMsg);
+
     opt.netchannedlhooked = 1;
 }
 
+ 
+bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
+{
+    static auto ofunc = ClientModeHook->GetOriginal<bool(__stdcall*)( float, CUserCmd*)>(24); 
+
+    C_BasePlayer* local = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(iff.g_pEngineClient->GetLocalPlayer()));
+    const auto pre_flags = local->GetFlags(); 
+
+    if (g_Options.slidewalk)
+        pCmd->buttons ^= IN_FORWARD | IN_BACK | IN_MOVELEFT | IN_MOVERIGHT; 
+    if (g_Options.fastduck)
+        pCmd->buttons |= IN_BULLRUSH;
+      
+    if (g_Options.bunnyhop && iff.g_pInputSystem->IsButtonDown(KEY_SPACE) && local->GetMoveType() != MOVETYPE_LADDER)
+        if (!(pre_flags & (FL_ONGROUND)) && pCmd->buttons & (IN_JUMP))
+        {
+            pCmd->buttons &= ~(IN_JUMP);
+        }
+
+    pCmd->viewangles.Clamp();
+
+    return ofunc(frame_time, pCmd);
+}
