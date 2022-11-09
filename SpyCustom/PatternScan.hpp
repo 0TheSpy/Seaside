@@ -14,7 +14,7 @@ DWORD FindPatternV2(std::string moduleName, std::string pattern);
 bool bCompare(const BYTE* Data, const BYTE* Mask, const char* szMask);
 DWORD FindPattern(std::string moduleName, BYTE* Mask, char* szMask);
 
-
+#include "Interfaces.hpp"
 
 #endif
 
