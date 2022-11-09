@@ -1711,8 +1711,9 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         ConVar* nameConvar = iff.g_pCVar->FindVar("name");
                         *(int*)((DWORD)&nameConvar->m_fnChangeCallbacks.m_Size) = 0;
                         printfdbg("m_fnChangeCallbacks %x\n", (DWORD)&nameConvar->m_fnChangeCallbacks.m_Size);
-                        nameConvar->SetValue(MakeControlChars(g_Options.playername.value->mystring));
+                        //nameConvar->SetValue(MakeControlChars(g_Options.playername.value->mystring));
                         SetName(MakeControlChars(g_Options.playername.value->mystring));
+                        *g_Options.changing_name = 2;
                     }
 
                     if (ImGui::Button("Apply##clan", ImVec2(70, 22)))
@@ -1964,6 +1965,27 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
             ImGui::EndTabItem();
         }
 
+        /*
+        if (ImGui::BeginTabItem("Movement"))
+        { 
+            style->ChildBorderSize = 0; style->WindowPadding = ImVec2(20.0f, 5.0f);
+            if (ImGui::BeginChild("ChildTab", ImVec2(665, 350), true, ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysUseWindowPadding)) {
+                style->ChildBorderSize = 1; style->WindowPadding = ImVec2(20.0f, 20.0f);
+
+                ImGui::Columns(2, nullptr, false);
+
+                ImGui::Checkbox("Bunny hop", g_Options.bunnyhop);
+                ImGui::Checkbox("Fast duck", g_Options.fastduck);
+                ImGui::Checkbox("Slide walk", g_Options.slidewalk);
+
+                ImGui::NextColumn();
+
+                ImGui::EndChild(); 
+            }
+
+            ImGui::EndTabItem();
+        }
+        */
 
         if (ImGui::BeginTabItem("About"))
         {
@@ -1982,7 +2004,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::Text(XorStr("0TheSpy"));
                 ImGui::InvisibleButton("##inv", ImVec2(0, 0));
                 ImGui::TextColored(colwhite, XorStr("Check for updates"));
-                ImGui::Text(XorStr("github.com/0TheSpy/Seaside"));
+                ImGui::Text(XorStr("unknowncheats.me"));
 
                 ImGui::InvisibleButton("##inv", ImVec2(0, 24));
                 if (ImGui::Button("Unhook", ImVec2(70, 22)))
