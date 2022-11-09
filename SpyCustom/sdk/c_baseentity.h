@@ -112,6 +112,7 @@ public:
 		NETVAR(GetViewOffset, "CBasePlayer", "m_vecViewOffset[0]", Vector);
 		NETVAR(GetTeam, "CBaseEntity", "m_iTeamNum", int);
 
+		NETVAR2(GetFlags, "DT_CSPlayer", "m_fFlags", int);
 		NETVAR2(GetNightvision, "DT_CSPlayer", "m_bNightVisionOn", bool);
 		NETVAR2(GetNightvisionAlpha, "DT_CSPlayer", "m_flNightVisionAlpha", float);
 	}; 
