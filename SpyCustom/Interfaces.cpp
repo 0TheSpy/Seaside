@@ -60,6 +60,7 @@ void IF::Init()
     g_pDebugOverlay = (IVDebugOverlay*)GetInterface("engine.dll", "VDebugOverlay004");
     g_pEffects = (IEffects*)GetInterface("client.dll", "IEffects001");
     g_pStudioRender = (IStudioRender*)GetInterface("studiorender.dll", "VStudioRender026");
+    g_pPrediction = (CPrediction*)GetInterface("client.dll", "VClientPrediction001");
 
     typedef PVOID(__cdecl* oKeyValuesSystem)();
     oKeyValuesSystem pkeyValuesSystem = (oKeyValuesSystem)GetProcAddress(GetModuleHandleA("vstdlib.dll"), "KeyValuesSystem");
@@ -158,6 +159,7 @@ void IF::Init()
 
     printfdbg("ParticleCollectionSimulateAdr %x\n", ParticleCollectionSimulateAdr);
 
+
 }
 
 
@@ -226,7 +228,8 @@ void SetValueUnrestricted(const char* cvar, float value)
     SetIntUnrestricted(cvar, (int)value);
 }
 
-void NET_SetConVar(const char* name, const char* value)
+
+void NETSetConVar(const char* name, const char* value)
 {
     //__asm pushad
 
@@ -242,6 +245,7 @@ void NET_SetConVar(const char* name, const char* value)
 }
 
 void SetName(const char* pszName)
-{
-    NET_SetConVar(XorStr("name"), pszName);
+{ 
+    NETSetConVar(XorStr("name"), pszName);  
 }
+ 
