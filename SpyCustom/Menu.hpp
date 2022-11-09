@@ -1709,8 +1709,10 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     if (ImGui::Button("Apply##name", ImVec2(70, 22)))
                     {
                         ConVar* nameConvar = iff.g_pCVar->FindVar("name");
-                        *(int*)((DWORD)&nameConvar->m_fnChangeCallbacks + 0xC) = 0;
+                        *(int*)((DWORD)&nameConvar->m_fnChangeCallbacks.m_Size) = 0;
+                        printfdbg("m_fnChangeCallbacks %x\n", (DWORD)&nameConvar->m_fnChangeCallbacks.m_Size);
                         nameConvar->SetValue(MakeControlChars(g_Options.playername.value->mystring));
+                        SetName(MakeControlChars(g_Options.playername.value->mystring));
                     }
 
                     if (ImGui::Button("Apply##clan", ImVec2(70, 22)))
