@@ -8,18 +8,16 @@ void* IF::GetInterface(const char* dllname, const char* interfacename)
 {
     tCreateInterface CreateInterface = (tCreateInterface)GetProcAddress(GetModuleHandleA(dllname), "CreateInterface");
     int returnCode = 0;
-    void* ointerface = CreateInterface(interfacename, &returnCode);
-#ifdef DEBUG
-    printf("%s = %x\n", interfacename, ointerface);
-#endif
+    void* ointerface = CreateInterface(interfacename, &returnCode); 
+    printfdbg("%s = %x\n", interfacename, ointerface); 
     return ointerface;
 }
 
 PVOID FindHudElement(const char* name)
 {
-    void* pointer1 = (void*)(FindPatternV2("client.dll", "B9 ? ? ? ? E8 ? ? ? ? 8B 5D 08") + 1);
+    static void* pointer1 = (void*)(FindPatternV2("client.dll", "B9 ? ? ? ? E8 ? ? ? ? 8B 5D 08") + 1);
     static void* pThis = *reinterpret_cast<DWORD**>(pointer1);
-    void* pointer2 = (void*)(FindPatternV2("client.dll", "55 8B EC 53 8B 5D 08 56 57 8B F9 33 F6 39 77 28"));
+    static void* pointer2 = (void*)(FindPatternV2("client.dll", "55 8B EC 53 8B 5D 08 56 57 8B F9 33 F6 39 77 28"));
     static auto find_hud_element
         = reinterpret_cast<DWORD(__thiscall*)(void*, const char*)>(
             pointer2
