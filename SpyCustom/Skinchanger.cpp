@@ -503,6 +503,7 @@ void __fastcall hkFrameStageNotify(IBaseClientDLL* thisptr, void* edx, ClientFra
               
 
         if (opt.needupdate) {
+         //broken
             static auto clear_hud_weapon_icon_ptr = FindPatternV2("client.dll", "E8 ? ? ? ? 8B F0 C6 44 24 ? ? C6 44 24") + 1; 
             static auto clearHudWeapon = reinterpret_cast<std::int32_t(__thiscall*)(void*, std::int32_t)>(clear_hud_weapon_icon_ptr);
             auto element = FindHudElement("CCSGO_HudWeaponSelection"); 
@@ -516,8 +517,7 @@ void __fastcall hkFrameStageNotify(IBaseClientDLL* thisptr, void* edx, ClientFra
                     i = clearHudWeapon(hud_weapons, i);
                 }
             }
-             
-
+              
             opt.needupdate = 0;
         }
     }
