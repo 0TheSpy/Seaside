@@ -227,23 +227,22 @@ void SetValueUnrestricted(const char* cvar, float value)
 }
 
 
-void NETSetConVar(const char* name, const char* value)
+void NETSetConVar(const char* cvarname, const char* cvarvalue)
 {
     //__asm pushad
 
-    static void* pvSetConVar = NULL;
+    char name[1024]; char value[1024];
+    strcpy(name, cvarname);
+    strcpy(value, cvarvalue);
+     
+    static void* pvSetConVar = (void*)FindPatternV2(XorStr("engine.dll"), XorStr("8D 4C 24 1C E8 ? ? ? ? 56"));  
+    
+    printfdbg("NETSetConVar %s %s\n", cvarname, value);
 
-    if (!pvSetConVar)
-        pvSetConVar = (void*)FindPatternV2(XorStr("engine.dll"), XorStr("8D 4C 24 1C E8 ? ? ? ? 56"));
-
-    if (pvSetConVar)
-        Invoke_NET_SetConVar(pvSetConVar, name, value);
+    if (pvSetConVar) { 
+        Invoke_NET_SetConVar(pvSetConVar, cvarname, value);
+    }
 
     //__asm popad
-}
-
-void SetName(const char* pszName)
-{ 
-    NETSetConVar(XorStr("name"), pszName);  
 }
  
