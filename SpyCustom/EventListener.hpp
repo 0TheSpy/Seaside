@@ -367,15 +367,24 @@ public:
             {
                 int vote = event->GetInt("vote_option");
                 int id = event->GetInt("entityid");
+                short team = event->GetInt("team");
                 if (iff.g_pChatElement)
                 {
                     player_info_t pinfo;
                     iff.g_pEngineClient->GetPlayerInfo(id, &pinfo);
 
                     if (pinfo.name) {
-                        printfdbg("%s voted %d\n", pinfo.name, vote);
+                        char team_byte[3];
+                        if (team == 2) memcpy(team_byte, " \x07", 3); //red
+                        else
+                            if (team == 3) memcpy(team_byte, " \x0B", 3); //blu
+                            else
+                                memcpy(team_byte, " \x08", 3); //gray
+
+                        printfdbg("%d %s voted %d\n", team, pinfo.name, vote);
                         iff.g_pChatElement->ChatPrintf2(0, 0, std::string("").
-                            append(" \x06").
+                            //append(" \x06"). 
+                            append(team_byte).
                             append(pinfo.name).
                             append(" \x01").  
                             append("voted").
