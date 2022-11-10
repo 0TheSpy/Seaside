@@ -2,7 +2,7 @@
 #define INTERFACES
 #pragma once
 
-//#define DEBUG
+#define DEBUG
 
 #ifdef DEBUG
 #define printfdbg(data, ...) printf(XorStr(data), __VA_ARGS__)
@@ -341,7 +341,7 @@ float GetVisibleFloat(const char* cvar);
 const char* GetVisibleValue(const char* cvar);
   
 static __declspec(naked) void __cdecl Invoke_NET_SetConVar(void* pfn, const char* cvar, const char* value)
-{
+{ 
 	__asm
 	{
 		push    ebp
@@ -357,8 +357,7 @@ static __declspec(naked) void __cdecl Invoke_NET_SetConVar(void* pfn, const char
 	}
 }
 
-void NETSetConVar(const char* name, const char* value);
-void SetName(const char* pszName);
+void NETSetConVar(const char* name, const char* value); 
 
 
 #endif
