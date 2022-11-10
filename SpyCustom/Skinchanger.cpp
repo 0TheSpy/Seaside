@@ -470,7 +470,7 @@ void __fastcall hkFrameStageNotify(IBaseClientDLL* thisptr, void* edx, ClientFra
                 continue;
 
             int team = pEntity->GetTeam();
-            if ((team < 2) | (team > 3)) continue;
+            if ((team < 2) || (team > 3)) continue;
             team -= 2;
 
             if (g_Options.models.value->arr[team].active) {
@@ -635,7 +635,7 @@ void InitSkinChanger()
         }
         g_Options.models.value->arr[cfgindex].soundcount = soundcount;
     }
-     
+      
 
     c_vpk_archive pak01_archive;
     if (pak01_archive.load("csgo/pak01_dir.vpk"))
