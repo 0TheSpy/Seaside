@@ -305,7 +305,13 @@ void __fastcall hkShutdown(void* thisptr, void* unk1, void* unk2, const char* re
 typedef const bool(__thiscall* pSendNetMsg)(void*, INetMessage*, bool, bool);
 pSendNetMsg oSendNetMsg;
 bool __fastcall hkSendNetMsg(void* channel, uint32_t, INetMessage* msg, bool reliable, bool voice)
-{  
+{   
+#ifdef DEBUG
+    int type = msg->GetType();
+    if (type != net_Tick && type != svc_SendTable)
+        printfdbg("Packet %s %s\n", msg->GetName(), msg->ToString());
+#endif
+
     if (*g_Options.changing_name && msg->GetType() == net_SetConVar)
     {  
         if (*g_Options.changing_name > 1) {
