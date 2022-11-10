@@ -305,16 +305,16 @@ void __fastcall hkShutdown(void* thisptr, void* unk1, void* unk2, const char* re
 typedef const bool(__thiscall* pSendNetMsg)(void*, INetMessage*, bool, bool);
 pSendNetMsg oSendNetMsg;
 bool __fastcall hkSendNetMsg(void* channel, uint32_t, INetMessage* msg, bool reliable, bool voice)
-{ 
+{  
     if (*g_Options.changing_name && msg->GetType() == net_SetConVar)
-    {
-        printfdbg("sendnetmsg net_SetConVar %d\n", *g_Options.changing_name);  
-        *g_Options.changing_name -= 1; 
-
-        if (*g_Options.changing_name) {
-            printfdbg("blocking packet\n");
+    {  
+        if (*g_Options.changing_name > 1) {
+            *g_Options.changing_name = 0;
+            printfdbg("Blocking net_SetConVar packet\n");
             return false;
         }
+
+        *g_Options.changing_name += 1;
     }
      
     return oSendNetMsg(channel, msg, reliable, voice);
