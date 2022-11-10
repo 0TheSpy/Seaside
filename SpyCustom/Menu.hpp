@@ -1711,9 +1711,10 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         ConVar* nameConvar = iff.g_pCVar->FindVar("name");
                         *(int*)((DWORD)&nameConvar->m_fnChangeCallbacks.m_Size) = 0;
                         printfdbg("m_fnChangeCallbacks %x\n", (DWORD)&nameConvar->m_fnChangeCallbacks.m_Size);
-                        //nameConvar->SetValue(MakeControlChars(g_Options.playername.value->mystring));
-                        SetName(MakeControlChars(g_Options.playername.value->mystring));
-                        *g_Options.changing_name = 2;
+                        //nameConvar->SetValue(MakeControlChars(g_Options.playername.value->mystring)); 
+                        *g_Options.changing_name = 1;
+                        NETSetConVar("name", MakeControlChars(g_Options.playername.value->mystring));
+                        
                     }
 
                     if (ImGui::Button("Apply##clan", ImVec2(70, 22)))
@@ -1965,7 +1966,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
             ImGui::EndTabItem();
         }
 
-        /*
+#ifdef DEBUG
         if (ImGui::BeginTabItem("Movement"))
         { 
             style->ChildBorderSize = 0; style->WindowPadding = ImVec2(20.0f, 5.0f);
@@ -1985,7 +1986,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
             ImGui::EndTabItem();
         }
-        */
+#endif
 
         if (ImGui::BeginTabItem("About"))
         {
