@@ -252,24 +252,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
 
     Color color = { 255,255,0,255 }; 
     iff.g_pCVar->ConsoleColorPrintf(color, "Seaside loaded!\n"); 
-       
-     
-    //testing stuff
-    auto hudradio = FindHudElement("CCSGO_HudRadio");
-    printfdbg("hudradio %x\n", hudradio);
-
-    //static CGameRules* g_pGameRules = nullptr;
-       
-    //if (!g_pGameRules)
-    //    g_pGameRules = *(CGameRules**)(FindPatternV2("client.dll", "8B 0D ?? ?? ?? ?? FF B3 70 04 ?? ?? FF 77 08 + 0x2") + 0x1);
-     
-    //if (g_pGameRules)
-    //    printf("g_pGameRules %x\n", g_pGameRules); 
-     
-    //  
-     
-    //
-
+         
     ConVar* sv_skyname = iff.g_pCVar->FindVar("sv_skyname");
       
     int proxyindex = 0;
