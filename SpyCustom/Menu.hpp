@@ -1860,19 +1860,18 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                  
                 ImGui::Checkbox("C4 timer", g_Options.c4timer);
                 ImGui::Checkbox("Vote reveal", g_Options.votereveal);
-                ImGui::Checkbox("Rank reveal", g_Options.rankreveal);
-                 
+                ImGui::Checkbox("Rank reveal", g_Options.rankreveal); 
+                ImGui::Checkbox("Spectator list", g_Options.speclist); 
+                ImGui::Checkbox("Fast duck", g_Options.fastduck);
+                ImGui::Checkbox("Slide walk", g_Options.slidewalk);
 
-                ImGui::Checkbox("Spectator list", g_Options.speclist);
-
+                /*
                 if (ImGui::Checkbox("No postprocessing", g_Options.postproc))
                     SetValueUnrestricted("mat_postprocess_enable", !g_Options.postproc);
-                      
-
-                //if (ImGui::Checkbox("No shadows", g_Options.shadows)) 
-                //   SetValueUnrestricted("cl_csm_enabled", !g_Options.shadows); 
-                 
-
+                       
+                if (ImGui::Checkbox("No shadows", g_Options.shadows)) 
+                   SetValueUnrestricted("cl_csm_enabled", !g_Options.shadows); 
+                  
                 style->WindowPadding = ImVec2(5.0f, 5.0f); 
                 static string types[3] = { "0", "1", "2" };
                 if (ImGui::BeginCombo("Fullbright", types[g_Options.fullbright].c_str()))
@@ -1895,18 +1894,16 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     ImGui::EndCombo();
                 }
                 style->WindowPadding = ImVec2(20.f, 20.0f);
-
-                //if (ImGui::Checkbox("Gray world", g_Options.drawgray))
-                //    SetValueUnrestricted("mat_drawgray", g_Options.drawgray);
-
-                //if (ImGui::Checkbox("Low res world", g_Options.showlowresimage))
-                //    SetValueUnrestricted("mat_showlowresimage", g_Options.showlowresimage);
-                 
-
-                ImGui::NextColumn();
-                 
-
                 
+                if (ImGui::Checkbox("Gray world", g_Options.drawgray))
+                    SetValueUnrestricted("mat_drawgray", g_Options.drawgray);
+
+                if (ImGui::Checkbox("Low res world", g_Options.showlowresimage))
+                    SetValueUnrestricted("mat_showlowresimage", g_Options.showlowresimage); 
+                */
+                 
+                ImGui::NextColumn();
+                   
                 if (ImGui::SliderFloat("Viewmodel pos X", g_Options.viewmodel_x, -90.0f, 90.0f))
                     SetValueUnrestricted("viewmodel_offset_x", g_Options.viewmodel_x); 
                 if (ImGui::SliderFloat("Viewmodel pos Y", g_Options.viewmodel_y, -90.0f, 90.0f))
@@ -1916,9 +1913,19 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::SliderFloat("Viewmodel ang X", g_Options.viewmodel_ang_x, -180.0f, 180.0f);
                 ImGui::SliderFloat("Viewmodel ang Y", g_Options.viewmodel_ang_y, -180.0f, 180.0f);
                 ImGui::SliderFloat("Viewmodel ang Z", g_Options.viewmodel_ang_z, -180.0f, 180.0f);
+                  
+                ImGui::NextColumn(); 
+
+                ImGui::Checkbox("Bunny hop", g_Options.bunnyhop);
+
+                style->ItemSpacing = ImVec2(7.0f, 10.0f);
+
+                DisableElements(*g_Options.bunnyhop, 1); 
+                ImGui::Checkbox("Auto strafe", g_Options.autostrafe);
+                DisableElements(*g_Options.bunnyhop, 0);
                  
-                ImGui::NextColumn();
-                
+                style->ItemSpacing = ImVec2(7.0f, 15.0f);
+
                 ImGui::SliderFloat("FOV", g_Options.fov, 0, 360); 
 
                 if (ImGui::SliderFloat("Viewmodel FOV", g_Options.viewmodel_fov, 0, 180.0f))
@@ -1927,38 +1934,15 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
                 if (ImGui::SliderFloat("Aspect Ratio", g_Options.aspectratio, 0, 25.0f))
                     SetValueUnrestricted("r_aspectratio", g_Options.aspectratio);
-
+                  
                 /*
-                if (ImGui::Checkbox("No viewmodel bob", g_Options.viewmodel_moving))
-                {
-                    if (g_Options.viewmodel_moving)
-                    {
-                        SetValueUnrestricted("cl_viewmodel_shift_left_amt", 0);
-                        SetValueUnrestricted("cl_viewmodel_shift_right_amt", 0);
-                        SetValueUnrestricted("cl_bob_lower_amt", 0);
-                        SetValueUnrestricted("cl_bobamt_lat", 0);
-                        SetValueUnrestricted("cl_bobamt_vert", 0);
-                        SetValueUnrestricted("cl_wpn_sway_scale", 0);
-                    }
-                    else
-                    {
-                        SetValueUnrestricted("cl_viewmodel_shift_left_amt", GetVisibleFloat("cl_viewmodel_shift_left_amt"));
-                        SetValueUnrestricted("cl_viewmodel_shift_right_amt", GetVisibleFloat("cl_viewmodel_shift_right_amt"));
-                        SetValueUnrestricted("cl_bob_lower_amt", GetVisibleFloat("cl_bob_lower_amt"));
-                        SetValueUnrestricted("cl_bobamt_lat", GetVisibleFloat("cl_bobamt_lat"));
-                        SetValueUnrestricted("cl_bobamt_vert", GetVisibleFloat("cl_bobamt_vert"));
-                        SetValueUnrestricted("cl_wpn_sway_scale", GetVisibleFloat("cl_wpn_sway_scale"));
-                    }
-                }
-                */
-                 
                 if (ImGui::InputFloat("Ragdoll Gravity", g_Options.ragdollgravity))
                     iff.g_pCVar->FindVar("cl_ragdoll_gravity")->SetValue(g_Options.ragdollgravity);
 
                 if (ImGui::InputFloat("Ragdoll Timescale", g_Options.ragdolltime))
                     SetValueUnrestricted("cl_phys_timescale", g_Options.ragdolltime);
-
-
+                */
+                 
                 ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 67.0f);
                 if (ImGui::Button("Reset", ImVec2(70, 22))) 
                     ResetMisc(); 
@@ -1972,18 +1956,15 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
         }
 
 #ifdef DEBUG
-        if (ImGui::BeginTabItem("Movement"))
+        /*
+        if (ImGui::BeginTabItem("Test"))
         { 
             style->ChildBorderSize = 0; style->WindowPadding = ImVec2(20.0f, 5.0f);
             if (ImGui::BeginChild("ChildTab", ImVec2(665, 350), true, ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysUseWindowPadding)) {
                 style->ChildBorderSize = 1; style->WindowPadding = ImVec2(20.0f, 20.0f);
 
                 ImGui::Columns(2, nullptr, false);
-
-                ImGui::Checkbox("Bunny hop", g_Options.bunnyhop);
-                ImGui::Checkbox("Fast duck", g_Options.fastduck);
-                ImGui::Checkbox("Slide walk", g_Options.slidewalk);
-                  
+                   
                 ImGui::NextColumn();
 
                 ImGui::EndChild(); 
@@ -1991,6 +1972,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
             ImGui::EndTabItem();
         }
+        */
 #endif
 
         if (ImGui::BeginTabItem("About"))
@@ -2012,8 +1994,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::TextColored(colwhite, XorStr("Check for updates"));
                 ImGui::Text(XorStr("unknowncheats.me"));
                  
-                style->ItemSpacing = ImVec2(20.0f, 9.0f); 
-
+                
                 if (ImGui::Checkbox("Output NetMsg, UserMsg, DevMsg", g_Options.debugstuff))
                 {
                     if (*g_Options.debugstuff.value)
@@ -2037,7 +2018,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 static int selected = 0; 
                 static char name[255] = "";  
 
-                style->ItemSpacing = ImVec2(7.0f, 2.0f);
+                style->ItemSpacing = ImVec2(20.0f, 9.0f);
                 if (ImGui::BeginListBox("##cfgs", ImVec2(251.0f, 5 * ImGui::GetTextLineHeightWithSpacing())))
                 {
                     ImGui::PushFont(ifontmini);

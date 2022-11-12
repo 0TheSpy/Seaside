@@ -387,8 +387,17 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
         if (!(pre_flags & (FL_ONGROUND)) && pCmd->buttons & (IN_JUMP))
         {
             pCmd->buttons &= ~(IN_JUMP);
+
+            if (g_Options.autostrafe) { 
+                if (pCmd->mousedx < 0)
+                    pCmd->sidemove = -450.0f;
+                if (pCmd->mousedx > 0)
+                    pCmd->sidemove = 450.0f; 
+            }
         }
-       
+        
+
+
     short localid = iff.g_pEngineClient->GetLocalPlayer();
     if (*g_Options.c4timer && *(C_GameRulesProxy**)iff.GameRulesProxy) { 
         C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(localid));
@@ -452,7 +461,7 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
             if (i == localid) continue; 
 
             C_BasePlayer* Entity = (C_BasePlayer*)iff.g_pEntityList->GetClientEntity(i);
-            if (Entity && Entity->GetLifeState() == LIFE_DEAD && Entity->GetObserverTarget() == localid)
+            if (Entity && Entity->GetLifeState() == LIFE_DEAD && Entity->GetHealth() < 1 && !Entity->IsDormant() && Entity->GetObserverTarget() == localid)
             {
                 isSomeoneSpectatingYou = true;
 

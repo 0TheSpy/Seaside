@@ -690,6 +690,7 @@ public:
     OPTION(bool, showlowresimage, 0); 
 
     OPTION(bool, bunnyhop, 0);
+    OPTION(bool, autostrafe, 0);
     OPTION(bool, slidewalk, 0);
     OPTION(bool, fastduck, 0);
     OPTION(int, changing_name, 0);

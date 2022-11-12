@@ -269,7 +269,7 @@ void TextMsg(std::string text)
 void ShowMenu(std::string text)
 {
     if (iff.g_pClient) { 
-        char message[0x1000] = "\x08\x80\x02\x10\x0A\x1A";
+        char message[0x1000] = "\x08\x80\x02\x10\x0A\x1A";  
         text.append("\x0A \x0A->\x00");
         BYTE textsize = (BYTE)text.length();
         memcpy(&message[6], &textsize, 1);
