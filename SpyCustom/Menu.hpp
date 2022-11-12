@@ -1992,9 +1992,9 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::Text(XorStr("0TheSpy"));
                 ImGui::InvisibleButton("##inv", ImVec2(0, 0));
                 ImGui::TextColored(colwhite, XorStr("Check for updates"));
-                ImGui::Text(XorStr("unknowncheats.me"));
-                 
-                
+                style->ItemSpacing = ImVec2(20.0f, 33.0f);
+                ImGui::Text(XorStr("unknowncheats.me")); 
+
                 if (ImGui::Checkbox("Output NetMsg, UserMsg, DevMsg", g_Options.debugstuff))
                 {
                     if (*g_Options.debugstuff.value)
@@ -2009,10 +2009,11 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     }
                 } 
 
-                if (ImGui::Button("Unhook", ImVec2(70, 22)))
-                    opt.unhook = true;
+                style->ItemSpacing = ImVec2(20.0f, 0.0f);
 
-                 
+                if (ImGui::Button("Unhook", ImVec2(70, 22)))
+                    opt.unhook = true; 
+
                 ImGui::NextColumn();
 
                 static int selected = 0; 
