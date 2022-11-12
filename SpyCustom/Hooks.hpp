@@ -376,7 +376,7 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
     C_BasePlayer* local = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(iff.g_pEngineClient->GetLocalPlayer()));
     const auto pre_flags = local->GetFlags(); 
 
-    bool interval = (pCmd->tick_count + 1) % 23 == 0;
+    bool interval = !((pCmd->tick_count + 1) % 10);
 
     if (g_Options.slidewalk)
         pCmd->buttons ^= IN_FORWARD | IN_BACK | IN_MOVELEFT | IN_MOVERIGHT; 
@@ -396,8 +396,7 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
             }
         }
         
-
-
+     
     short localid = iff.g_pEngineClient->GetLocalPlayer();
     if (*g_Options.c4timer && *(C_GameRulesProxy**)iff.GameRulesProxy) { 
         C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(localid));
@@ -439,7 +438,7 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
                     char str[0x100] = "";
                     //snprintf(str, 0x100, "C4 <font color=\"#ffff00\">%d</font> HP <font color=\"#%s\">%d</font>", (int)(C4Blow - tick), healthleft < 1 ? "ff0000" : "00ff00", healthleft);
                     //iff.HudUniqueAlerts->GetPanel2D()->ShowAlert_v(str, false);   
-                    snprintf(str, 0x100, "C4 explode in <font color=\"#%s\">%.*f</font> sec\x0", healthleft < 1 ? "ff0000" : "ffff00", 1, C4Blow - tick);
+                    snprintf(str, 0x100, " C4 explode in <font color=\"#%s\">%.*f</font> sec\x0", healthleft < 1 ? "ff0000" : "ffff00", 1, C4Blow - tick);
                     TextMsg(str);
                 }
             }
@@ -520,7 +519,7 @@ int msgcount = 0;
 //sv_show_usermessage 2 //https://www.unknowncheats.me/forum/counterstrike-global-offensive/492173-dispatchusermessage-client-call.html
 bool __fastcall hkDispatchUserMessage(void* thisptr, void*, int msg_type, int32 nFlags, int size, bf_read& msg_data)
 {  
-    printfdbg("DispatchUserMessage %d %d %d %x\n", msg_type, nFlags, size, &msg_data);
+    //printfdbg("DispatchUserMessage %d %d %d %x\n", msg_type, nFlags, size, &msg_data);
     static auto ofunc = ClientHook->GetOriginal<bool(__thiscall*)(void*, int, int32, int, const void*)>(38);
       
     /* //read chat example
