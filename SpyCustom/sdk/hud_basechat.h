@@ -201,7 +201,10 @@ public:
 		MAX_CHARS_PER_LINE = 128
 	};
 
-	CBaseHudChat(const char* pElementName);
+	explicit CBaseHudChat(const char* pElementName); 
+	~CBaseHudChat(); 
+
+	static CBaseHudChat* GetHudChat(void);
 
 	virtual void	CreateChatInputLine(void);
 	virtual void	CreateChatLines(void);
@@ -215,21 +218,20 @@ public:
 
 	virtual void	Printf(int iFilter, PRINTF_FORMAT_STRING const char* fmt, ...);
 	virtual void	ChatPrintf(int iPlayerIndex, int iFilter, PRINTF_FORMAT_STRING const char* fmt, ...) FMTFUNCTION(4, 5);
-
+	virtual void	ChatPrintfW(int iPlayerIndex, int iFilter, const wchar_t* wszNotice);
+	 
 	virtual void	StartMessageMode(int iMessageModeType);
 	virtual void	StopMessageMode(void);
 	void			Send(void);
 
-	MESSAGE_FUNC(OnChatEntrySend, "ChatEntrySend");
-	MESSAGE_FUNC(OnChatEntryStopMessageMode, "ChatEntryStopMessageMode");
+	//MESSAGE_FUNC(OnChatEntrySend, "ChatEntrySend");
+	//MESSAGE_FUNC(OnChatEntryStopMessageMode, "ChatEntryStopMessageMode");
 
 	virtual void	ApplySchemeSettings(vgui::IScheme* pScheme);
 	virtual void	Paint(void);
 	virtual void	OnTick(void);
 	virtual void	Reset();
-#ifdef _XBOX
-	virtual bool	ShouldDraw();
-#endif
+
 	vgui::Panel* GetInputPanel(void);
 
 	static int		m_nLineCounter;
@@ -256,6 +258,8 @@ public:
 	virtual int				GetFilterFlags(void) { return m_iFilterFlags; }
 	void					SetFilterFlag(int iFilter);
 
+	virtual void		SetChatPrompt(int iMessageModeType);
+
 	virtual Color	GetDefaultTextColor(void);
 	virtual Color	GetTextColorForClient(TextColor colorNum, int clientIndex);
 	virtual Color	GetClientColor(int clientIndex);
@@ -266,10 +270,10 @@ public:
 
 	bool			IsVoiceSubtitle(void) { return m_bEnteringVoice; }
 	void			SetVoiceSubtitleState(bool bState) { m_bEnteringVoice = bState; }
-	int				GetMessageMode(void) { return m_nMessageMode; }
+	//int				GetMessageMode(void) { return m_nMessageMode; }
 
-	void			SetCustomColor(Color colNew) { m_ColorCustom = colNew; }
-	void			SetCustomColor(const char* pszColorName);
+	//void			SetCustomColor(Color colNew) { m_ColorCustom = colNew; }
+	//void			SetCustomColor(const char* pszColorName);
 
 protected:
 	CBaseHudChatLine* FindUnusedChatLine(void);
@@ -283,7 +287,7 @@ protected:
 	CHudChatFilterButton* m_pFiltersButton;
 	CHudChatFilterPanel* m_pFilterPanel;
 
-	Color			m_ColorCustom;
+	//Color			m_ColorCustom;
 
 private:
 	void			Clear(void);
@@ -292,7 +296,7 @@ private:
 
 	int				m_nMessageMode;
 
-	int				m_nVisibleHeight;
+	//int				m_nVisibleHeight;
 
 	vgui::HFont		m_hChatFont;
 

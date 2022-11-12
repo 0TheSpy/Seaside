@@ -24,6 +24,8 @@ namespace vgui
 		virtual void LoadControlSettings(const char* dialogResourceName, const char* pathID = NULL, KeyValues* pPreloadedKeyValues = NULL, KeyValues* pConditions = NULL);
 		virtual void ApplySettings(KeyValues* inResourceData);
 
+		virtual void PerformLayout();
+
 		virtual void LoadUserConfig(const char* configName, int dialogID = 0);
 		virtual void SaveUserConfig();
 

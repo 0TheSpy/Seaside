@@ -56,6 +56,7 @@ public:
 	virtual CBaseEntity* GetFilterResult(void) = 0;
 };
 
+
 class CGlobalEntityList : public CBaseEntityList
 {
 public:

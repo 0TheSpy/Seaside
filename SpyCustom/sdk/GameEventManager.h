@@ -16,6 +16,8 @@
 class SVC_GameEventList;
 class CLC_ListenEvents;
 
+//#include "netmessages.h"
+
 class CGameEventCallback
 {
 public:

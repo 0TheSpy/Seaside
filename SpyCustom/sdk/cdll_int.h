@@ -21,6 +21,8 @@
 #include "sdk/jobthread.h" 
 #include "sdk/VGUI.h"
 
+#include "../GetVfunc.hpp"
+
 struct SpatializationInfo_t;
 class IClientEntity;
 
@@ -406,27 +408,21 @@ abstract_class IBaseClientDLL
 public:
 	virtual int				Connect(CreateInterfaceFn appSystemFactory, CGlobalVarsBase * pGlobals) = 0;
 	virtual void            Disconnect() = 0;
-
 	virtual int				Init(CreateInterfaceFn appSystemFactory, CGlobalVarsBase* pGlobals) = 0;
-
 	virtual void			PostInit() = 0;
-
 	virtual void			Shutdown(void) = 0;
-
 	virtual void			LevelInitPreEntity(char const* pMapName) = 0;
 	virtual void			LevelInitPostEntity() = 0;
 	virtual void			LevelShutdown(void) = 0;
-
 	virtual ClientClass* GetAllClasses(void) = 0;
-
+	
 	virtual int				HudVidInit(void) = 0;
 	virtual void			HudProcessInput(bool bActive) = 0;
 	virtual void			HudUpdate(bool bActive) = 0;
 	virtual void			HudReset(void) = 0;
-	virtual void			HudText(const char* message) = 0;
+	virtual void			HudText(const char* message) = 0; 
 
 	virtual bool			ShouldDrawDropdownConsole() = 0;
-
 	virtual void			IN_ActivateMouse(void) = 0;
 	virtual void			IN_DeactivateMouse(void) = 0;
 	virtual void			IN_Accumulate(void) = 0;
@@ -440,32 +436,31 @@ public:
 								bool active) = 0;				        
 
 	virtual void			ExtraMouseSample(float frametime, bool active) = 0;
-
 	virtual bool			WriteUsercmdDeltaToBuffer(int nSlot, bf_write* buf, int from, int to, bool isnewcommand) = 0;
 	virtual void			EncodeUserCmdToBuffer(int nSlot, bf_write& buf, int slot) = 0;
 	virtual void			DecodeUserCmdFromBuffer(int nSlot, bf_read& buf, int slot) = 0;
-
 	virtual void			View_Render(vrect_t* rect) = 0;
-
 	virtual void			RenderView(const CViewSetup& view, int nClearFlags, int whatToDraw) = 0;
-
 	virtual void			View_Fade(ScreenFade_t* pSF) = 0;
-
 	virtual void			SetCrosshairAngle(const QAngle& angle) = 0;
-
 	virtual void			InitSprite(CEngineSprite* pSprite, const char* loadname) = 0;
 	virtual void			ShutdownSprite(CEngineSprite* pSprite) = 0;
 	virtual int				GetSpriteSize(void) const = 0;
-
 	virtual void			VoiceStatus(int entindex, int iSsSlot, qboolean bTalking) = 0;
-
 	virtual bool			PlayerAudible(int iPlayerIndex) = 0;
-
 	virtual void			InstallStringTableCallback(char const* tableName) = 0;
+	virtual void			FrameStageNotify(ClientFrameStage_t curStage) = 0; //37
 
-	virtual void			FrameStageNotify(ClientFrameStage_t curStage) = 0; 
+	//virtual bool			DispatchUserMessage(int msg_type, int32 nFlags, int size, const void* msg) = 0;	   
 
-	virtual bool			DispatchUserMessage(int msg_type, int32 nFlags, int size, const void* msg) = 0;	   
+	
+	bool			DispatchUserMessage(int msg_type, int32 nFlags, int size, const void* msg)
+	{
+		typedef bool(__stdcall* DispatchUserMessageFn)(int, int32, int, const void*);
+		//printf("DispatchUserMessageFn %x\n", this);
+		return getvfunc<DispatchUserMessageFn>(this, 38)(msg_type, nFlags, size, msg);
+	}
+	
 
 	virtual CSaveRestoreData* SaveInit(int size) = 0;
 	virtual void			SaveWriteFields(CSaveRestoreData*, const char*, void*, datamap_t*, typedescription_t*, int) = 0;

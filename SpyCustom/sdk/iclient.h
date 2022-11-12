@@ -12,7 +12,8 @@
 class IServer;
 class INetMessage;
 struct NetMessageCvar_t;
-class CMsg_CVars;
+//class CMsg_CVars; 
+#include "../ProtobuffMessages.h"
 
 enum CrossPlayPlatform_t
 {

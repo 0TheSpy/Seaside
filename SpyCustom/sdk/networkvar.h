@@ -24,7 +24,53 @@ extern bool g_bUseNetworkVars;
 #define CHECK_USENETWORKVARS     
 #endif
 
+//
+// Networkvar flags.
+//
+#define NETWORKVAR_IS_A_VECTOR				0x0001		// Is it any type of network vector?
+#define NETWORKVAR_VECTOR_XYZ_FLAG			0x0002		// Is it a CNetworkVectorXYZ?
+#define NETWORKVAR_VECTOR_XY_SEPARATEZ_FLAG	0x0004		// Is it a CNetworkVectorXY_SeparateZ?
 
+#define NETWORKVAR_ALL_FLAGS ( NETWORKVAR_IS_A_VECTOR | NETWORKVAR_VECTOR_XYZ_FLAG | NETWORKVAR_VECTOR_XY_SEPARATEZ_FLAG )
+
+
+
+// network vars use memcmp when fields are set.  To ensure proper behavior your
+// object's memory should be initialized to zero.  This happens for entities automatically
+// use this for other classes.
+class CMemZeroOnNew
+{
+public:
+	void* operator new(size_t nSize)
+	{
+		void* pMem = MemAlloc_Alloc(nSize);
+		V_memset(pMem, 0, nSize);
+		return pMem;
+	}
+
+	void* operator new(size_t nSize, int nBlockUse, const char* pFileName, int nLine)
+	{
+		void* pMem = MemAlloc_Alloc(nSize, pFileName, nLine);
+		V_memset(pMem, 0, nSize);
+		return pMem;
+	}
+
+	void operator delete(void* pData)
+	{
+		if (pData)
+		{
+			g_pMemAlloc->Free(pData);
+		}
+	}
+
+	void operator delete(void* pData, int nBlockUse, const char* pFileName, int nLine)
+	{
+		if (pData)
+		{
+			g_pMemAlloc->Free(pData, pFileName, nLine);
+		}
+	}
+};
 
 inline int InternalCheckDeclareClass(const char* pClassName, const char* pClassNameMatch, void* pTestPtr, void* pBasePtr)
 {

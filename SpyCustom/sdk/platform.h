@@ -896,10 +896,21 @@ FORCEINLINE unsigned long LoadLittleDWord(const unsigned long* base, unsigned in
 	return LittleDWord(base[dwordIndex]);
 }
 
+FORCEINLINE uint32 LoadLittleDWord(const uint32* base, unsigned int dwordIndex)
+{
+	return LittleDWord(base[dwordIndex]);
+}
+
 FORCEINLINE void StoreLittleDWord(unsigned long* base, unsigned int dwordIndex, unsigned long dword)
 {
 	base[dwordIndex] = LittleDWord(dword);
 }
+
+FORCEINLINE void StoreLittleDWord(uint32* base, unsigned int dwordIndex, unsigned long dword)
+{
+	base[dwordIndex] = LittleDWord(dword);
+}
+
 #endif
 
 

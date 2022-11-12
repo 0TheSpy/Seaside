@@ -43,14 +43,7 @@ public:
 
 		NETVAR2(GetViewmodelArmConfig, "DT_CSPlayer", "m_pViewmodelArmConfig", PlayerViewmodelArmConfig*);
 		NETVAR2(GetArmsModel, "DT_CSPlayer", "m_szArmsModel", char*); 
-
-		
-
-		void SetModelIndex(const int index)
-		{
-			getvfunc<void(__thiscall*)(C_BaseEntity*, int)>(this, 75)(this, index);
-		}
-
+		  
 		NETVAR_OFFSET(m_dwBoneMatrix, "CBaseAnimating", "m_nForceBone", +0x1C, uintptr_t); 
 
 		Vector GetBonePosition(int iBone) {
@@ -65,10 +58,10 @@ public:
 		NETVAR(GetFrozen, "CBaseAnimating", "m_flFrozen", float);
 		  
 		NETVAR(GetMins, "CBaseEntity", "m_vecMins", Vector); 
-		NETVAR(GetMaxs, "CBaseEntity", "m_vecMaxs", Vector);  
+		NETVAR(GetMaxs, "CBaseEntity", "m_vecMaxs", Vector);   
 
 		NETVAR2(IsScoped, "DT_CSPlayer", "m_bIsScoped", bool);
-		
+		NETVAR2(GetViewOffset, "DT_CSPlayer", "m_vecViewOffset[0]", Vector);
 
 		int GetSequenceActivity(int sequence, studiohdr_t* hdr)
 		{
@@ -109,6 +102,7 @@ public:
 		NETVAR(GetOrigin, "CBaseEntity", "m_vecOrigin", Vector);
 		NETVAR(GetAngles, "CBaseEntity", "m_angRotation", Vector);
 		NETVAR(GetHealth, "CBasePlayer", "m_iHealth", int);
+		NETVAR2(GetArmorValue, "DT_CSPlayer", "m_ArmorValue", int);
 		NETVAR(GetViewOffset, "CBasePlayer", "m_vecViewOffset[0]", Vector);
 		NETVAR(GetTeam, "CBaseEntity", "m_iTeamNum", int);
 
@@ -117,7 +111,10 @@ public:
 		 
 		NETVAR2(GetNightvision, "DT_CSPlayer", "m_bNightVisionOn", bool);
 		NETVAR2(GetNightvisionAlpha, "DT_CSPlayer", "m_flNightVisionAlpha", float);
-	}; 
+
+		NETVAR2(GetTickBase, "DT_BasePlayer", "m_nTickBase", unsigned);
+		NETVAR2(GetObserverTarget, "DT_BasePlayer", "m_hObserverTarget", short); 
+	};  
 
 	class C_BaseCombatWeapon : public C_BaseEntity
 	{
@@ -187,6 +184,13 @@ public:
 
 	class CBaseWeaponWorldModel : public C_BaseEntity
 	{
+	public:
+	};
+
+	class C_GameRulesProxy : public C_BaseEntity
+	{
+	public:
+		NETVAR2(IsBombPlanted, "DT_CSGameRulesProxy", "m_bBombPlanted", bool);
 	};
 	
 	class C_Precipitation : public C_BaseEntity
@@ -194,5 +198,20 @@ public:
 	public:
 		NETVAR2(GetPrecipitationType, "DT_Precipitation", "m_nPrecipType", PrecipitationType_t); 
 	};
+
+	class CPlantedC4 : public C_BaseEntity
+	{
+	public:
+		NETVAR2(IsBombTicking, "DT_PlantedC4", "m_bBombTicking", bool);
+		NETVAR2(GetC4Blow, "DT_PlantedC4", "m_flC4Blow", float);
+		NETVAR2(GetTimerLength, "DT_PlantedC4", "m_flTimerLength", float);
+		NETVAR2(GetDefuseLength, "DT_PlantedC4", "m_flDefuseLength", float);
+		NETVAR2(GetDefuseCountDown, "DT_PlantedC4", "m_flDefuseCountDown", float); 
+		NETVAR2(IsBombDefused, "DT_PlantedC4", "m_bBombDefused", bool);  
+		NETVAR2(GetBombDefuser, "DT_PlantedC4", "m_hBombDefuser", int);
+		NETVAR2(IsHaveBombDefuser, "DT_PlantedC4", "m_hBombDefuser", bool);
+		NETVAR2(GetBombSite, "DT_PlantedC4", "m_nBombSite", unsigned);
+	};
+
 
 #endif

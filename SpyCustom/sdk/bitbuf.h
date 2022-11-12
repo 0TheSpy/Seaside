@@ -21,8 +21,8 @@ class QAngle;
 
 typedef enum
 {
-	BITBUFERROR_VALUE_OUT_OF_RANGE = 0,		         
-	BITBUFERROR_BUFFER_OVERRUN,				      
+	BITBUFERROR_VALUE_OUT_OF_RANGE = 0,
+	BITBUFERROR_BUFFER_OVERRUN,
 
 	BITBUFERROR_NUM_ERRORS
 } BitBufErrorType;
@@ -370,10 +370,39 @@ public:
 class bf_read
 {
 public:
-	bf_read();
+	
+	//bf_read();
 
-	bf_read(const void* pData, int nBytes, int nBits = -1);
-	bf_read(const char* pDebugName, const void* pData, int nBytes, int nBits = -1);
+	bf_read()
+	{
+		m_pData = NULL;
+		m_nDataBytes = 0;
+		m_nDataBits = -1; // set to -1 so we overflow on any operation
+		m_iCurBit = 0;
+		m_bOverflow = false;
+		m_bAssertOnOverflow = true;
+		m_pDebugName = NULL;
+	}
+	 
+
+	//bf_read(const void* pData, int nBytes, int nBits = -1);
+
+	  
+	bf_read(const void* pData, int nBytes, int nBits = -1)
+	{
+		m_bAssertOnOverflow = true;
+		StartReading(pData, nBytes, 0, nBits);
+	}
+	 
+	//bf_read(const char* pDebugName, const void* pData, int nBytes, int nBits = -1);
+
+
+	bf_read(const char* pDebugName, const void* pData, int nBytes, int nBits)
+	{
+		m_bAssertOnOverflow = true;
+		m_pDebugName = pDebugName;
+		StartReading(pData, nBytes, 0, nBits);
+	}
 
 	void			StartReading(const void* pData, int nBytes, int iStartBit = 0, int nBits = -1);
 
@@ -394,8 +423,8 @@ public:
 
 protected:
 
-	unsigned int	CheckReadUBitLong(int numbits);		  
-	int				ReadOneBitNoCheck();				        
+	unsigned int	CheckReadUBitLong(int numbits);
+	int				ReadOneBitNoCheck();
 	bool			CheckForOverflow(int nBits);
 
 
@@ -408,7 +437,7 @@ public:
 		return m_nDataBytes;
 	}
 
-	void            ReadBits(void* pOut, int nBits);
+	inline bool            ReadBits(void* pOut, int nBits);
 	int             ReadBitsClamped_ptr(void* pOut, size_t outSizeBytes, size_t nBits);
 	template <typename T, size_t N>
 	int             ReadBitsClamped(T(&pOut)[N], size_t nBits)
@@ -470,11 +499,10 @@ public:
 
 	inline bool		IsOverflowed() const { return m_bOverflow; }
 
-	inline bool		Seek(int iBit);					     
-	inline bool		SeekRelative(int iBitDelta);	        
+	inline bool		Seek(int iBit);
+	inline bool		SeekRelative(int iBitDelta);
 
-	void			SetOverflowFlag();
-
+	void			SetOverflowFlag(); 
 
 public:
 
@@ -583,6 +611,16 @@ BITBUF_INLINE unsigned int bf_read::ReadUBitVar()
 	return sixbits >> 2;
 }
 
+BITBUF_INLINE void bf_read::SetOverflowFlag()
+{
+	if (m_bAssertOnOverflow)
+	{
+		Assert(false);
+	}
+
+	m_bOverflow = true;
+}
+
 BITBUF_INLINE unsigned int bf_read::ReadUBitLong(int numbits) RESTRICT
 {
 	Assert(numbits > 0 && numbits <= 32);
@@ -620,5 +658,114 @@ BITBUF_INLINE int bf_read::CompareBits(bf_read* RESTRICT other, int numbits) RES
 }
 
 
+
+inline bool bf_read::ReadString(char* pStr, int maxLen, bool bLine, int* pOutNumChars)
+{
+	Assert(maxLen != 0);
+
+	bool bTooSmall = false;
+	int iChar = 0;
+	while (1)
+	{
+		char val = ReadChar();
+		
+		//if (val == '\"') break;
+
+		if (val == 0)
+			break;
+		else if (bLine && val == '\n')
+			break;
+
+		if (iChar < (maxLen - 1))
+		{
+			pStr[iChar] = val;
+			++iChar;
+		}
+		else
+		{
+			bTooSmall = true;
+		}
+	}
+
+	// Make sure it's null-terminated.
+	Assert(iChar < maxLen);
+	pStr[iChar] = 0;
+
+	if (pOutNumChars)
+		*pOutNumChars = iChar;
+
+	return !IsOverflowed() && !bTooSmall;
+}
+ 
+ 
+inline bool bf_read::ReadBits(void* pOutData, int nBits)
+{
+#if defined( BB_PROFILING )
+	VPROF("bf_write::ReadBits");
 #endif
 
+	unsigned char* pOut = (unsigned char*)pOutData;
+	int nBitsLeft = nBits;
+
+
+	// Get output dword-aligned.
+	while (((unsigned long)pOut & 3) != 0 && nBitsLeft >= 8)
+	{
+		*pOut = (unsigned char)ReadUBitLong(8);
+		++pOut;
+		nBitsLeft -= 8;
+	}
+
+	// Read dwords.
+	while (nBitsLeft >= 32)
+	{
+		*((unsigned long*)pOut) = ReadUBitLong(32);
+		pOut += sizeof(unsigned long);
+		nBitsLeft -= 32;
+	}
+
+	// Read the remaining bytes.
+	while (nBitsLeft >= 8)
+	{
+		*pOut = ReadUBitLong(8);
+		++pOut;
+		nBitsLeft -= 8;
+	}
+
+	// Read the remaining bits.
+	if (nBitsLeft)
+	{
+		*pOut = ReadUBitLong(nBitsLeft);
+	}
+
+	return !IsOverflowed();
+}
+
+inline bool bf_read::ReadBytes(void* pOut, int nBytes)
+{
+	return ReadBits(pOut, nBytes << 3);
+}
+
+inline void bf_read::StartReading(const void* pData, int nBytes, int iStartBit, int nBits)
+{
+	// Make sure we're dword aligned.
+	Assert(((unsigned long)pData & 3) == 0);
+
+	m_pData = (unsigned char*)pData;
+	m_nDataBytes = nBytes;
+
+	if (nBits == -1)
+	{
+		m_nDataBits = m_nDataBytes << 3;
+	}
+	else
+	{
+		Assert(nBits <= nBytes * 8);
+		m_nDataBits = nBits;
+	}
+
+	m_iCurBit = iStartBit;
+	m_bOverflow = false;
+}
+
+#endif

@@ -52,6 +52,17 @@ public:
 		return getvfunc<SetModelIndexFn>(this, 2)(this + sizeof(uintptr_t) * 2, updateType);
 	}
 
+	Vector GetViewPos()
+	{
+		static auto EyePosition = reinterpret_cast<float* (__thiscall*)(void*, Vector*)>(
+			FindPatternV2("client.dll", "55 8B EC 56 8B 75 08 57 8B F9 56 8B 07 FF 90")
+			);
+
+		Vector output; 
+		EyePosition(this, &output);
+		return output;
+	}
+
 	virtual CMouthInfo* GetMouth(void) = 0;
 
 	virtual bool			GetSoundSpatialization(SpatializationInfo_t& info) = 0;

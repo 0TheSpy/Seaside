@@ -63,15 +63,16 @@ public:
 		CHAT_FILTER_ACHIEVEMENT = 0x000020,
 	};
 
-	void ChatPrintf2(int iPlayerIndex, int iFilter, const char* fmt, ...)
+	void ChatPrintf_v(int iPlayerIndex, int iFilter, const char* fmt, ...)
 	{
 		char msg[1024];
 		va_list args;
 		va_start(args, fmt);
-		vsnprintf(msg, 1024, fmt, args);
+		vsnprintf(msg, 1024, fmt, args); 
 		getvfunc<void(__cdecl*)(void*, int, int, const char*, ...)>(this, 27)(this, iPlayerIndex, iFilter, fmt);
 		va_end(args);
-	}
+	} 
+	
 
 	int				GetChatInputOffset(void);
 };

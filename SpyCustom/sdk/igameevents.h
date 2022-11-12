@@ -75,6 +75,9 @@ public:
 
 	virtual void RemoveListener(IGameEventListener2* listener) = 0;
 
+	// add a listener that listens to all events. 
+	virtual bool AddListenerGlobal(IGameEventListener2* listener, bool bServerSide) = 0;
+
 	virtual IGameEvent* CreateEvent(const char* name, bool bForce = false) = 0;
 
 	virtual bool FireEvent(IGameEvent* event, bool bDontBroadcast = false) = 0;
@@ -88,7 +91,7 @@ public:
 	virtual bool SerializeEvent(IGameEvent* event, bf_write* buf) = 0;
 	virtual IGameEvent* UnserializeEvent(bf_read* buf) = 0;       
 
-	virtual KeyValues* GetEventDataTypes(IGameEvent* event) = 0;
+	//virtual KeyValues* GetEventDataTypes(IGameEvent* event) = 0;
 };
 
 class IGameEventListener

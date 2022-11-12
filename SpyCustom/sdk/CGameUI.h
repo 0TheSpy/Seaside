@@ -23,10 +23,11 @@ public:
 	virtual void UpdateProgressBar(float, char const*, bool) = 0;
 	virtual void SetShowProgressText(bool) = 0;
 	virtual void UpdateSecondaryProgressBar(float, wchar_t const*) = 0;
-	virtual void SetProgressLevelName(char const*) = 0;
+	virtual void SetProgressLevelName(char const*) = 0; 
 	virtual void ShowMessageDialog(unsigned int, IPanel*) = 0;
 	virtual void ShowMessageDialog(char const*, char const*) = 0;
 	virtual void CreateCommandMsgBox(char const*, char const*, bool, bool, char const*, char const*, char const*, char const*, char const*) = 0;
+	//virtual void CreateCommandMsgBox(char const*, char const*, bool, bool, char const*, char const*, char const*, char const*) = 0;
 	virtual void CreateCommandMsgBoxInSlot(ECommandMsgBoxSlot, char const*, char const*, bool, bool, char const*, char const*, char const*, char const*) = 0;
 	virtual void SetLoadingBackgroundDialog(unsigned long long) = 0;
 	virtual void OnConnectToServer2(char const*, int, int, int) = 0;
@@ -44,5 +45,6 @@ public:
 	virtual void StopProgressBar(bool, char const*, char const*) = 0;
 	virtual void SetProgressBarStatusText(char const*, bool) = 0;
 	virtual void SetSecondaryProgressBar(float) = 0;
-	virtual void SetSecondaryProgressBarText(wchar_t const*) = 0;
+	virtual void SetSecondaryProgressBarText(wchar_t const*) = 0; 
+
 };

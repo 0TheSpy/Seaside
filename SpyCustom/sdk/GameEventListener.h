@@ -32,6 +32,18 @@ public:
 			gameeventmanager->AddListener(this, name, bServerSide);
 	}
 
+	void ListenForAllGameEvents()
+	{
+
+#ifdef CLIENT_DLL
+		bool bServerSide = false;
+#else
+		bool bServerSide = true;
+#endif
+
+		gameeventmanager->AddListenerGlobal(this, bServerSide);
+	}
+
 	void StopListeningForAllEvents()
 	{
 		if (m_bRegisteredForEvents)
@@ -43,6 +55,8 @@ public:
 	}
 
 	virtual void FireGameEvent(IGameEvent* event) = 0;
+	int m_nDebugID;
+	virtual int GetEventDebugID(void);
 
 private:
 
