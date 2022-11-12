@@ -47,8 +47,7 @@
 #include "sdk/baseclientstate.h"
 #include "imgui/imgui_impl_dx9.h"
 #include "sdk/flashlighteffect.h"
-#include "sdk/inetchannel.h"
-#include "sdk/steam.h"
+#include "sdk/inetchannel.h" 
 #include "sdk/animationlayer.h" 
 #include "sdk/clientleafsystem.h"
 #include "sdk/filesystem.h"
@@ -67,6 +66,11 @@
 #include "sdk/iprediction.h"
 #include "sdk/inetmessage.h"
 #include "sdk/ClientNetMessage.h"
+#include "sdk/clientmode_shared.h"
+#include "sdk/isteamclient.h"
+#include "sdk/isteamgamecoordinator.h"
+#include "sdk/gamerules.h"
+#include "sdk/igametypes.h"
 
 #include "XorStr.hpp"
 
@@ -137,13 +141,15 @@ public:
 	IEngineSound* g_pEngineSound = nullptr;
 	IClientShadowMgr* g_pClientShadowMgr = nullptr;
 	CCSViewRender* g_ViewRender = nullptr;
-	IClientMode* g_ClientMode = nullptr;
-	CGlobalVarsBase* g_Globals = nullptr;
+	ClientModeShared* g_ClientMode = nullptr; 
 	IInputSystem* g_pInputSystem = nullptr;
 	ITempEnts* g_pTempEnts = nullptr; 
 	DWORD ParticleCollectionSimulateAdr = 0; 
 	CPrediction* g_pPrediction = nullptr; 
-
+	IGameTypes* g_pGameTypes = nullptr;
+	CHudElement* HudUniqueAlerts = nullptr;
+	C_GameRulesProxy* GameRulesProxy = nullptr; //C_GameRulesProxy
+	DWORD dwRadarBase = NULL;
 };
 
 extern IF iff;
@@ -359,5 +365,8 @@ static __declspec(naked) void __cdecl Invoke_NET_SetConVar(void* pfn, const char
 
 void NETSetConVar(const char* name, const char* value); 
 
+void TextMsg(std::string text); 
+void ShowMenu(std::string text);
+std::string GetName(int id);
 
 #endif

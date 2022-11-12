@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sdk/particles.h"
+#include "ProtobuffMessages.h"
 
 VMTHook* SoundHook = nullptr;
 void __fastcall hkEmitSound1(void* _this, int edx, IRecipientFilter& filter, int iEntIndex, int iChannel, char* pSoundEntry, unsigned int nSoundEntryHash, const char* pSample, float flVolume, int nSeed, float flAttenuation, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, void* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity, int unk) {
@@ -306,11 +307,13 @@ typedef const bool(__thiscall* pSendNetMsg)(void*, INetMessage*, bool, bool);
 pSendNetMsg oSendNetMsg;
 bool __fastcall hkSendNetMsg(void* channel, uint32_t, INetMessage* msg, bool reliable, bool voice)
 {   
-#ifdef DEBUG
-    int type = msg->GetType();
-    if (type != net_Tick && type != svc_SendTable)
-        printfdbg("Packet %s %s\n", msg->GetName(), msg->ToString());
-#endif
+    if (*g_Options.debugstuff)
+    {
+        int type = msg->GetType(); 
+        if (type != net_Tick && type != svc_SendTable)
+            //printfdbg("NetMessage %s %s\n", msg->GetName(), msg->ToString());
+            iff.myConMsg("[Seaside] NetMessage %s %s\n", msg->GetName(), msg->ToString());
+    }
 
     if (*g_Options.changing_name && msg->GetType() == net_SetConVar)
     {  
@@ -344,14 +347,36 @@ inline void HookNetchannel()
 
     opt.netchannedlhooked = 1;
 }
+  
+float oldtick = 0; int c4id = 0;
 
- 
+float scaleDamageArmor(float flDamage, int armor_value)
+{
+    float flArmorRatio = 0.5f;
+    float flArmorBonus = 0.5f;
+    if (armor_value > 0) {
+        float flNew = flDamage * flArmorRatio;
+        float flArmor = (flDamage - flNew) * flArmorBonus;
+
+        if (flArmor > static_cast<float>(armor_value)) {
+            flArmor = static_cast<float>(armor_value) * (1.f / flArmorBonus);
+            flNew = flDamage - flArmor;
+        }
+
+        flDamage = flNew;
+    }
+    return flDamage;
+} 
+
+
 bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
 {
     static auto ofunc = ClientModeHook->GetOriginal<bool(__stdcall*)( float, CUserCmd*)>(24); 
 
     C_BasePlayer* local = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(iff.g_pEngineClient->GetLocalPlayer()));
     const auto pre_flags = local->GetFlags(); 
+
+    bool interval = (pCmd->tick_count + 1) % 23 == 0;
 
     if (g_Options.slidewalk)
         pCmd->buttons ^= IN_FORWARD | IN_BACK | IN_MOVELEFT | IN_MOVERIGHT; 
@@ -363,8 +388,150 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
         {
             pCmd->buttons &= ~(IN_JUMP);
         }
+       
+    short localid = iff.g_pEngineClient->GetLocalPlayer();
+    if (*g_Options.c4timer && *(C_GameRulesProxy**)iff.GameRulesProxy) { 
+        C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(localid));
+        bool isbombplanted = (*(C_GameRulesProxy**)iff.GameRulesProxy)->IsBombPlanted();
+        if (localplayer && isbombplanted)
+        {
+            float tick = localplayer->GetTickBase() * iff.g_pGlobals->interval_per_tick; 
 
+            if (!c4id)
+                for (int i = iff.g_pEngineClient->GetMaxClients() + 1; i <= iff.g_pEntityList->GetHighestEntityIndex() + 1; i++)
+                {
+                    auto entityList = iff.g_pEntityList->GetClientEntity(i); 
+                    if (entityList && _tcsstr(entityList->GetClientClass()->GetName(), "CPlantedC4") != NULL && tick < ((CPlantedC4*)entityList)->GetC4Blow())
+                    {
+                        printfdbg("Found PlantedC4 %d (%f %f)\n", i, tick, ((CPlantedC4*)entityList)->GetC4Blow());
+                        c4id = i;
+                        break;
+                    }
+                }
+
+            if (c4id) {
+                float C4Blow = ((CPlantedC4*)iff.g_pEntityList->GetClientEntity(c4id))->GetC4Blow();
+                 
+                if (interval)   
+                { 
+                    //calc damage
+                    const auto damagePercentage = 1.0f;
+                    auto flDamage = 500.f; // 500 - default, if radius is not written on the map https://i.imgur.com/mUSaTHj.png
+                    auto flBombRadius = flDamage * 3.5f; 
+                    auto flDistanceToLocalPlayer = (
+                        (iff.g_pEntityList->GetClientEntity(c4id)->GetAbsOrigin() + ((C_BaseEntity*)iff.g_pEntityList->GetClientEntity(c4id))->GetViewOffset()) - 
+                        (localplayer->GetAbsOrigin() + localplayer->GetViewOffset()) ).Length();// 
+                    auto fSigma = flBombRadius / 3.0f;
+                    auto fGaussianFalloff = exp(-flDistanceToLocalPlayer * flDistanceToLocalPlayer / (2.0f * fSigma * fSigma));
+                    auto flAdjustedDamage = flDamage * fGaussianFalloff * damagePercentage;  
+                    flAdjustedDamage = scaleDamageArmor(flAdjustedDamage, localplayer->GetArmorValue()); 
+                    int healthleft = localplayer->GetHealth() - flAdjustedDamage; 
+                     
+                    char str[0x100] = "";
+                    //snprintf(str, 0x100, "C4 <font color=\"#ffff00\">%d</font> HP <font color=\"#%s\">%d</font>", (int)(C4Blow - tick), healthleft < 1 ? "ff0000" : "00ff00", healthleft);
+                    //iff.HudUniqueAlerts->GetPanel2D()->ShowAlert_v(str, false);   
+                    snprintf(str, 0x100, "C4 explode in <font color=\"#%s\">%.*f</font> sec\x0", healthleft < 1 ? "ff0000" : "ffff00", 1, C4Blow - tick);
+                    TextMsg(str);
+                }
+            }
+        }
+        else if (c4id) c4id = 0;
+    }
+     
+    if (*g_Options.rankreveal && (pCmd->buttons & IN_SCORE) != 0) {
+        //credits https://www.unknowncheats.me/forum/counterstrike-global-offensive/331059-rank-reveal-sig-scanning.html 
+        iff.g_pClient->DispatchUserMessage(CS_UM_ServerRankRevealAll, 0, 0, nullptr);
+    }
+     
+    if (g_Options.speclist && interval) 
+    { 
+        string spectatorList = "Spectating you:\n \n";
+        bool isSomeoneSpectatingYou = false;
+        for (short i = 1; i < iff.g_pEngineClient->GetMaxClients() + 1; i++)
+        {
+            if (i == localid) continue; 
+
+            C_BasePlayer* Entity = (C_BasePlayer*)iff.g_pEntityList->GetClientEntity(i);
+            if (Entity && Entity->GetLifeState() == LIFE_DEAD && Entity->GetObserverTarget() == localid)
+            {
+                isSomeoneSpectatingYou = true;
+
+                player_info_t pinfo;
+                iff.g_pEngineClient->GetPlayerInfo(i, &pinfo);
+
+                spectatorList.append(pinfo.name).append("\n"); 
+            }
+        }
+        if (isSomeoneSpectatingYou) ShowMenu(spectatorList);
+    }
+      
     pCmd->viewangles.Clamp();
-
+      
     return ofunc(frame_time, pCmd);
+} 
+
+typedef const __int64(__cdecl* pDevMsg)(_In_z_ _Printf_format_string_ char const* const _Format, ...);
+pDevMsg oDevMsg; //(char* a1, int a2, char a3)
+__int64 __cdecl hkDevMsg(_In_z_ _Printf_format_string_ char const* const _Format, ...)
+{ 
+    int _Result;
+    va_list _ArgList;
+    __crt_va_start(_ArgList, _Format); 
+    if (*g_Options.debugstuff) {
+        iff.myConMsg("[Seaside] DevMsg: ");
+        iff.myConMsg(_Format, _ArgList);
+    }
+    printfdbg("DevMsg: ");
+    _Result = _vfprintf_l(stdout, _Format, NULL, _ArgList);
+    __crt_va_end(_ArgList);   
+    return oDevMsg(_Format, NULL, _ArgList);
+}
+
+typedef const __int64(__cdecl* pDevWarningMsg)(_In_z_ _Printf_format_string_ char const* const _Format, ...);
+pDevMsg oDevWarningMsg;  
+__int64 __cdecl hkDevWarningMsg(_In_z_ _Printf_format_string_ char const* const _Format, ...)
+{
+    int _Result;
+    va_list _ArgList;
+    __crt_va_start(_ArgList, _Format);
+    if (*g_Options.debugstuff) {
+        iff.myConMsg("[Seaside] DevWarningMsg: ");
+        iff.myConMsg(_Format, _ArgList);
+    }
+    printfdbg("DevWarningMsg: ");
+    _Result = _vfprintf_l(stdout, _Format, NULL, _ArgList);
+    __crt_va_end(_ArgList); 
+    return oDevWarningMsg(_Format, NULL, _ArgList);
+}
+
+
+ 
+int msgcount = 0;
+
+//sv_show_usermessage 2 //https://www.unknowncheats.me/forum/counterstrike-global-offensive/492173-dispatchusermessage-client-call.html
+bool __fastcall hkDispatchUserMessage(void* thisptr, void*, int msg_type, int32 nFlags, int size, bf_read& msg_data)
+{  
+    printfdbg("DispatchUserMessage %d %d %d %x\n", msg_type, nFlags, size, &msg_data);
+    static auto ofunc = ClientHook->GetOriginal<bool(__thiscall*)(void*, int, int32, int, const void*)>(38);
+      
+    /* //read chat example
+    if (msg_type == CS_UM_SayText2)
+    {
+        bf_read read = bf_read(reinterpret_cast<const void*>(&msg_data), size); 
+        auto unk1 = read.ReadByte(); 
+        auto ent_index = read.ReadByte(); 
+        char databuf[1024]; 
+        read.ReadBytes(databuf, 3); 
+        char msg_name[1024] = ""; 
+        read.ReadBytes(msg_name, read.ReadByte()); 
+        read.ReadByte(); // \" 
+        char player_name[1024] = "";
+        read.ReadBytes(player_name, read.ReadByte()); 
+        read.ReadByte(); // \" 
+        char message[1024] = "";
+        read.ReadBytes(message, read.ReadByte());  
+    }
+    */
+      
+    return ofunc(thisptr,msg_type,nFlags,size, &msg_data);
 }

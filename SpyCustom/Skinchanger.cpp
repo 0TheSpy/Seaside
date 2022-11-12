@@ -212,8 +212,7 @@ bool Changer()
              
           
         }
-
-        
+         
 
         const auto m_hRagdoll = (C_BaseEntity*)iff.g_pEntityList->GetClientEntityFromHandle(localplayer->Ragdoll());
         if (m_hRagdoll)
@@ -233,19 +232,21 @@ bool Changer()
             }
         }
         return 0;
-    }
+    } 
 
     player_info_t localplayer_info;
     if (!iff.g_pEngineClient->GetPlayerInfo(localplayer_index, &localplayer_info))
         return 0;
-
+     
     CBaseHandle viewmodelHandle = localplayer->GetViewModel();
+     
     C_BaseViewModel* pViewModel = (C_BaseViewModel*)iff.g_pEntityList->GetClientEntityFromHandle(viewmodelHandle);
+     
     const auto view_model_weapon = (C_BaseAttributableItem*)iff.g_pEntityList->GetClientEntityFromHandle(pViewModel->GetWeapon());
-
+     
     int idi = view_model_weapon->GetItemDefinitionIndex();
     if (idi == WEAPON_KNIFE) idi = WEAPON_KNIFE_T;
-
+     
     int modelcfgindex = GetCfgIndex2(idi);
     if (modelcfgindex != -1 && g_Options.models.value->arr[modelcfgindex].active)
     {
@@ -258,10 +259,10 @@ bool Changer()
             modelprecache->AddString(false, model);
         }
     }
-    
+     
     int seqact = opt.needtogetseqact;
     if (seqact)
-    {
+    { 
         int oldmodelindex = pViewModel->GetModelIndex(); 
         pViewModel->SetModelIndex(iff.g_pMdlInfo->GetModelIndex(g_Options.models.value->arr[seqact].vmodel_orig));
         for (int i = 0; i < 20; i++)
@@ -282,7 +283,7 @@ bool Changer()
     }
     
     if (g_Options.weapons.value->arr[1].active && g_Options.weapons.value->arr[1].modelactive) 
-    {
+    {  
         auto hWearables = localplayer->GetWearables();
 
         static int glove_handle;
@@ -300,30 +301,40 @@ bool Changer()
         }
 
         if (!glove)
-        {
+        { 
             static std::add_pointer_t<C_BaseEntity* __cdecl(int, int)> createWearable = nullptr;
              
             if (!createWearable) {
                 createWearable = []() -> decltype(createWearable)
                 {
                     for (auto clientClass = iff.g_pClient->GetAllClasses(); clientClass; clientClass = clientClass->m_pNext)
-                        if (clientClass->m_ClassID == 54) 
+                        //if (clientClass->m_ClassID == 54) 
+                        if (_tcsstr(clientClass->GetName(), _T("CEconWearable")) != NULL) {
+                            printfdbg("CEconWearable found\n");
                             return (std::add_pointer_t<C_BaseEntity* __cdecl(int, int)>)clientClass->m_pCreateFn;
+                        }
                     return nullptr;
                 }();
             }
 
+            
+
             const auto serial = rand() % 0x1000;
             auto entry = iff.g_pEntityList->GetHighestEntityIndex() + 1;
+
+            
             for (int i = 65; i < iff.g_pEntityList->GetHighestEntityIndex(); i++)
             {
                 auto pEntity = iff.g_pEntityList->GetClientEntity(i);
-                if (pEntity && pEntity->GetClientClass()->m_ClassID == 70)           
+                if (pEntity && _tcsstr(pEntity->GetClientClass()->GetName(), _T("CRopeKeyframe")) != NULL)
                 {
+                    printfdbg("CRopeKeyframe found %d\n", i);
+
                     entry = i;
                     break;
                 }
             }
+            
 
             createWearable(entry, serial);
             glove = (C_BaseAttributableItem*)iff.g_pEntityList->GetClientEntity(entry);
@@ -338,21 +349,22 @@ bool Changer()
         }
 
         if (glove)
-        {
+        {  
             glove->GetItemDefinitionIndex() = g_Options.weapons.value->arr[1].modeldefindex;
             glove->GetItemIDHigh() = -1;
             glove->GetAccountID() = localplayer_info.xuidlow;
             glove->GetFallbackPaintKit() = g_Options.weapons.value->arr[1].skinid;
             glove->GetFallbackSeed() = g_Options.weapons.value->arr[1].seed;
             glove->GetFallbackWear() = g_Options.weapons.value->arr[1].wear;
-
+            static int(__thiscall* fnInitializeAttributes)(void* wearable) = reinterpret_cast<decltype(fnInitializeAttributes)>(FindPatternV2("client.dll", "55 8B EC 83 E4 F8 83 EC 0C 53 56 8B F1 8B 86"));
+            fnInitializeAttributes(glove); 
+            //iff.g_pClientLeafSystem->CreateRenderableHandle(glove);
+            //https://www.unknowncheats.me/forum/counterstrike-global-offensive/312102-itemschema-skins-glove-changer-stickers.html
         }
     }
-
      
     if (g_Options.weapons.value->arr[0].active && g_Options.weapons.value->arr[0].modelactive) 
-    {
-
+    { 
         //can cause crash idk why
         /*
         static int lastmdlindex = -1;
@@ -371,8 +383,7 @@ bool Changer()
                 
             }
         }
-        */
-
+        */ 
 
         if (view_model_weapon && is_knife(view_model_weapon->GetItemDefinitionIndex())) 
         {
@@ -380,64 +391,59 @@ bool Changer()
             pViewModel->GetModelIndex() = override_model_index; 
 
         }
-    }
-     
- 
-    auto& weapons = localplayer->GetWeapons();
+    } 
 
+    auto& weapons = localplayer->GetWeapons();
+      
     for (auto weapon_handle : weapons)
-    {
+    {  
         if (weapon_handle == INVALID_EHANDLE_INDEX)
             break;
-
+         
         C_BaseAttributableItem* weapon = static_cast<C_BaseAttributableItem*>(iff.g_pEntityList->GetClientEntityFromHandle(weapon_handle));
-
+         
         if (!weapon)
             continue;
-
+          
         short item_definition_index = weapon->GetItemDefinitionIndex();
-
+          
         if (item_definition_index == WEAPON_C4 && g_Options.weapons.value->arr[GetCfgIndex(item_definition_index)].active)
             weapon->body() = 2; 
-        
+          
         if (item_definition_index == 42) item_definition_index = 59;
-
          
-
         int configindex = GetCfgIndex(item_definition_index); 
         if (configindex == -1) continue; 
-
+         
         if (g_Options.weapons.value->arr[configindex].active)
-        {
+        { 
             if (is_knife(item_definition_index) && g_Options.weapons.value->arr[0].modelactive)
-            {
-                weapon->GetItemDefinitionIndex() = g_Options.weapons.value->arr[0].modeldefindex;
+            { 
+                weapon->GetItemDefinitionIndex() = g_Options.weapons.value->arr[0].modeldefindex; 
                 short mdlindex = iff.g_pMdlInfo->GetModelIndex(g_Options.weapons.value->arr[0].model);
-                weapon->GetModelIndex() = mdlindex;
-                auto m_pWorld = (C_BaseEntity*)iff.g_pEntityList->GetClientEntityFromHandle(weapon->GetWeaponWorldModel());
-                m_pWorld->GetModelIndex() = mdlindex+1;
-            }
+                if (mdlindex) {
+                    weapon->GetModelIndex() = mdlindex; 
+                    //auto m_pWorld = (C_BaseEntity*)iff.g_pEntityList->GetClientEntityFromHandle(weapon->GetWeaponWorldModel()); 
+                    //m_pWorld->GetModelIndex() = mdlindex + 1;
+                }
+            } 
             weapon->GetItemIDHigh() = -1;
-
+             
             if (!g_Options.weapons.value->arr[configindex].ownerunk)
                 weapon->GetAccountID() = localplayer_info.xuidlow;
             weapon->GetEntityQuality() = g_Options.weapons.value->arr[configindex].quality;
             snprintf(weapon->GetCustomName(), 32, "%s", g_Options.weapons.value->arr[configindex].nametag);
-
+              
             weapon->GetFallbackPaintKit() = g_Options.weapons.value->arr[configindex].skinid;
             weapon->GetFallbackSeed() = g_Options.weapons.value->arr[configindex].seed;
             weapon->GetFallbackWear() = g_Options.weapons.value->arr[configindex].wear;
             weapon->GetFallbackStatTrak() = g_Options.weapons.value->arr[configindex].stattrak;
-
-            ApplyStickers(weapon);
-
              
+            ApplyStickers(weapon);   
 
-        }
+        } 
     }
-
-
-    
+     
 
     if (*g_Options.nvgsON)
         NightvisionRun(localplayer);
@@ -459,7 +465,7 @@ void __fastcall hkFrameStageNotify(IBaseClientDLL* thisptr, void* edx, ClientFra
     static auto oFrameStageNotify = ClientHook->GetOriginal<void(__thiscall*)(IBaseClientDLL*, ClientFrameStage_t stage)>(37);
     
     if ( (*g_Options.playerloop_count || *g_Options.entityloop_count) && stage == ClientFrameStage_t::FRAME_NET_UPDATE_POSTDATAUPDATE_END)
-    {
+    { 
         for (int i = 1; i < 65; i++)
         {
             C_BasePlayer* pEntity = (C_BasePlayer*)iff.g_pEntityList->GetClientEntity(i);
@@ -508,12 +514,9 @@ void __fastcall hkFrameStageNotify(IBaseClientDLL* thisptr, void* edx, ClientFra
 
             auto element = FindHudElement("CCSGO_HudWeaponSelection"); 
             auto hud_weapons = reinterpret_cast<int32_t*>(std::uintptr_t(element) - 0xA0);
-             
-            printfdbg("p clearHudWeapon %x hud_weapons %x c %d\n", clearHudWeapon, hud_weapons, *(hud_weapons + 32));
-
+              
             if (hud_weapons) {
-                for (int i = 0; i < *(hud_weapons + 32); i++) {
-                    printfdbg("hud_weapons %d\n", i);
+                for (int i = 0; i < *(hud_weapons + 32); i++) { 
                     i = clearHudWeapon(hud_weapons, i);
                 }
             }

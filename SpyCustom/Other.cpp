@@ -93,7 +93,7 @@ void AngleVectors(const Vector& angles, Vector* forward, Vector* right, Vector* 
 }
 
 
-static bool ToggleButton(ButtonCode_t code)
+static bool ssToggleButton(ButtonCode_t code)
 {
     static int buttonPressedTick = 0;
     if (iff.g_pInputSystem->IsButtonDown(code) && (GetTickCount64() - buttonPressedTick) > 300)
@@ -115,7 +115,7 @@ void FlashlightRun(C_BasePlayer* local)
         opt.disconnected = 0;
     }
 
-    if (ToggleButton(KEY_L))
+    if (ssToggleButton(KEY_L))
     {
         if (!pFlashLight)
         { 
@@ -170,7 +170,7 @@ void NightvisionRun(C_BasePlayer* local) {
      
     static int m_flNightVisionAlpha = NetvarSys::Get().GetOffset("DT_CSPlayer", "m_flFlashDuration") - 0x1C;
   
-    if (ToggleButton(KEY_N) )
+    if (ssToggleButton(KEY_N) )
     {
         if (!local->GetNightvision())
         {

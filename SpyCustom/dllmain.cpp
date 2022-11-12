@@ -151,8 +151,9 @@ void OnLoadCfg()
     
     opt.loading = 0;
 }
+ 
 
-  
+
 DWORD WINAPI HackThread(HMODULE hModule)
 {
 
@@ -165,12 +166,28 @@ DWORD WINAPI HackThread(HMODULE hModule)
     freopen_s(&f, "CONOUT$", "w", stdout);
     printfdbg("Cheat launched\n");
 #endif
-
+            
     iff.Init();
 
     opt.hModuleGlobal = hModule;
 
     NetvarSys::Get().Initialize();
+
+    void* ptrDevMsg = GetProcAddress(GetModuleHandleA("tier0.dll"), "?DevMsg@@YAXPBDZZ");
+    printfdbg("DevMsg %x\n", ptrDevMsg);
+
+    if (ptrDevMsg)
+        oDevMsg = (pDevMsg)DetourFunction(
+            (PBYTE)(ptrDevMsg),
+            (PBYTE)hkDevMsg);
+
+    void* ptrDevWarningMsg = GetProcAddress(GetModuleHandleA("tier0.dll"), "?DevWarning@@YAXPBDZZ");
+    printfdbg("DevWarningMsg %x\n", ptrDevWarningMsg);
+
+    if (ptrDevWarningMsg)
+        oDevWarningMsg = (pDevWarningMsg)DetourFunction(
+            (PBYTE)(ptrDevWarningMsg),
+            (PBYTE)hkDevWarningMsg);
 
     DMEHook = new VMTHook(iff.g_pMdlRender);
     DMEHook->SwapPointer(21, reinterpret_cast<void*>(DrawModelExecute));
@@ -226,18 +243,35 @@ DWORD WINAPI HackThread(HMODULE hModule)
     
     ClientHook = new VMTHook(iff.g_pClient);
     ClientHook->SwapPointer(37, reinterpret_cast<void*>(hkFrameStageNotify));
+    ClientHook->SwapPointer(38, reinterpret_cast<void*>(hkDispatchUserMessage));  
     ClientHook->ApplyNewTable();
-
+     
     iff.g_pGameConsole->Clear();
 
 	EventListener* eventListener = new EventListener();
 
     Color color = { 255,255,0,255 }; 
-    iff.g_pCVar->ConsoleColorPrintf(color, "zdarova\n"); 
+    iff.g_pCVar->ConsoleColorPrintf(color, "Seaside loaded!\n"); 
+       
      
-    ConVar* sv_skyname = iff.g_pCVar->FindVar("sv_skyname");
+    //testing stuff
+    auto hudradio = FindHudElement("CCSGO_HudRadio");
+    printfdbg("hudradio %x\n", hudradio);
 
+    //static CGameRules* g_pGameRules = nullptr;
+       
+    //if (!g_pGameRules)
+    //    g_pGameRules = *(CGameRules**)(FindPatternV2("client.dll", "8B 0D ?? ?? ?? ?? FF B3 70 04 ?? ?? FF 77 08 + 0x2") + 0x1);
      
+    //if (g_pGameRules)
+    //    printf("g_pGameRules %x\n", g_pGameRules); 
+     
+    //  
+     
+    //
+
+    ConVar* sv_skyname = iff.g_pCVar->FindVar("sv_skyname");
+      
     int proxyindex = 0;
     for (ClientClass* pClass = iff.g_pClient->GetAllClasses(); pClass; pClass = pClass->m_pNext) {
         if (!strcmp(pClass->m_pNetworkName, "CBaseViewModel")) {
@@ -302,7 +336,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
         {
             opt.show = !opt.show;
 #ifdef DEBUG
-            cout << "Show " << opt.show << endl;
+            cout << "Show Menu: " << opt.show << endl;
 #endif
             if (!opt.show)
                 iff.g_pInputSystem->EnableInput(1);
@@ -332,6 +366,9 @@ DWORD WINAPI HackThread(HMODULE hModule)
                 printfdbg("Model materials dumped\n");
                 *g_Options.dme_gettextures = true;
             }
+
+
+
         }
         else
         {
@@ -368,9 +405,11 @@ DWORD WINAPI HackThread(HMODULE hModule)
     iff.g_pCVar->FindVar("fog_override")->SetValue(0);
     iff.g_pCVar->FindVar("mat_force_tonemap_scale")->SetValue(0.0f);
     
+    SetValueUnrestricted("developer", 0);
+    SetValueUnrestricted("sv_show_usermessage", 0);
+
     ResetMisc();
-
-
+     
     DMEHook->RestoreOldTable(); 
     D3DHook->RestoreOldTable();
     ClientHook->RestoreOldTable();
@@ -389,6 +428,12 @@ DWORD WINAPI HackThread(HMODULE hModule)
     DetourRemove(reinterpret_cast<BYTE*>(oGetAccountData), reinterpret_cast<BYTE*>(hkGetAccountData));
     DetourRemove(reinterpret_cast<BYTE*>(oParticleCollectionSimulate), reinterpret_cast<BYTE*>(hkParticleCollectionSimulate));
       
+    if (ptrDevMsg)
+        DetourRemove(reinterpret_cast<BYTE*>(oDevMsg), reinterpret_cast<BYTE*>(hkDevMsg));
+    if (ptrDevWarningMsg)
+        DetourRemove(reinterpret_cast<BYTE*>(oDevWarningMsg), reinterpret_cast<BYTE*>(hkDevWarningMsg));
+
+
     ImGui_ImplDX9_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();

@@ -106,7 +106,7 @@ public:
                         bool badInput = false;
                         int i_dec = 0;
 
-                        if (*g_Options.hitsound) {
+                        if (*g_Options.hitsound) {  
                             try
                             {
                                 i_dec = std::stoi(g_Options.hspath.value->mystring);
@@ -368,7 +368,7 @@ public:
                 int vote = event->GetInt("vote_option");
                 int id = event->GetInt("entityid");
                 short team = event->GetInt("team");
-                if (iff.g_pChatElement)
+                if (iff.g_ClientMode->m_pChatElement)
                 {
                     player_info_t pinfo;
                     iff.g_pEngineClient->GetPlayerInfo(id, &pinfo);
@@ -382,7 +382,7 @@ public:
                                 memcpy(team_byte, " \x08", 3); //gray
 
                         printfdbg("%d %s voted %d\n", team, pinfo.name, vote);
-                        iff.g_pChatElement->ChatPrintf2(0, 0, std::string("").
+                        iff.g_ClientMode->m_pChatElement->ChatPrintf_v(0, 0, std::string("").
                             //append(" \x06"). 
                             append(team_byte).
                             append(pinfo.name).

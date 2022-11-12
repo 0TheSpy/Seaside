@@ -4,7 +4,9 @@
 
 #include "VMT.hpp"
 
-#include "sdk/steam.h"
+//#include "sdk/steam.h"
+#include "sdk/steam_api.h"
+#include "sdk/isteamgamecoordinator.h"
 #include "intrin.h"
 
 extern VMTHook* ProtoHook;
@@ -24,7 +26,7 @@ public:
 
 extern Protobuffs ProtoFeatures;
 
-EGCResult __fastcall hkGCRetrieveMessage(void* ecx, void*, uint32_t* punMsgType, void* pubDest, uint32_t cubDest, uint32_t* pcubMsgSize);
-EGCResult __fastcall hkGCSendMessage(void* ecx, void*, uint32_t unMsgType, const void* pubData, uint32_t cubData);
+EGCResults __fastcall hkGCRetrieveMessage(void* ecx, void*, uint32_t* punMsgType, void* pubDest, uint32_t cubDest, uint32_t* pcubMsgSize);
+EGCResults __fastcall hkGCSendMessage(void* ecx, void*, uint32_t unMsgType, const void* pubData, uint32_t cubData);
 
 

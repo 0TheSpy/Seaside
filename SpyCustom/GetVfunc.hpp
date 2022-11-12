@@ -28,7 +28,7 @@ Fn get_vfunc(void* class_base, const size_t index)
 
 #include <string>
 #include <memory>
-inline char* MakeControlChars(char str[1024]) {
+inline char* MakeControlChars(char str[1024]) { 
     char name[1024];
     strcpy(name, str);
     for (int i = 0; i < 1024; i++)
@@ -48,6 +48,7 @@ inline char* MakeControlChars(char str[1024]) {
         if (name[i] == 0x0)
             break;
     }
+     
     return name;
 }
 

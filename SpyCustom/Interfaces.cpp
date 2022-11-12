@@ -9,7 +9,7 @@ void* IF::GetInterface(const char* dllname, const char* interfacename)
     tCreateInterface CreateInterface = (tCreateInterface)GetProcAddress(GetModuleHandleA(dllname), "CreateInterface");
     int returnCode = 0;
     void* ointerface = CreateInterface(interfacename, &returnCode); 
-    printfdbg("%s = %x\n", interfacename, ointerface); 
+    printfdbg("Interface %s: %x\n", interfacename, ointerface); 
     return ointerface;
 }
 
@@ -22,7 +22,10 @@ PVOID FindHudElement(const char* name)
         = reinterpret_cast<DWORD(__thiscall*)(void*, const char*)>(
             pointer2
             );
-    return (void*)find_hud_element(pThis, name);
+    
+    void* ret = (void*)find_hud_element(pThis, name);
+    printfdbg("HUD Element %s: %x\n", name, ret);
+    return ret;
 }
 
 
@@ -59,6 +62,8 @@ void IF::Init()
     g_pEffects = (IEffects*)GetInterface("client.dll", "IEffects001");
     g_pStudioRender = (IStudioRender*)GetInterface("studiorender.dll", "VStudioRender026");
     g_pPrediction = (CPrediction*)GetInterface("client.dll", "VClientPrediction001");
+    g_pGameTypes = (IGameTypes*)GetInterface("client.dll", "VENGINE_GAMETYPES_VERSION002");
+
 
     typedef PVOID(__cdecl* oKeyValuesSystem)();
     oKeyValuesSystem pkeyValuesSystem = (oKeyValuesSystem)GetProcAddress(GetModuleHandleA("vstdlib.dll"), "KeyValuesSystem");
@@ -67,7 +72,7 @@ void IF::Init()
     printfdbg("KeyValuesSystem = %x\n", keyValuesSystem);
 
     myConMsg = (CONMSGPROC)GetProcAddress(GetModuleHandleA("tier0.dll"), "?ConMsg@@YAXPBDZZ");
-    myConColorMsg = (CONCOLORMSGPROC)GetProcAddress(GetModuleHandleA("tier0.dll"), "?ConColorMsg@@YAXABVColor@@PBDZZ");
+    myConColorMsg = (CONCOLORMSGPROC)GetProcAddress(GetModuleHandleA("tier0.dll"), "?ConColorMsg@@YAXABVColor@@PBDZZ"); 
 
     g_pGlobals = **(CGlobalVarsBase***)(FindPatternV2("client.dll", "A1 ? ? ? ? 5E 8B 40 10") + 1);
     g_pInput = *(CInput**)(FindPatternV2("client.dll", "B9 ? ? ? ? F3 0F 11 04 24 FF 50 10") + 1);
@@ -114,8 +119,8 @@ void IF::Init()
     printfdbg("Hud element %x\n", g_pHudElement);
 
     auto SteamClient = ((ISteamClient * (__cdecl*)(void))GetProcAddress(GetModuleHandleA("steam_api.dll"), "SteamClient"))();
-    g_SteamGameCoordinator = (ISteamGameCoordinator*)SteamClient->GetISteamGenericInterface((void*)1, (void*)1, "SteamGameCoordinator001");
-    g_SteamUser = SteamClient->GetISteamUser((void*)1, (void*)1, "SteamUser019");
+    g_SteamGameCoordinator = (ISteamGameCoordinator*)SteamClient->GetISteamGenericInterface((HSteamUser)1, (HSteamPipe)1, "SteamGameCoordinator001");
+    g_SteamUser = SteamClient->GetISteamUser((HSteamUser)1, (HSteamPipe)1, "SteamUser019");
 
     printfdbg("SteamClient %X\n", SteamClient);
     printfdbg("g_SteamGameCoordinator %X\n", g_SteamGameCoordinator);
@@ -142,13 +147,13 @@ void IF::Init()
 
     printfdbg("g_ViewRender %x\n", g_ViewRender);
 
-    g_ClientMode = **(IClientMode***)((*(DWORD**)g_pClient)[10] + 0x5);
+    g_ClientMode = **(ClientModeShared***)((*(DWORD**)g_pClient)[10] + 0x5);
 
     printfdbg("g_ClientMode %x\n", g_ClientMode);
 
     g_pInputSystem = (IInputSystem*)GetInterface("inputsystem.dll", "InputSystemVersion001");
     g_pVGuiSurface = (vgui::ISurface*)GetInterface("vguimatsurface.dll", "VGUI_Surface031");  
-
+     
     fn_get_account_data = relativeToAbsolute<decltype(fn_get_account_data)>(FindPatternV2("client.dll", "E8 ? ? ? ? 85 C0 74 EE") + 1);
 
     printfdbg("fn_get_account_data %x\n", fn_get_account_data);
@@ -157,7 +162,10 @@ void IF::Init()
 
     printfdbg("ParticleCollectionSimulateAdr %x\n", ParticleCollectionSimulateAdr);
 
+    HudUniqueAlerts = (CHudElement*)FindHudElement("CCSGO_HudUniqueAlerts");
 
+    GameRulesProxy = *(C_GameRulesProxy**)(FindPatternV2("client.dll", "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A")+1); //C_GameRulesProxy
+    dwRadarBase = FindPatternV2("client.dll", "A1 ? ? ? ? 8B 0C B0 8B 01 FF 50 ? 46 3B 35 ? ? ? ? 7C EA 8B 0D") + 1; //C_GameRulesProxy
 }
 
 
@@ -245,4 +253,29 @@ void NETSetConVar(const char* cvarname, const char* cvarvalue)
 
     //__asm popad
 }
+ 
+void TextMsg(std::string text)
+{
+    if (iff.g_pClient) {
+        char message[0x100] = "\x08\x04\x1A"; 
+        BYTE textsize = (BYTE)text.length();
+        memcpy(&message[3], &textsize, 1);
+        memcpy(&message[4], text.c_str(), textsize);
+        memcpy(&message[4 + textsize], "\x1A\x00\x1A\x00\x1A\x00\x1A\x00", 8); 
+        iff.g_pClient->DispatchUserMessage(CS_UM_TextMsg, 0, textsize + 12, &message);
+    }
+}
+
+void ShowMenu(std::string text)
+{
+    if (iff.g_pClient) { 
+        char message[0x1000] = "\x08\x80\x02\x10\x0A\x1A";
+        text.append("\x0A \x0A->\x00");
+        BYTE textsize = (BYTE)text.length();
+        memcpy(&message[6], &textsize, 1);
+        memcpy(&message[7], text.c_str(), textsize); 
+        iff.g_pClient->DispatchUserMessage(CS_UM_ShowMenu, 0, textsize + 7, &message);  
+    }
+}
+
  

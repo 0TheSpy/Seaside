@@ -693,6 +693,10 @@ public:
     OPTION(bool, slidewalk, 0);
     OPTION(bool, fastduck, 0);
     OPTION(int, changing_name, 0);
+    OPTION(bool, c4timer, 0);
+    OPTION(bool, rankreveal, 0);
+    OPTION(bool, speclist, 0);
+    OPTION(bool, debugstuff, 0);
 };
 
 inline Options g_Options;

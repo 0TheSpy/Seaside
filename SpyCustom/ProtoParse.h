@@ -110,7 +110,7 @@ private:
 		WIRETYPE_FIXED32 = 5,
 	};
 
-	constexpr static WireType kWireTypeForFieldType[MAX_FIELD_TYPE + 1] = {
+	constexpr static WireType kWireTypeForFieldType[FieldType::MAX_FIELD_TYPE + 1] = {
 		static_cast<WireType>(-1),   
 		WIRETYPE_FIXED64,            
 		WIRETYPE_FIXED32,            

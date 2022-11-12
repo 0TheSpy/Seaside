@@ -131,7 +131,7 @@ bool Protobuffs::SendClientHello()
 	((uint32_t*)ptr)[1] = 0;
 
 	memcpy((void*)((DWORD)ptr + 8), (void*)packet.data(), packet.size());
-	bool result = iff.g_SteamGameCoordinator->GCSendMessage(k_EMsgGCClientHello | ((DWORD)1 << 31), ptr, packet.size() + 8) == k_EGCResultOK;
+	bool result = iff.g_SteamGameCoordinator->SendMessage(k_EMsgGCClientHello | ((DWORD)1 << 31), ptr, packet.size() + 8) == k_EGCResultOK;
 	free(ptr);
 
 	return result;
@@ -150,7 +150,7 @@ bool Protobuffs::SendMatchmakingClient2GCHello()
 	((uint32_t*)ptr)[1] = 0;
 
 	memcpy((void*)((DWORD)ptr + 8), (void*)packet.data(), packet.size());
-	bool result = iff.g_SteamGameCoordinator->GCSendMessage(k_EMsgGCCStrike15_v2_MatchmakingClient2GCHello | ((DWORD)1 << 31), ptr, packet.size() + 8) == k_EGCResultOK;
+	bool result = iff.g_SteamGameCoordinator->SendMessage(k_EMsgGCCStrike15_v2_MatchmakingClient2GCHello | ((DWORD)1 << 31), ptr, packet.size() + 8) == k_EGCResultOK;
 	free(ptr);
 
 	return result;
@@ -175,7 +175,7 @@ bool Protobuffs::SendClientGcRankUpdate()
 	((uint32_t*)ptr)[1] = 0;
 
 	memcpy((void*)((DWORD)ptr + 8), (void*)packet.data(), packet.size());
-	bool result = iff.g_SteamGameCoordinator->GCSendMessage(k_EMsgGCCStrike15_v2_ClientGCRankUpdate | ((DWORD)1 << 31), ptr, packet.size() + 8) == k_EGCResultOK;
+	bool result = iff.g_SteamGameCoordinator->SendMessage(k_EMsgGCCStrike15_v2_ClientGCRankUpdate | ((DWORD)1 << 31), ptr, packet.size() + 8) == k_EGCResultOK;
 	free(ptr);
 
 	return result;
@@ -199,7 +199,7 @@ bool Protobuffs::EquipWeapon(int weaponid, int classid, int slotid)
 	((uint32_t*)ptr)[1] = 0;
 
 	memcpy((void*)((DWORD)ptr + 8), (void*)packet.data(), packet.size());
-	bool result = iff.g_SteamGameCoordinator->GCSendMessage(k_EMsgGCAdjustItemEquippedState | ((DWORD)1 << 31), ptr, packet.size() + 8) == k_EGCResultOK;
+	bool result = iff.g_SteamGameCoordinator->SendMessage(k_EMsgGCAdjustItemEquippedState | ((DWORD)1 << 31), ptr, packet.size() + 8) == k_EGCResultOK;
 	free(ptr);
 
 	return result;
@@ -214,9 +214,9 @@ Protobuffs ProtoFeatures;
 
 
 
-EGCResult __fastcall hkGCRetrieveMessage(void* ecx, void*, uint32_t* punMsgType, void* pubDest, uint32_t cubDest, uint32_t* pcubMsgSize)
+EGCResults __fastcall hkGCRetrieveMessage(void* ecx, void*, uint32_t* punMsgType, void* pubDest, uint32_t cubDest, uint32_t* pcubMsgSize)
 {
-	static auto oGCRetrieveMessage = ProtoHook->GetOriginal<EGCResult(__thiscall*)(void*, uint32_t* punMsgType, void* pubDest, uint32_t cubDest, uint32_t* pcubMsgSize)>(2);
+	static auto oGCRetrieveMessage = ProtoHook->GetOriginal<EGCResults(__thiscall*)(void*, uint32_t* punMsgType, void* pubDest, uint32_t cubDest, uint32_t* pcubMsgSize)>(2);
 
 	auto status = oGCRetrieveMessage(ecx, punMsgType, pubDest, cubDest, pcubMsgSize);
 
@@ -235,9 +235,9 @@ EGCResult __fastcall hkGCRetrieveMessage(void* ecx, void*, uint32_t* punMsgType,
 	return status;
 }
 
-EGCResult __fastcall hkGCSendMessage(void* ecx, void*, uint32_t unMsgType, const void* pubData, uint32_t cubData)
+EGCResults __fastcall hkGCSendMessage(void* ecx, void*, uint32_t unMsgType, const void* pubData, uint32_t cubData)
 {
-	static auto oGCSendMessage = ProtoHook->GetOriginal<EGCResult(__thiscall*)(void*, uint32_t unMsgType, const void* pubData, uint32_t cubData)>(0);
+	static auto oGCSendMessage = ProtoHook->GetOriginal<EGCResults(__thiscall*)(void*, uint32_t unMsgType, const void* pubData, uint32_t cubData)>(0);
 
 	bool sendMessage = ProtoFeatures.PreSendMessage(unMsgType, const_cast<void*>(pubData), cubData);
 

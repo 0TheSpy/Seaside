@@ -31,10 +31,10 @@ public:
     }
 
     void SwapPointer(size_t index, void* new_function)
-    {
+    { 
         printfdbg("Swapping pointer 0x%X to 0x%X\n", new_table_pointer[index], reinterpret_cast<uintptr_t>(new_function));
         new_table_pointer[index] = reinterpret_cast<uintptr_t>(new_function);
-        printfdbg("Swapped pointer!\n");
+        //printfdbg("Swapped pointer!\n");
 
     }
 
@@ -42,14 +42,14 @@ public:
     {
         printfdbg("Applying new table... (0x%X to 0x%X)\n", reinterpret_cast<uintptr_t>(*class_pointer), reinterpret_cast<uintptr_t>(new_table_pointer));
         * class_pointer = new_table_pointer;
-        printfdbg("New table applyed!\n");
+        //printfdbg("New table applyed!\n");
     }
 
     void RestoreOldTable()
     {
         printfdbg("Restoring old table... (0x%X to 0x%X)\n", reinterpret_cast<uintptr_t>(*class_pointer), reinterpret_cast<uintptr_t>(original_pointer));
         * class_pointer = original_pointer;
-        printfdbg("Old table restored!\n");
+        //printfdbg("Old table restored!\n");
     }
 
     template<typename T>

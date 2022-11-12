@@ -24,7 +24,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -168,7 +168,6 @@
     <ClInclude Include="Other.hpp" />
     <ClInclude Include="PatternScan.hpp" />
     <ClInclude Include="pbwrap.hpp" />
-    <ClInclude Include="PlayerInventory.hpp" />
     <ClInclude Include="ProtobuffMessages.h" />
     <ClInclude Include="protobuffs.hpp" />
     <ClInclude Include="ProtoParse.h" />
@@ -182,6 +181,7 @@
     <ClInclude Include="sdk\baseentity_shared.h" />
     <ClInclude Include="sdk\basehandle.h" />
     <ClInclude Include="sdk\basetypes.h" />
+    <ClInclude Include="sdk\baseviewport.h" />
     <ClInclude Include="sdk\beam_flags.h" />
     <ClInclude Include="sdk\bitbuf.h" />
     <ClInclude Include="sdk\bittools.h" />
@@ -204,6 +204,7 @@
     <ClInclude Include="sdk\checksum_md5.h" />
     <ClInclude Include="sdk\cliententitylist.h" />
     <ClInclude Include="sdk\clientleafsystem.h" />
+    <ClInclude Include="sdk\clientmode_shared.h" />
     <ClInclude Include="sdk\ClientNetMessage.h" />
     <ClInclude Include="sdk\client_class.h" />
     <ClInclude Include="sdk\client_render_handle.h" />
@@ -212,12 +213,14 @@
     <ClInclude Include="sdk\cmodel.h" />
     <ClInclude Include="sdk\collisionproperty.h" />
     <ClInclude Include="sdk\Color.h" />
+    <ClInclude Include="sdk\commandmenu.h" />
     <ClInclude Include="sdk\commonmacros.h" />
     <ClInclude Include="sdk\compressed_light_cube.h" />
     <ClInclude Include="sdk\compressed_vector.h" />
     <ClInclude Include="sdk\const.h" />
     <ClInclude Include="sdk\Controls.h" />
     <ClInclude Include="sdk\convar.h" />
+    <ClInclude Include="sdk\coordsize.h" />
     <ClInclude Include="sdk\cs_achievementdefs.h" />
     <ClInclude Include="sdk\cs_shareddefs.h" />
     <ClInclude Include="sdk\cs_view_scene.h" />
@@ -262,6 +265,7 @@
     <ClInclude Include="sdk\expressioncalculator.h" />
     <ClInclude Include="sdk\exprevaluator.h" />
     <ClInclude Include="sdk\fasttimer.h" />
+    <ClInclude Include="sdk\FileOpenDialog.h" />
     <ClInclude Include="sdk\filesystem.h" />
     <ClInclude Include="sdk\filesystem_passthru.h" />
     <ClInclude Include="sdk\flashlighteffect.h" />
@@ -273,12 +277,15 @@
     <ClInclude Include="sdk\gameconsole.h" />
     <ClInclude Include="sdk\GameEventListener.h" />
     <ClInclude Include="sdk\GameEventManager.h" />
+    <ClInclude Include="sdk\gamerules.h" />
+    <ClInclude Include="sdk\gamerules_register.h" />
     <ClInclude Include="sdk\gamestringpool.h" />
     <ClInclude Include="sdk\gametrace.h" />
     <ClInclude Include="sdk\game_item_schema.h" />
     <ClInclude Include="sdk\generichash.h" />
     <ClInclude Include="sdk\globalvars_base.h" />
     <ClInclude Include="sdk\groundlink.h" />
+    <ClInclude Include="sdk\HTML.h" />
     <ClInclude Include="sdk\htmlmessages.h" />
     <ClInclude Include="sdk\hud.h" />
     <ClInclude Include="sdk\hudelement.h" />
@@ -317,6 +324,7 @@
     <ClInclude Include="sdk\igameconsole.h" />
     <ClInclude Include="sdk\igameevents.h" />
     <ClInclude Include="sdk\IGameSystem.h" />
+    <ClInclude Include="sdk\igametypes.h" />
     <ClInclude Include="sdk\IGameUI.h" />
     <ClInclude Include="sdk\iglobalvarsbase.h" />
     <ClInclude Include="sdk\ihandleentity.h" />
@@ -338,6 +346,7 @@
     <ClInclude Include="sdk\inetchannelinfo.h" />
     <ClInclude Include="sdk\inetmessage.h" />
     <ClInclude Include="sdk\inetmsghandler.h" />
+    <ClInclude Include="sdk\inetworksystem.h" />
     <ClInclude Include="sdk\InputEnums.h" />
     <ClInclude Include="sdk\interface.h" />
     <ClInclude Include="sdk\interpolatedvar.h" />
@@ -353,6 +362,27 @@
     <ClInclude Include="sdk\iserverunknown.h" />
     <ClInclude Include="sdk\ishadowmgr.h" />
     <ClInclude Include="sdk\ispatialpartition.h" />
+    <ClInclude Include="sdk\isteamapplist.h" />
+    <ClInclude Include="sdk\isteamapps.h" />
+    <ClInclude Include="sdk\isteamclient.h" />
+    <ClInclude Include="sdk\isteamcontroller.h" />
+    <ClInclude Include="sdk\isteamfriends.h" />
+    <ClInclude Include="sdk\isteamgamecoordinator.h" />
+    <ClInclude Include="sdk\isteamhtmlsurface.h" />
+    <ClInclude Include="sdk\isteamhttp.h" />
+    <ClInclude Include="sdk\isteaminventory.h" />
+    <ClInclude Include="sdk\isteammatchmaking.h" />
+    <ClInclude Include="sdk\isteammusic.h" />
+    <ClInclude Include="sdk\isteammusicremote.h" />
+    <ClInclude Include="sdk\isteamnetworking.h" />
+    <ClInclude Include="sdk\isteamremotestorage.h" />
+    <ClInclude Include="sdk\isteamscreenshots.h" />
+    <ClInclude Include="sdk\isteamugc.h" />
+    <ClInclude Include="sdk\isteamunifiedmessages.h" />
+    <ClInclude Include="sdk\isteamuser.h" />
+    <ClInclude Include="sdk\isteamuserstats.h" />
+    <ClInclude Include="sdk\isteamutils.h" />
+    <ClInclude Include="sdk\isteamvideo.h" />
     <ClInclude Include="sdk\istudiorender.h" />
     <ClInclude Include="sdk\ISurface.h" />
     <ClInclude Include="sdk\ISystem.h" />
@@ -364,6 +394,7 @@
     <ClInclude Include="sdk\IVGUI.h" />
     <ClInclude Include="sdk\IVguiMatInfo.h" />
     <ClInclude Include="sdk\IVguiMatInfoVar.h" />
+    <ClInclude Include="sdk\iviewport.h" />
     <ClInclude Include="sdk\iviewrender.h" />
     <ClInclude Include="sdk\iviewrender_beams.h" />
     <ClInclude Include="sdk\ivmodelinfo.h" />
@@ -380,6 +411,7 @@
     <ClInclude Include="sdk\ListPanel.h" />
     <ClInclude Include="sdk\localflexcontroller.h" />
     <ClInclude Include="sdk\logging.h" />
+    <ClInclude Include="sdk\matchmakingtypes.h" />
     <ClInclude Include="sdk\MaterialSystemUtil.h" />
     <ClInclude Include="sdk\mathlib.h" />
     <ClInclude Include="sdk\math_pfns.h" />
@@ -399,9 +431,11 @@
     <ClInclude Include="sdk\modes.h" />
     <ClInclude Include="sdk\MouseCode.h" />
     <ClInclude Include="sdk\mouthinfo.h" />
+    <ClInclude Include="sdk\netmessages.h" />
     <ClInclude Include="sdk\networkstringtabledefs.h" />
     <ClInclude Include="sdk\networkvar.h" />
     <ClInclude Include="sdk\Panel.h" />
+    <ClInclude Include="sdk\panel2d.h" />
     <ClInclude Include="sdk\PanelAnimationVar.h" />
     <ClInclude Include="sdk\particledraw.h" />
     <ClInclude Include="sdk\particlemgr.h" />
@@ -422,6 +456,7 @@
     <ClInclude Include="sdk\predictable_entity.h" />
     <ClInclude Include="sdk\predictioncopy.h" />
     <ClInclude Include="sdk\protocol.h" />
+    <ClInclude Include="sdk\qlimits.h" />
     <ClInclude Include="sdk\ragdoll.h" />
     <ClInclude Include="sdk\ragdoll_shared.h" />
     <ClInclude Include="sdk\random.h" />
@@ -442,9 +477,13 @@
     <ClInclude Include="sdk\SndInfo.h" />
     <ClInclude Include="sdk\soundflags.h" />
     <ClInclude Include="sdk\ssemath.h" />
-    <ClInclude Include="sdk\steam.h" />
+    <ClInclude Include="sdk\steamclientpublic.h" />
     <ClInclude Include="sdk\SteamCommon.h" />
+    <ClInclude Include="sdk\steamhttpenums.h" />
     <ClInclude Include="sdk\steamtypes.h" />
+    <ClInclude Include="sdk\steamuniverse.h" />
+    <ClInclude Include="sdk\steam_api.h" />
+    <ClInclude Include="sdk\steam_api_internal.h" />
     <ClInclude Include="sdk\stringpool.h" />
     <ClInclude Include="sdk\string_t.h" />
     <ClInclude Include="sdk\strtools.h" />
@@ -461,6 +500,7 @@
     <ClInclude Include="sdk\timedevent.h" />
     <ClInclude Include="sdk\timeutils.h" />
     <ClInclude Include="sdk\ToggleButton.h" />
+    <ClInclude Include="sdk\tokenset.h" />
     <ClInclude Include="sdk\Tooltip.h" />
     <ClInclude Include="sdk\touchlink.h" />
     <ClInclude Include="sdk\trace.h" />
@@ -470,6 +510,7 @@
     <ClInclude Include="sdk\userid.h" />
     <ClInclude Include="sdk\utlblockmemory.h" />
     <ClInclude Include="sdk\utlbuffer.h" />
+    <ClInclude Include="sdk\utldelegate.h" />
     <ClInclude Include="sdk\utldict.h" />
     <ClInclude Include="sdk\utlenvelope.h" />
     <ClInclude Include="sdk\utlfixedmemory.h" />
@@ -503,7 +544,9 @@
     <ClInclude Include="sdk\vector4d.h" />
     <ClInclude Include="sdk\vertexcolor.h" />
     <ClInclude Include="sdk\VGUI.h" />
+    <ClInclude Include="sdk\vguitextwindow.h" />
     <ClInclude Include="sdk\vgui_basepanel.h" />
+    <ClInclude Include="sdk\viewport_panel_names.h" />
     <ClInclude Include="sdk\viewrender.h" />
     <ClInclude Include="sdk\view_shared.h" />
     <ClInclude Include="sdk\vmatrix.h" />
@@ -519,6 +562,7 @@
     <ClInclude Include="sdk\wchartypes.h" />
     <ClInclude Include="sdk\weapon_parse.h" />
     <ClInclude Include="sdk\win32consoleio.h" />
+    <ClInclude Include="sdk\worldsize.h" />
     <ClInclude Include="sdk\xboxstubs.h" />
     <ClInclude Include="sdk\zip_uncompressed.h" />
     <ClInclude Include="Singleton.hpp" />
@@ -543,7 +587,6 @@
     <ClCompile Include="netvars.cpp" />
     <ClCompile Include="Other.cpp" />
     <ClCompile Include="PatternScan.cpp" />
-    <ClCompile Include="PlayerInventory.cpp" />
     <ClCompile Include="protobuffs.cpp" />
     <ClCompile Include="Skinchanger.cpp" />
     <ClCompile Include="textinputcombobox.cpp" />
