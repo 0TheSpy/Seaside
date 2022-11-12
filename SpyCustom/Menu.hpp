@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 IMaterial* CreateMaterial(std::string matname, std::string mat_data = "")
 {
     KeyValues* keyValues = new KeyValues(matname.c_str());
@@ -436,9 +434,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     ImGui::EndTable();
                 }
 
-
-
-
+                 
                 if (ImGui::BeginTable("sssplit", 2, ImGuiTableFlags_NoSavedSettings))
                 {
                     ImGui::TableNextRow(); ImGui::TableNextRow();
@@ -466,7 +462,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     DisableElements(*g_Options.hitsound, 0);
                     DisableElements(*g_Options.flashlightON, 1);
                     ImGui::Checkbox("Cast shadows", g_Options.flashlightShadows);
-                    ImGui::InputFloat("FOV", g_Options.flashlightFOV, 0, 0);
+                    ImGui::InputFloat("Flaslight FOV", g_Options.flashlightFOV, 0, 0);
                     DisableElements(*g_Options.flashlightON, 0);
 
                     ImGui::EndTable();
@@ -1862,16 +1858,19 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
                 ImGui::Columns(3, nullptr, false);
                  
-
-                if (ImGui::SliderFloat("Aspect Ratio", g_Options.aspectratio, 0, 25.0f))
-                    SetValueUnrestricted("r_aspectratio", g_Options.aspectratio);
+                ImGui::Checkbox("C4 timer", g_Options.c4timer);
+                ImGui::Checkbox("Vote reveal", g_Options.votereveal);
+                ImGui::Checkbox("Rank reveal", g_Options.rankreveal);
                  
+
+                ImGui::Checkbox("Spectator list", g_Options.speclist);
+
                 if (ImGui::Checkbox("No postprocessing", g_Options.postproc))
                     SetValueUnrestricted("mat_postprocess_enable", !g_Options.postproc);
                       
 
-                if (ImGui::Checkbox("No shadows", g_Options.shadows)) 
-                    SetValueUnrestricted("cl_csm_enabled", !g_Options.shadows); 
+                //if (ImGui::Checkbox("No shadows", g_Options.shadows)) 
+                //   SetValueUnrestricted("cl_csm_enabled", !g_Options.shadows); 
                  
 
                 style->WindowPadding = ImVec2(5.0f, 5.0f); 
@@ -1897,11 +1896,12 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 }
                 style->WindowPadding = ImVec2(20.f, 20.0f);
 
-                if (ImGui::Checkbox("Gray world", g_Options.drawgray))
-                    SetValueUnrestricted("mat_drawgray", g_Options.drawgray);
+                //if (ImGui::Checkbox("Gray world", g_Options.drawgray))
+                //    SetValueUnrestricted("mat_drawgray", g_Options.drawgray);
 
-                if (ImGui::Checkbox("Low res world", g_Options.showlowresimage))
-                    SetValueUnrestricted("mat_showlowresimage", g_Options.showlowresimage);
+                //if (ImGui::Checkbox("Low res world", g_Options.showlowresimage))
+                //    SetValueUnrestricted("mat_showlowresimage", g_Options.showlowresimage);
+                 
 
                 ImGui::NextColumn();
                  
@@ -1925,6 +1925,10 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     SetValueUnrestricted("viewmodel_fov", g_Options.viewmodel_fov);
 
 
+                if (ImGui::SliderFloat("Aspect Ratio", g_Options.aspectratio, 0, 25.0f))
+                    SetValueUnrestricted("r_aspectratio", g_Options.aspectratio);
+
+                /*
                 if (ImGui::Checkbox("No viewmodel bob", g_Options.viewmodel_moving))
                 {
                     if (g_Options.viewmodel_moving)
@@ -1946,6 +1950,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         SetValueUnrestricted("cl_wpn_sway_scale", GetVisibleFloat("cl_wpn_sway_scale"));
                     }
                 }
+                */
                  
                 if (ImGui::InputFloat("Ragdoll Gravity", g_Options.ragdollgravity))
                     iff.g_pCVar->FindVar("cl_ragdoll_gravity")->SetValue(g_Options.ragdollgravity);
@@ -1978,7 +1983,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::Checkbox("Bunny hop", g_Options.bunnyhop);
                 ImGui::Checkbox("Fast duck", g_Options.fastduck);
                 ImGui::Checkbox("Slide walk", g_Options.slidewalk);
-
+                  
                 ImGui::NextColumn();
 
                 ImGui::EndChild(); 
@@ -2006,8 +2011,23 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::InvisibleButton("##inv", ImVec2(0, 0));
                 ImGui::TextColored(colwhite, XorStr("Check for updates"));
                 ImGui::Text(XorStr("unknowncheats.me"));
+                 
+                style->ItemSpacing = ImVec2(20.0f, 9.0f); 
 
-                ImGui::InvisibleButton("##inv", ImVec2(0, 24));
+                if (ImGui::Checkbox("Output NetMsg, UserMsg, DevMsg", g_Options.debugstuff))
+                {
+                    if (*g_Options.debugstuff.value)
+                    {
+                        SetValueUnrestricted("developer", 1);
+                        SetValueUnrestricted("sv_show_usermessage", 2);
+                    }
+                    else
+                    {
+                        SetValueUnrestricted("developer", 0);
+                        SetValueUnrestricted("sv_show_usermessage", 0);
+                    }
+                } 
+
                 if (ImGui::Button("Unhook", ImVec2(70, 22)))
                     opt.unhook = true;
 
@@ -2174,3 +2194,4 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
     } 
     return oEndScene(pDevice);
 }
+
