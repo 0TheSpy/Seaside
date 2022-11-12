@@ -114,6 +114,16 @@ public:
 
 		NETVAR2(GetTickBase, "DT_BasePlayer", "m_nTickBase", unsigned);
 		NETVAR2(GetObserverTarget, "DT_BasePlayer", "m_hObserverTarget", short); 
+
+		/*
+		bool isDormant()
+		{
+			static DWORD bDormantOffset = (DWORD)(*(PVOID**)(FindPatternV2(XorStr("client.dll"), XorStr("8A 81 ? ? ? ? C3 32 C0")) + 0x2)) + 8;  
+			auto addr = std::uintptr_t(this) + bDormantOffset;     
+			return *reinterpret_cast<std::add_pointer_t<bool>>(addr);  
+		}
+		*/
+
 	};  
 
 	class C_BaseCombatWeapon : public C_BaseEntity
