@@ -2,7 +2,7 @@
 #define INTERFACES
 #pragma once
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 #define printfdbg(data, ...) printf(XorStr(data), __VA_ARGS__)
