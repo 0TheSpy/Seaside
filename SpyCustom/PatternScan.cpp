@@ -13,7 +13,7 @@ DWORD WaitOnModuleHandle(std::string moduleName)
     return ModuleHandle;
 }
 
-DWORD FindPatternV2(std::string moduleName, std::string pattern)
+DWORD FindPatternV2_(std::string moduleName, std::string pattern)
 {
     const char* pat = pattern.c_str();
     DWORD firstMatch = 0;

@@ -1358,5 +1358,8 @@
     <ClCompile Include="netvars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="checksum_md5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #define INTERFACES
 #pragma once
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 #define printfdbg(data, ...) printf(XorStr(data), __VA_ARGS__)
@@ -78,9 +78,7 @@
 PVOID FindHudElement(const char* name);
 
 auto is_code_ptr(void* ptr) -> bool;
-
-//#include "resource.h" 
-
+  
 class IF {
 public:
 	IClientEntityList* g_pEntityList = nullptr;
@@ -375,5 +373,7 @@ void NETSetConVar(const char* name, const char* value);
 void TextMsg(std::string text); 
 void ShowMenu(std::string text);
 std::string GetName(int id);
+ 
+
 
 #endif

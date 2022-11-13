@@ -1925,16 +1925,16 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     SetValueUnrestricted("viewmodel_offset_y", g_Options.viewmodel_y); 
                 if (ImGui::SliderFloat("Viewmodel pos Z", g_Options.viewmodel_z, -90.0f, 90.0f))
                     SetValueUnrestricted("viewmodel_offset_z", g_Options.viewmodel_z);
-                 
                   
                 ImGui::SliderFloat("FOV", g_Options.fov, 0, 360);
                  
                 ImGui::NextColumn();  
 
                 style->ItemSpacing = ImVec2(7.0f, 10.0f);  
-                 
+                  
+                ImGui::Checkbox("Stick to heads", g_Options.blockbot);
+
                 DisableElements(*g_Options.bunnyhop, 1); 
-                ImGui::Checkbox("PLACEHOLDER", g_Options.jumpbug);
                 ImGui::Checkbox("Auto strafe", g_Options.autostrafe);
                 DisableElements(*g_Options.bunnyhop, 0); 
                 style->ItemSpacing = ImVec2(7.0f, 17.0f);  
@@ -1942,7 +1942,6 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::SliderFloat("Viewmodel ang X", g_Options.viewmodel_ang_x, -180.0f, 180.0f);  
                 ImGui::SliderFloat("Viewmodel ang Y", g_Options.viewmodel_ang_y, -180.0f, 180.0f);
                 ImGui::SliderFloat("Viewmodel ang Z", g_Options.viewmodel_ang_z, -180.0f, 180.0f); 
-                
                  
                 /*
                 if (ImGui::SliderFloat("Aspect Ratio", g_Options.aspectratio, 0, 25.0f))

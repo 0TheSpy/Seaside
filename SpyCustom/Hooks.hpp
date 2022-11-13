@@ -379,13 +379,11 @@ namespace prediction {
     inline int* m_pPredictionRandomSeed;
 };
 
-void prediction::start(CUserCmd* cmd, C_BasePlayer* localplayer) {   
-
-    //printfdbg("prediction run\n");
-     
+void prediction::start(CUserCmd* cmd, C_BasePlayer* localplayer) 
+{   
     if (!m_pPredictionRandomSeed)
         m_pPredictionRandomSeed = *reinterpret_cast<int**>(FindPatternV2("client.dll", "8B 0D ? ? ? ? BA ? ? ? ? E8 ? ? ? ? 83 C4 04") + 2);
-    *m_pPredictionRandomSeed = cmd->random_seed & 0x7FFFFFFF;
+    *m_pPredictionRandomSeed = MD5_PseudoRandom(cmd->command_number) & 0x7FFFFFFF; // cmd->random_seed & 0x7FFFFFFF;
     m_flOldCurtime = iff.g_pGlobals->curtime;
     m_flOldFrametime = iff.g_pGlobals->frametime;
     iff.g_pGlobals->curtime = localplayer->GetTickBase() * iff.g_pGlobals->interval_per_tick;
@@ -398,10 +396,8 @@ void prediction::start(CUserCmd* cmd, C_BasePlayer* localplayer) {
     iff.g_pPrediction->FinishMove_v(localplayer, cmd, &m_MoveData);
 }
 
-void prediction::end(C_BasePlayer* localplayer) {  
-
-    //printfdbg("prediction end\n");
-
+void prediction::end(C_BasePlayer* localplayer)
+{  
     iff.g_pGameMovement->FinishTrackPredictionErrors(localplayer); 
     iff.g_pMoveHelper->SetHost_v(nullptr); 
     *m_pPredictionRandomSeed = -1;
@@ -414,10 +410,8 @@ void fastStop(C_BasePlayer* localplayer, int flags, CUserCmd* cmd) noexcept
 {  
     if (!localplayer || localplayer->GetLifeState() != LIFE_ALIVE)
         return;
-
     if (localplayer->GetMoveType() == MOVETYPE_NOCLIP || localplayer->GetMoveType() == MOVETYPE_LADDER || !(flags & FL_ONGROUND) || cmd->buttons & IN_JUMP)
         return;
-
     if (cmd->buttons & (IN_MOVELEFT | IN_MOVERIGHT | IN_FORWARD | IN_BACK))
         return;
 
@@ -432,27 +426,31 @@ void fastStop(C_BasePlayer* localplayer, int flags, CUserCmd* cmd) noexcept
     const auto negatedDirection = Vector::fromAngle(direction) * -speed;
     cmd->forwardmove = negatedDirection.x;
     cmd->sidemove = negatedDirection.y;
-}
+} 
 
 
 bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
 {
+    uintptr_t* frame_pointer;
+    __asm mov frame_pointer, ebp;
+    bool& send_packet = *reinterpret_cast<bool*>(*frame_pointer - 0x1C);
+     
     static auto ofunc = ClientModeHook->GetOriginal<bool(__stdcall*)( float, CUserCmd*)>(24); 
-      
+          
     short localid = iff.g_pEngineClient->GetLocalPlayer();
     C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(localid));
 
     const auto pre_flags = localplayer->GetFlags();
 
     bool interval = !((pCmd->tick_count + 1) % 10);
-     
+       
     if (g_Options.faststop)
         fastStop(localplayer, pre_flags, pCmd);
     if (g_Options.slidewalk)
         pCmd->buttons ^= IN_FORWARD | IN_BACK | IN_MOVELEFT | IN_MOVERIGHT; 
     if (g_Options.fastduck)
         pCmd->buttons |= IN_BULLRUSH;
-      
+     
     if (g_Options.bunnyhop && iff.g_pInputSystem->IsButtonDown(KEY_SPACE) && localplayer->GetMoveType() != MOVETYPE_LADDER)
         if (!(pre_flags & FL_ONGROUND) && pCmd->buttons & (IN_JUMP))
         {
@@ -465,7 +463,6 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
                     pCmd->sidemove = 450.0f; 
             }
         }
-    
      
     if (*g_Options.c4timer && *(C_GameRulesProxy**)iff.GameRulesProxy) {  
         bool isbombplanted = (*(C_GameRulesProxy**)iff.GameRulesProxy)->IsBombPlanted();
@@ -514,10 +511,9 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
         else if (c4id) c4id = 0;
     }
      
-    if (*g_Options.rankreveal && (pCmd->buttons & IN_SCORE) != 0) {
-        //credits https://www.unknowncheats.me/forum/counterstrike-global-offensive/331059-rank-reveal-sig-scanning.html 
+    if (*g_Options.rankreveal && (pCmd->buttons & IN_SCORE) != 0) 
         iff.g_pClient->DispatchUserMessage(CS_UM_ServerRankRevealAll, 0, 0, nullptr);
-    }
+    
      
     if (g_Options.speclist && interval) 
     { 
@@ -540,28 +536,49 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
         }
         if (isSomeoneSpectatingYou) ShowMenu(spectatorList);
     }
-       
-
-
-    /*
-    if (localplayer)
-    {
-        prediction::start(pCmd, localplayer);
          
-        if (iff.g_pInputSystem->IsButtonDown(KEY_SPACE) && !(pre_flags & FL_ONGROUND) && (localplayer->GetFlags() & FL_ONGROUND))//predicting that we're gonna hit the ground
-        {
+    /*
+    if (localplayer && g_Options.predict)
+    {
+        prediction::start(pCmd, localplayer); 
+        auto post_flags = localplayer->GetFlags();  
+        if ((post_flags & FL_ONGROUND || post_flags & FL_PARTIALGROUND) && !(pre_flags & FL_ONGROUND || pre_flags & FL_PARTIALGROUND)) //predicting that we're gonna hit the ground
+        { 
             pCmd->buttons |= IN_DUCK;
             pCmd->buttons &= IN_JUMP;
-        } 
-        
-        prediction::end(localplayer);  
-    } 
+        }  
+        prediction::end(localplayer);
+    }
     */
      
+    if (g_Options.blockbot) {
+        // Get our ground entity.
+        auto pGroundEntity = iff.g_pEntityList->GetClientEntityFromHandle(localplayer->GetGroundEntity());
+
+        // Check if there's a player under us.
+        if (pGroundEntity && _tcsstr(pGroundEntity->GetClientClass()->GetName(), "CCSPlayer"))
+        {
+            Vector viewAngles;
+            iff.g_pEngineClient->GetViewAngles(viewAngles);
+            Vector localpos = localplayer->GetAbsOrigin();
+            Vector entpos = pGroundEntity->GetAbsOrigin();
+            Vector delta = localpos - entpos;
+            float deltaXold = delta[0]; float deltaYold = delta[1];
+            delta[0] = deltaXold * cos(viewAngles[1] * PI / 180) + deltaYold * sin(viewAngles[1] * PI / 180);
+            delta[1] = -deltaXold * sin(viewAngles[1] * PI / 180) + deltaYold * cos(viewAngles[1] * PI / 180);
+            pCmd->forwardmove = -delta[0] * 40;
+            pCmd->sidemove = delta[1] * 40;
+        }
+    }
      
     pCmd->viewangles.Clamp();
+    pCmd->forwardmove = std::clamp(pCmd->forwardmove, -450.f, 450.f);
+    pCmd->sidemove = std::clamp(pCmd->sidemove, -450.f, 450.f);
+    pCmd->upmove = std::clamp(pCmd->upmove, -320.f, 320.f);
 
-    return ofunc(frame_time, pCmd);
+    //return ofunc(frame_time, pCmd);
+     
+    return false;
 } 
 
 

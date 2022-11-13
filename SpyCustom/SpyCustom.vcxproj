@@ -96,7 +96,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;SPYCUSTOM_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -574,6 +574,7 @@
     <ClInclude Include="XorStr.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="checksum_md5.cpp" />
     <ClCompile Include="ConVars.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />

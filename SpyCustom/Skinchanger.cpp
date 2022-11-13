@@ -371,7 +371,6 @@ bool Changer()
      
     if (g_Options.weapons.value->arr[0].active && g_Options.weapons.value->arr[0].modelactive) 
     { 
-        //can cause crash idk why
         static int lastmdlindex = -1;
         int curmdlindex = pViewModel->GetModelIndex();
         if (lastmdlindex != curmdlindex)  
@@ -383,6 +382,7 @@ bool Changer()
                 for (int i = 0; i < 20; i++)    
                     if (_tcsstr(pViewModel->GetSequenceActivity(i), "draw"))
                     {
+                        printfdbg("SendViewModelMatchingSequence %d to %d (%d)", i, lastmdlindex, defindex);
                         pViewModel->SendViewModelMatchingSequence(i); break;
                     }
                 

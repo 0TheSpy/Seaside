@@ -644,8 +644,8 @@ public:
     OPTION(bool, dme_gettextures, false);
     OPTION(int, dmeloop_count, 0);
     OPTION(weaponz, weapons, weaponz());
-    OPTION(char1024, playername, char1024("ur name"));
-    OPTION(char1024, playerclan, char1024("ur tag"));
+    OPTION(char1024, playername, char1024("Your name"));
+    OPTION(char1024, playerclan, char1024("Your tag"));
 
     OPTION(bool, discmsg_active, false);
     OPTION(char1024, discmsg, char1024("SFUI_QMM_ERROR_VacBanned")); 
@@ -706,15 +706,13 @@ public:
     OPTION(bool, faststop, 0);
     OPTION(bool, moneyreveal, 0);
 
-    OPTION(bool, jumpbug, 0);
+    OPTION(bool, predict, 0);
+    OPTION(bool, blockbot, 0);
 };
 
 inline Options g_Options;
 inline bool   g_Unload;
-
-
-
-
+ 
 struct skin
 {
     skin(bool active1, int skinid1, int seed1, int stattrak1, bool ownerunk1, float wear1, int quality1, char nametag1[256])
