@@ -442,23 +442,24 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
 
                     ImGui::Checkbox("Hit sound", g_Options.hitsound);
                     DisableElements(*g_Options.hitsound, 1);
-                    ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 7.0f);
-                    ImGui::TextInputComboBox("Head shot", g_Options.hspath.value->mystring, 255, opt.soundslist, 0);
+                    
+                    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 13.0f); 
+                    ImGui::InputText("Head shot", g_Options.hspath.value->mystring, 256);
                     DisableElements(*g_Options.hitsound, 0);
                     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 13.0f);
                     ImGui::Checkbox("Flashlight (L)", g_Options.flashlightON);
                     DisableElements(*g_Options.flashlightON, 1);
-                    ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 20.0f);
+                    ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 7.0f);
                     ImGui::TextInputComboBox("Path to .vmt ", g_Options.flashlightTexture.value->mystring, 255, opt.flashlightlist, 0);
                     DisableElements(*g_Options.flashlightON, 0);
+                    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 13.0f);
                     ImGui::Checkbox("Nightvision (N)", g_Options.nvgsON);
 
                     ImGui::TableNextColumn();
 
                     ImGui::Checkbox("Hit marker", g_Options.hitmarker);
-                    DisableElements(*g_Options.hitsound, 1);
-                    ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 20.0f);
-                    ImGui::TextInputComboBox("Other bone", g_Options.obpath.value->mystring, 255, opt.soundslist, 0);
+                    DisableElements(*g_Options.hitsound, 1); 
+                    ImGui::InputText("Other bone", g_Options.obpath.value->mystring, 256);
                     DisableElements(*g_Options.hitsound, 0);
                     DisableElements(*g_Options.flashlightON, 1);
                     ImGui::Checkbox("Cast shadows", g_Options.flashlightShadows);
@@ -784,7 +785,11 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     ImGui::Checkbox("Via FindMDL hook", &g_Options.models.value->arr[selectedwep].findMDLmethode);
                     DisableElements(selectedwep > 2 ? true : false, 0);
                     ImGui::PushItemWidth(170.0f);
+
+                    DisableElements(g_Options.models.value->arr[selectedwep].active,1);
                     ImGui::InputText("Path to .mdl##viewmodel", g_Options.models.value->arr[selectedwep].vmodel_repl_temp, 256);
+                    DisableElements(g_Options.models.value->arr[selectedwep].active, 0);
+
                     ImGui::PopItemWidth();
 
                     ImGui::SameLine();
@@ -844,7 +849,9 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     }
 
                     ImGui::PushItemWidth(170.0f);
+                    DisableElements(g_Options.models.value->arr[selectedwep].active_w, 1);
                     ImGui::InputText("Path to .mdl##worldmodel", g_Options.models.value->arr[selectedwep].wmodel_repl_temp, 256);
+                    DisableElements(g_Options.models.value->arr[selectedwep].active_w, 0);
                     ImGui::PopItemWidth();
 
                     ImGui::SameLine();
@@ -1819,8 +1826,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     DisableElements(g_Options.profile_active, 0);
                     ImGui::EndTable();
                 }
-
-
+                 
                 ImGui::EndChild();
             }
 
@@ -1853,17 +1859,21 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 }
 
                 ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 10.0f);
-                ImGui::Separator(); 
-                ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 10.0f);
+                ImGui::Separator();  
 
                 ImGui::Columns(3, nullptr, false);
                  
-                ImGui::Checkbox("C4 timer", g_Options.c4timer);
+                //   
+                style->ItemSpacing = ImVec2(7.0f, 10.0f); //10
+                ImGui::Checkbox("Spectator list", g_Options.speclist);
                 ImGui::Checkbox("Vote reveal", g_Options.votereveal);
                 ImGui::Checkbox("Rank reveal", g_Options.rankreveal); 
-                ImGui::Checkbox("Spectator list", g_Options.speclist); 
+                ImGui::Checkbox("Money reveal", g_Options.moneyreveal);
                 ImGui::Checkbox("Fast duck", g_Options.fastduck);
-                ImGui::Checkbox("Slide walk", g_Options.slidewalk);
+                ImGui::Checkbox("Fast stop", g_Options.faststop);
+                ImGui::Checkbox("Slide walk", g_Options.slidewalk); 
+                 
+                //ImGui::NextColumn();
 
                 /*
                 if (ImGui::Checkbox("No postprocessing", g_Options.postproc))
@@ -1904,49 +1914,55 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                  
                 ImGui::NextColumn();
                    
+                style->ItemSpacing = ImVec2(7.0f, 10.0f);  
+                ImGui::Checkbox("C4 timer", g_Options.c4timer);
+                ImGui::Checkbox("Bunny hop", g_Options.bunnyhop);
+                style->ItemSpacing = ImVec2(7.0f, 17.0f);   
+
                 if (ImGui::SliderFloat("Viewmodel pos X", g_Options.viewmodel_x, -90.0f, 90.0f))
-                    SetValueUnrestricted("viewmodel_offset_x", g_Options.viewmodel_x); 
+                    SetValueUnrestricted("viewmodel_offset_x", g_Options.viewmodel_x);  
                 if (ImGui::SliderFloat("Viewmodel pos Y", g_Options.viewmodel_y, -90.0f, 90.0f))
-                    SetValueUnrestricted("viewmodel_offset_y", g_Options.viewmodel_y);
+                    SetValueUnrestricted("viewmodel_offset_y", g_Options.viewmodel_y); 
                 if (ImGui::SliderFloat("Viewmodel pos Z", g_Options.viewmodel_z, -90.0f, 90.0f))
                     SetValueUnrestricted("viewmodel_offset_z", g_Options.viewmodel_z);
-                ImGui::SliderFloat("Viewmodel ang X", g_Options.viewmodel_ang_x, -180.0f, 180.0f);
-                ImGui::SliderFloat("Viewmodel ang Y", g_Options.viewmodel_ang_y, -180.0f, 180.0f);
-                ImGui::SliderFloat("Viewmodel ang Z", g_Options.viewmodel_ang_z, -180.0f, 180.0f);
-                  
-                ImGui::NextColumn(); 
-
-                ImGui::Checkbox("Bunny hop", g_Options.bunnyhop);
-
-                style->ItemSpacing = ImVec2(7.0f, 10.0f);
-
-                DisableElements(*g_Options.bunnyhop, 1); 
-                ImGui::Checkbox("Auto strafe", g_Options.autostrafe);
-                DisableElements(*g_Options.bunnyhop, 0);
                  
-                style->ItemSpacing = ImVec2(7.0f, 15.0f);
+                  
+                ImGui::SliderFloat("FOV", g_Options.fov, 0, 360);
+                 
+                ImGui::NextColumn();  
 
-                ImGui::SliderFloat("FOV", g_Options.fov, 0, 360); 
-
-                if (ImGui::SliderFloat("Viewmodel FOV", g_Options.viewmodel_fov, 0, 180.0f))
-                    SetValueUnrestricted("viewmodel_fov", g_Options.viewmodel_fov);
-
-
+                style->ItemSpacing = ImVec2(7.0f, 10.0f);  
+                 
+                DisableElements(*g_Options.bunnyhop, 1); 
+                ImGui::Checkbox("PLACEHOLDER", g_Options.jumpbug);
+                ImGui::Checkbox("Auto strafe", g_Options.autostrafe);
+                DisableElements(*g_Options.bunnyhop, 0); 
+                style->ItemSpacing = ImVec2(7.0f, 17.0f);  
+                 
+                ImGui::SliderFloat("Viewmodel ang X", g_Options.viewmodel_ang_x, -180.0f, 180.0f);  
+                ImGui::SliderFloat("Viewmodel ang Y", g_Options.viewmodel_ang_y, -180.0f, 180.0f);
+                ImGui::SliderFloat("Viewmodel ang Z", g_Options.viewmodel_ang_z, -180.0f, 180.0f); 
+                
+                 
+                /*
                 if (ImGui::SliderFloat("Aspect Ratio", g_Options.aspectratio, 0, 25.0f))
                     SetValueUnrestricted("r_aspectratio", g_Options.aspectratio);
-                  
-                /*
+
                 if (ImGui::InputFloat("Ragdoll Gravity", g_Options.ragdollgravity))
                     iff.g_pCVar->FindVar("cl_ragdoll_gravity")->SetValue(g_Options.ragdollgravity);
 
                 if (ImGui::InputFloat("Ragdoll Timescale", g_Options.ragdolltime))
                     SetValueUnrestricted("cl_phys_timescale", g_Options.ragdolltime);
+
+                if (ImGui::SliderFloat("Viewmodel FOV", g_Options.viewmodel_fov, 0, 180.0f))
+                    SetValueUnrestricted("viewmodel_fov", g_Options.viewmodel_fov);
+                    
                 */
                  
                 ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 67.0f);
+                ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 5.0f);
                 if (ImGui::Button("Reset", ImVec2(70, 22))) 
                     ResetMisc(); 
-
 
                 ImGui::Columns(1, nullptr, false);
 
@@ -1962,14 +1978,10 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
             style->ChildBorderSize = 0; style->WindowPadding = ImVec2(20.0f, 5.0f);
             if (ImGui::BeginChild("ChildTab", ImVec2(665, 350), true, ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysUseWindowPadding)) {
                 style->ChildBorderSize = 1; style->WindowPadding = ImVec2(20.0f, 20.0f);
-
                 ImGui::Columns(2, nullptr, false);
-                   
                 ImGui::NextColumn();
-
                 ImGui::EndChild(); 
             }
-
             ImGui::EndTabItem();
         }
         */

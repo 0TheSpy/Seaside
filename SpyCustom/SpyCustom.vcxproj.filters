@@ -108,9 +108,6 @@
     <ClInclude Include="detours.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="XorStr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1296,6 +1293,15 @@
     <ClInclude Include="sdk\worldsize.h">
       <Filter>Header Files\sdk</Filter>
     </ClInclude>
+    <ClInclude Include="sdk\igamemovement.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\gamemovement.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="resources.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -1352,18 +1358,5 @@
     <ClCompile Include="netvars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="SpyCustom.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="cod.wav">
-      <Filter>Resource Files</Filter>
-    </Media>
-    <Media Include="crit.wav">
-      <Filter>Resource Files</Filter>
-    </Media>
   </ItemGroup>
 </Project>

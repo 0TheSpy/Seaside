@@ -131,23 +131,29 @@ bool __fastcall hkFireEventClientSide(void* thisptr, void* edx, IGameEvent* even
     return ofunc(thisptr, edx, event);
 
 }
-
-
-
-C_CS_PlayerResource** g_player_resource;
  
+C_CS_PlayerResource** g_player_resource = NULL;
+
 #include <array>
 bool Changer()
 {
+    /*
     static bool initinterface = 0;
     if (!initinterface) {
+        
         const auto team_arr_prop = C_CS_PlayerResource::GetTeamProp();
         const auto team_prop = team_arr_prop->m_pDataTable->m_pProps;
         const auto proxy_addr = std::uintptr_t(team_prop->m_ProxyFn);
         g_player_resource = *reinterpret_cast<C_CS_PlayerResource***>(proxy_addr + 0x10);
         printfdbg("g_player_resource initiated %x\n", g_player_resource);
+        
+        
+        //g_player_resource = C_CS_PlayerResource::GetPlayerResource();
         initinterface = 1;
     }
+    */
+
+    static C_CS_PlayerResource** g_player_resource = C_CS_PlayerResource::GetPlayerResource();
 
     if (!iff.g_pEngineClient->IsConnected()) {
         return 0;
@@ -366,7 +372,6 @@ bool Changer()
     if (g_Options.weapons.value->arr[0].active && g_Options.weapons.value->arr[0].modelactive) 
     { 
         //can cause crash idk why
-        /*
         static int lastmdlindex = -1;
         int curmdlindex = pViewModel->GetModelIndex();
         if (lastmdlindex != curmdlindex)  
@@ -383,7 +388,6 @@ bool Changer()
                 
             }
         }
-        */ 
 
         if (view_model_weapon && is_knife(view_model_weapon->GetItemDefinitionIndex())) 
         {
@@ -609,6 +613,10 @@ void InitSkinChanger()
         strcpy(g_Options.models.value->arr[cfgindex].vmodel_orig, vmodel_orig);
         strcpy(g_Options.models.value->arr[cfgindex].vmodel_repl_temp, vmodel_orig);
         strcpy(g_Options.models.value->arr[cfgindex].vmodel_repl, vmodel_orig);
+
+        const char* wmodel_orig = kv->GetString("model_world"); 
+        strcpy(g_Options.models.value->arr[cfgindex].wmodel_repl_temp, wmodel_orig);
+        strcpy(g_Options.models.value->arr[cfgindex].wmodel_repl, wmodel_orig);
 
         g_Options.materials.value->arr[cfgindex + 2].model_hash = fnv2::hash(vmodel_orig);
        

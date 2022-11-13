@@ -21,6 +21,7 @@ extern bool needupdate;
 
 #include "vmt_smart_hook.hpp"
 
+ 
 
 struct iitem
 {

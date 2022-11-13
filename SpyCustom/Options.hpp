@@ -27,8 +27,6 @@ public:
 };
 
 
-#include "resource.h" 
-
 class float3 
 {
 public:
@@ -432,6 +430,13 @@ public:
         strcpy(this->classid, classid);
     };
 
+    Model(char name[32], char vmodel[32])
+    {
+        strcpy(this->name, name);
+        strcpy(this->vmodel_repl_temp, vmodel);
+        strcpy(this->vmodel_repl, vmodel);
+    };
+
     bool findMDLmethode = false;
 
     char name[32] = "";
@@ -472,8 +477,8 @@ public:
     Models() {   
         int i = 0;
 
-        arr[i] = Model((char*)"Agent T"); i++;
-        arr[i] = Model((char*)"Agent CT"); i++;
+        arr[i] = Model((char*)"Agent T", (char*)"models/player/zombie.mdl"); i++;
+        arr[i] = Model((char*)"Agent CT",(char*)"models/player/zombie.mdl"); i++;
         arr[i] = Model((char*)"Arms"); i++;
 
         arr[i] = Model((char*)"Knife", WEAPON_KNIFE_T, (char*)"CKnife", (char*)"models/weapons/v_knife_default_t.mdl", 1); i++; 
@@ -594,8 +599,8 @@ public:
     OPTION(int, beamflags, 0x8300); 
 
     OPTION(bool, hitsound, false);
-    OPTION(char256, hspath, char256("102")); 
-    OPTION(char256, obpath, char256("101")); 
+    OPTION(char256, hspath, char256("hitsound_crit.wav")); 
+    OPTION(char256, obpath, char256("hitsound_cod.wav")); 
 
     OPTION(bool, hitmarker, false);
 
@@ -698,6 +703,10 @@ public:
     OPTION(bool, rankreveal, 0);
     OPTION(bool, speclist, 0);
     OPTION(bool, debugstuff, 0);
+    OPTION(bool, faststop, 0);
+    OPTION(bool, moneyreveal, 0);
+
+    OPTION(bool, jumpbug, 0);
 };
 
 inline Options g_Options;
@@ -838,13 +847,7 @@ public:
         "vertigo_hdr",
         "sky_csgo_night_flat"
     };
-
-    std::vector<std::string> soundslist = {
-    "101",
-    "102",
-    };
-
-
+      
     std::vector<std::string> spriteslist = {
          "sprites/purplelaser1.vmt",
          "sprites/physbeam.vmt",

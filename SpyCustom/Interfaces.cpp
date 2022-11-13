@@ -63,7 +63,7 @@ void IF::Init()
     g_pStudioRender = (IStudioRender*)GetInterface("studiorender.dll", "VStudioRender026");
     g_pPrediction = (CPrediction*)GetInterface("client.dll", "VClientPrediction001");
     g_pGameTypes = (IGameTypes*)GetInterface("client.dll", "VENGINE_GAMETYPES_VERSION002");
-
+    g_pGameMovement = (IGameMovement*)GetInterface("client.dll", "GameMovement001");
 
     typedef PVOID(__cdecl* oKeyValuesSystem)();
     oKeyValuesSystem pkeyValuesSystem = (oKeyValuesSystem)GetProcAddress(GetModuleHandleA("vstdlib.dll"), "KeyValuesSystem");
@@ -165,7 +165,8 @@ void IF::Init()
     HudUniqueAlerts = (CHudElement*)FindHudElement("CCSGO_HudUniqueAlerts");
 
     GameRulesProxy = *(C_GameRulesProxy**)(FindPatternV2("client.dll", "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A")+1); //C_GameRulesProxy
-    dwRadarBase = FindPatternV2("client.dll", "A1 ? ? ? ? 8B 0C B0 8B 01 FF 50 ? 46 3B 35 ? ? ? ? 7C EA 8B 0D") + 1; //C_GameRulesProxy
+    dwRadarBase = FindPatternV2("client.dll", "A1 ? ? ? ? 8B 0C B0 8B 01 FF 50 ? 46 3B 35 ? ? ? ? 7C EA 8B 0D") + 1;  
+    g_pMoveHelper = **reinterpret_cast<IMoveHelper***>(FindPatternV2("client.dll", "8B 0D ? ? ? ? 8B 46 08 68") + 2);
 }
 
 
@@ -278,4 +279,3 @@ void ShowMenu(std::string text)
     }
 }
 
- 

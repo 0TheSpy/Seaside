@@ -331,6 +331,7 @@ bool __fastcall hkSendNetMsg(void* channel, uint32_t, INetMessage* msg, bool rel
 
 inline void HookNetchannel()
 {
+    //iff.g_pClientState->m_NetChannel
     DWORD ptrShutdown = *((DWORD*)iff.g_pEngineClient->GetNetChannelInfo()) + 36 * 4;
     DWORD addrShutdown = *(DWORD*)ptrShutdown;
     oShutdown = (pShutdown)DetourFunction(
@@ -368,13 +369,80 @@ float scaleDamageArmor(float flDamage, int armor_value)
     return flDamage;
 } 
 
+namespace prediction {
+    void start(CUserCmd* cmd, C_BasePlayer* localplayer);
+    void end(C_BasePlayer* localplayer);
+     
+    inline CMoveData m_MoveData;
+    inline float m_flOldCurtime;
+    inline float m_flOldFrametime;
+    inline int* m_pPredictionRandomSeed;
+};
+
+void prediction::start(CUserCmd* cmd, C_BasePlayer* localplayer) {   
+
+    //printfdbg("prediction run\n");
+     
+    if (!m_pPredictionRandomSeed)
+        m_pPredictionRandomSeed = *reinterpret_cast<int**>(FindPatternV2("client.dll", "8B 0D ? ? ? ? BA ? ? ? ? E8 ? ? ? ? 83 C4 04") + 2);
+    *m_pPredictionRandomSeed = cmd->random_seed & 0x7FFFFFFF;
+    m_flOldCurtime = iff.g_pGlobals->curtime;
+    m_flOldFrametime = iff.g_pGlobals->frametime;
+    iff.g_pGlobals->curtime = localplayer->GetTickBase() * iff.g_pGlobals->interval_per_tick;
+    iff.g_pGlobals->frametime = iff.g_pGlobals->interval_per_tick;
+    iff.g_pGameMovement->StartTrackPredictionErrors(localplayer);
+    memset(&m_MoveData, 0, sizeof(m_MoveData));
+    iff.g_pMoveHelper->SetHost_v((CBaseEntity*)localplayer);
+    iff.g_pPrediction->SetupMove_v(localplayer, cmd, iff.g_pMoveHelper, &m_MoveData);
+    iff.g_pGameMovement->ProcessMovement(localplayer, &m_MoveData);
+    iff.g_pPrediction->FinishMove_v(localplayer, cmd, &m_MoveData);
+}
+
+void prediction::end(C_BasePlayer* localplayer) {  
+
+    //printfdbg("prediction end\n");
+
+    iff.g_pGameMovement->FinishTrackPredictionErrors(localplayer); 
+    iff.g_pMoveHelper->SetHost_v(nullptr); 
+    *m_pPredictionRandomSeed = -1;
+    iff.g_pGlobals->curtime = m_flOldCurtime;
+    iff.g_pGlobals->frametime = m_flOldFrametime;
+}
+
+
+void fastStop(C_BasePlayer* localplayer, int flags, CUserCmd* cmd) noexcept
+{  
+    if (!localplayer || localplayer->GetLifeState() != LIFE_ALIVE)
+        return;
+
+    if (localplayer->GetMoveType() == MOVETYPE_NOCLIP || localplayer->GetMoveType() == MOVETYPE_LADDER || !(flags & FL_ONGROUND) || cmd->buttons & IN_JUMP)
+        return;
+
+    if (cmd->buttons & (IN_MOVELEFT | IN_MOVERIGHT | IN_FORWARD | IN_BACK))
+        return;
+
+    const auto velocity = localplayer->GetVelocity();
+    const auto speed = velocity.length2D();
+    if (speed < 15.0f)
+        return;
+
+    Vector direction = velocity.toAngle();
+    direction.y = cmd->viewangles.y - direction.y;
+
+    const auto negatedDirection = Vector::fromAngle(direction) * -speed;
+    cmd->forwardmove = negatedDirection.x;
+    cmd->sidemove = negatedDirection.y;
+}
+
 
 bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
 {
     static auto ofunc = ClientModeHook->GetOriginal<bool(__stdcall*)( float, CUserCmd*)>(24); 
+      
+    short localid = iff.g_pEngineClient->GetLocalPlayer();
+    C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(localid));
 
-    C_BasePlayer* local = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(iff.g_pEngineClient->GetLocalPlayer()));
-    const auto pre_flags = local->GetFlags(); 
+    const auto pre_flags = localplayer->GetFlags();
 
     bool interval = !((pCmd->tick_count + 1) % 10);
 
@@ -383,8 +451,8 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
     if (g_Options.fastduck)
         pCmd->buttons |= IN_BULLRUSH;
       
-    if (g_Options.bunnyhop && iff.g_pInputSystem->IsButtonDown(KEY_SPACE) && local->GetMoveType() != MOVETYPE_LADDER)
-        if (!(pre_flags & (FL_ONGROUND)) && pCmd->buttons & (IN_JUMP))
+    if (g_Options.bunnyhop && iff.g_pInputSystem->IsButtonDown(KEY_SPACE) && localplayer->GetMoveType() != MOVETYPE_LADDER)
+        if (!(pre_flags & FL_ONGROUND) && pCmd->buttons & (IN_JUMP))
         {
             pCmd->buttons &= ~(IN_JUMP);
 
@@ -395,11 +463,9 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
                     pCmd->sidemove = 450.0f; 
             }
         }
-        
+    
      
-    short localid = iff.g_pEngineClient->GetLocalPlayer();
-    if (*g_Options.c4timer && *(C_GameRulesProxy**)iff.GameRulesProxy) { 
-        C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(localid));
+    if (*g_Options.c4timer && *(C_GameRulesProxy**)iff.GameRulesProxy) {  
         bool isbombplanted = (*(C_GameRulesProxy**)iff.GameRulesProxy)->IsBombPlanted();
         if (localplayer && isbombplanted)
         {
@@ -472,11 +538,37 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
         }
         if (isSomeoneSpectatingYou) ShowMenu(spectatorList);
     }
-      
+       
+    if (g_Options.faststop)
+        fastStop(localplayer, pre_flags, pCmd);
+
+
+    /*
+    if (localplayer)
+    {
+        prediction::start(pCmd, localplayer);
+        
+        /*
+        if (iff.g_pInputSystem->IsButtonDown(KEY_SPACE) && !(pre_flags & FL_ONGROUND) && (localplayer->GetFlags() & FL_ONGROUND))//predicting that we're gonna hit the ground
+        {
+            pCmd->buttons |= IN_DUCK;
+            pCmd->buttons &= IN_JUMP;
+        }
+        
+        
+        prediction::end(localplayer);  
+    }
+
+    //*/
+     
+     
     pCmd->viewangles.Clamp();
-      
+
     return ofunc(frame_time, pCmd);
 } 
+
+
+
 
 typedef const __int64(__cdecl* pDevMsg)(_In_z_ _Printf_format_string_ char const* const _Format, ...);
 pDevMsg oDevMsg; //(char* a1, int a2, char a3)
@@ -542,4 +634,31 @@ bool __fastcall hkDispatchUserMessage(void* thisptr, void*, int msg_type, int32 
     */
       
     return ofunc(thisptr,msg_type,nFlags,size, &msg_data);
+}
+
+//static auto element = FindHudElement("CCSGO_HudRadar"); //money from radarbase? 
+typedef const int(__fastcall* pGetPlayerMoney)(void* _this, void* edx, int ent_index);
+pGetPlayerMoney oGetPlayerMoney;
+int __fastcall hkGetPlayerMoney(void* this_, void* edx, int ent_index) 
+{     
+    static C_CS_PlayerResource** g_player_resource = C_CS_PlayerResource::GetPlayerResource(); 
+    auto player = iff.g_pEntityList->GetClientEntity(ent_index);
+    auto localplayer = ((C_BasePlayer*)iff.g_pEntityList->GetClientEntity(iff.g_pEngineClient->GetLocalPlayer()));
+     
+    if (!*g_Options.moneyreveal || !player || !localplayer || !(*g_player_resource) || ((C_BasePlayer*)player)->GetTeam() == localplayer->GetTeam() ) return oGetPlayerMoney(this_, edx, ent_index);
+      
+    if (player->IsDormant())
+    {
+        int money = (*g_player_resource)->GetMatchStats_CashEarned_Total()[ent_index] - (*g_player_resource)->GetTotalCashSpent()[ent_index]; 
+        money += iff.g_pCVar->FindVar("mp_startmoney")->GetInt(); 
+        int maxmoney = iff.g_pCVar->FindVar("mp_maxmoney")->GetInt();
+        if (money > maxmoney) money = maxmoney;
+       // printfdbg("Dormant %d Money %d (cash earned %d, total spent %d)\n", ent_index, money, (*g_player_resource)->GetMatchStats_CashEarned_Total()[ent_index], (*g_player_resource)->GetTotalCashSpent()[ent_index] );
+        return money;
+    }
+    else  
+    {
+       // printfdbg("NotDormant %d Money %d\n", ent_index, ((C_BasePlayer*)player)->GetAccount());  
+        return ((C_BasePlayer*)player)->GetAccount();
+    }
 }

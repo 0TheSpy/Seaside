@@ -172,7 +172,7 @@
     <ClInclude Include="protobuffs.hpp" />
     <ClInclude Include="ProtoParse.h" />
     <ClInclude Include="proxies.hpp" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="resources.h" />
     <ClInclude Include="sdk\AnalogCode.h" />
     <ClInclude Include="sdk\animationlayer.h" />
     <ClInclude Include="sdk\annotations.h" />
@@ -277,6 +277,7 @@
     <ClInclude Include="sdk\gameconsole.h" />
     <ClInclude Include="sdk\GameEventListener.h" />
     <ClInclude Include="sdk\GameEventManager.h" />
+    <ClInclude Include="sdk\gamemovement.h" />
     <ClInclude Include="sdk\gamerules.h" />
     <ClInclude Include="sdk\gamerules_register.h" />
     <ClInclude Include="sdk\gamestringpool.h" />
@@ -323,6 +324,7 @@
     <ClInclude Include="sdk\ifilelist.h" />
     <ClInclude Include="sdk\igameconsole.h" />
     <ClInclude Include="sdk\igameevents.h" />
+    <ClInclude Include="sdk\igamemovement.h" />
     <ClInclude Include="sdk\IGameSystem.h" />
     <ClInclude Include="sdk\igametypes.h" />
     <ClInclude Include="sdk\IGameUI.h" />
@@ -590,17 +592,6 @@
     <ClCompile Include="protobuffs.cpp" />
     <ClCompile Include="Skinchanger.cpp" />
     <ClCompile Include="textinputcombobox.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="SpyCustom.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="cod.wav">
-      <DeploymentContent>true</DeploymentContent>
-    </Media>
-    <Media Include="crit.wav">
-      <DeploymentContent>true</DeploymentContent>
-    </Media>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

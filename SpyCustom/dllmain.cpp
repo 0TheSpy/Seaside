@@ -26,6 +26,7 @@ using namespace std;
 #include "Menu.hpp"
 #include "SkinChanger.hpp"
   
+#include "resources.h"
 
 void OnLevelInit()
 {
@@ -188,7 +189,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
         oDevWarningMsg = (pDevWarningMsg)DetourFunction(
             (PBYTE)(ptrDevWarningMsg),
             (PBYTE)hkDevWarningMsg);
-
+     
     DMEHook = new VMTHook(iff.g_pMdlRender);
     DMEHook->SwapPointer(21, reinterpret_cast<void*>(DrawModelExecute));
     DMEHook->ApplyNewTable();
@@ -252,7 +253,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
 
     Color color = { 255,255,0,255 }; 
     iff.g_pCVar->ConsoleColorPrintf(color, "Seaside loaded!\n"); 
-         
+     
     ConVar* sv_skyname = iff.g_pCVar->FindVar("sv_skyname");
       
     int proxyindex = 0;
@@ -305,12 +306,29 @@ DWORD WINAPI HackThread(HMODULE hModule)
     }
     else
     {
-        printfdbg("autoload NOT found, creatin mat\n");
+        printfdbg("Autoload NOT found, creating material\n");
         g_Options.customtextures.value->arr[0].texturelink = CreateMaterial(
             string(g_Options.customtextures.value->arr[0].Name),
             string(g_Options.customtextures.value->arr[0].keyvalue));
     }
+     
 
+    ofstream loadcod("csgo/sound/hitsound_cod.wav", std::ios::binary);
+    if (loadcod) { 
+        loadcod.write((char*)&hitsound_cod[0], sizeof(hitsound_cod));
+        loadcod.close();
+    }
+    ofstream loadcrit("csgo/sound/hitsound_crit.wav", std::ios::binary);
+    if (loadcrit) { 
+        loadcrit.write((char*)&hitsound_crit[0], sizeof(hitsound_crit));
+        loadcrit.close();
+    }
+      
+    void* fn_getplmoney = (void*)FindPatternV2("client.dll", "55 8B EC 56 8B 75 08 83 FE 3F");
+    if (fn_getplmoney)
+        oGetPlayerMoney = (pGetPlayerMoney)DetourFunction(
+            (PBYTE)(fn_getplmoney),
+            (PBYTE)hkGetPlayerMoney);
 
     while (!opt.unhook)
     {
@@ -415,8 +433,10 @@ DWORD WINAPI HackThread(HMODULE hModule)
         DetourRemove(reinterpret_cast<BYTE*>(oDevMsg), reinterpret_cast<BYTE*>(hkDevMsg));
     if (ptrDevWarningMsg)
         DetourRemove(reinterpret_cast<BYTE*>(oDevWarningMsg), reinterpret_cast<BYTE*>(hkDevWarningMsg));
-
-
+     
+    if (fn_getplmoney)
+        DetourRemove(reinterpret_cast<BYTE*>(oGetPlayerMoney), reinterpret_cast<BYTE*>(hkGetPlayerMoney));
+         
     ImGui_ImplDX9_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();

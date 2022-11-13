@@ -36,41 +36,23 @@ class EventListener : public IGameEventListener2
 public:
     EventListener()
     {
-        if (!iff.g_pGameEvents->AddListener(this, "bullet_impact", false))
-        {
-#ifdef DEBUG
-            std::cout << "Can't add listener bullet_impact\n";
-#endif
-        }
+        if (!iff.g_pGameEvents->AddListener(this, "bullet_impact", false)) 
+            printfdbg("Can't add listener bullet_impact\n"); 
         
 
-        if (!iff.g_pGameEvents->AddListener(this, "player_hurt", false))
-        {
-#ifdef DEBUG
-            std::cout << "Can't add listener player_hurt\n";
-#endif
-        }
+        if (!iff.g_pGameEvents->AddListener(this, "player_hurt", false)) 
+            printfdbg("Can't add listener player_hurt\n"); 
        
 
-        if (!iff.g_pGameEvents->AddListener(this, "vote_cast", false))
-        {
-#ifdef DEBUG
-            std::cout << "Can't add listener vote_cast\n";
-#endif
-        }
+        if (!iff.g_pGameEvents->AddListener(this, "vote_cast", false)) 
+            printfdbg("Can't add listener vote_cast\n"); 
         
 
-        if (!iff.g_pGameEvents->AddListener(this, "game_newmap", false))
-        {
-#ifdef DEBUG
-            std::cout << "Can't add listener game_newmap\n";
-#endif
-        }
-       
-
-#ifdef DEBUG
-        std::cout << "Event Listener created\n";
-#endif
+        if (!iff.g_pGameEvents->AddListener(this, "game_newmap", false)) 
+            printfdbg("Can't add listener game_newmap\n"); 
+        
+         
+        printfdbg("Event Listener created\n"); 
 
     }
 
@@ -103,52 +85,23 @@ public:
 
                     if (hitgroup == 1)
                     {
-                        bool badInput = false;
-                        int i_dec = 0;
-
-                        if (*g_Options.hitsound) {  
-                            try
-                            {
-                                i_dec = std::stoi(g_Options.hspath.value->mystring);
-                            }
-                            catch (...)
-                            {
-                                badInput = true;
-                                PlaySoundA(g_Options.hspath.value->mystring, NULL, SND_ASYNC);
-                            }
-
-                            if (!badInput && FindResource(opt.hModuleGlobal, MAKEINTRESOURCE(i_dec), "WAVE")) {
-                                PlaySoundA((char*)i_dec, opt.hModuleGlobal, SND_RESOURCE | SND_ASYNC);
-                            }
-
+                        if (*g_Options.hitsound) {
+                            //iff.g_pEngineClient->ExecuteClientCmd("play hitsound_crit.wav");
+                            char pathtosnd[MAX_PATH] = "play "; 
+                            strcat(pathtosnd, g_Options.hspath.value->mystring);
+                            iff.g_pEngineClient->ExecuteClientCmd(pathtosnd);
                         }
-
 
                         if (*g_Options.hitmarker) 
                             bulletdata.push_back(bullet(userid, pos, dmg_health, 1, iff.g_pGlobals->curtime));
                     }
                     else
                     { 
-                        bool badInput = false;
-                        int i_dec = 0;
-
                         if (*g_Options.hitsound) {
-                            try
-                            {
-                                i_dec = std::stoi(g_Options.obpath.value->mystring);
-                            }
-                            catch (...)
-                            {
-                                badInput = true;
-                                PlaySoundA(g_Options.obpath.value->mystring, NULL, SND_ASYNC);
-                            }
-
-                            if (!badInput && FindResource(opt.hModuleGlobal, MAKEINTRESOURCE(i_dec), "WAVE")) {
-                                PlaySoundA((char*)i_dec, opt.hModuleGlobal, SND_RESOURCE | SND_ASYNC);
-                            }
-
+                            char pathtosnd[MAX_PATH] = "play ";
+                            strcat(pathtosnd, g_Options.obpath.value->mystring);
+                            iff.g_pEngineClient->ExecuteClientCmd(pathtosnd);
                         }
-
 
                         if (*g_Options.hitmarker)
                             bulletdata.push_back(bullet(userid, pos, dmg_health, 0, iff.g_pGlobals->curtime));

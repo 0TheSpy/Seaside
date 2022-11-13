@@ -2,7 +2,7 @@
 #define INTERFACES
 #pragma once
 
-//#define DEBUG
+#define DEBUG
 
 #ifdef DEBUG
 #define printfdbg(data, ...) printf(XorStr(data), __VA_ARGS__)
@@ -71,6 +71,7 @@
 #include "sdk/isteamgamecoordinator.h"
 #include "sdk/gamerules.h"
 #include "sdk/igametypes.h"
+#include "sdk/gamemovement.h" 
 
 #include "XorStr.hpp"
 
@@ -78,7 +79,7 @@ PVOID FindHudElement(const char* name);
 
 auto is_code_ptr(void* ptr) -> bool;
 
-#include "resource.h"
+//#include "resource.h" 
 
 class IF {
 public:
@@ -150,7 +151,13 @@ public:
 	CHudElement* HudUniqueAlerts = nullptr;
 	C_GameRulesProxy* GameRulesProxy = nullptr; //C_GameRulesProxy
 	DWORD dwRadarBase = NULL;
+	IMoveHelper* g_pMoveHelper = NULL; //CMoveHelperClient 
+	IGameMovement* g_pGameMovement = NULL; 
+	
 };
+
+
+
 
 extern IF iff;
 
