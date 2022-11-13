@@ -1997,7 +1997,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::Columns(2, nullptr, false);
 
                 ImGui::TextColored(colwhite, XorStr("Seaside"));
-                ImGui::Text(XorStr("Build November 9, 2022"));
+                ImGui::Text(XorStr("Build November 14, 2022"));
                 ImGui::InvisibleButton("##inv", ImVec2(0, 0));
                 ImGui::TextColored(colwhite, XorStr("Developer"));
                 ImGui::Text(XorStr("0TheSpy"));
