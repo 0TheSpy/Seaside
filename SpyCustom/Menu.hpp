@@ -2002,11 +2002,16 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::TextColored(colwhite, XorStr("Developer"));
                 ImGui::Text(XorStr("0TheSpy"));
                 ImGui::InvisibleButton("##inv", ImVec2(0, 0));
-                ImGui::TextColored(colwhite, XorStr("Check for updates"));
-                style->ItemSpacing = ImVec2(20.0f, 33.0f);
+                ImGui::TextColored(colwhite, XorStr("Check for updates")); 
                 ImGui::Text(XorStr("unknowncheats.me")); 
+                  
+                ImGui::InvisibleButton("##inv", ImVec2(0, 24)); 
 
-                if (ImGui::Checkbox("Output NetMsg, UserMsg, DevMsg", g_Options.debugstuff))
+                if (ImGui::Button("Unhook", ImVec2(70, 22)))
+                    opt.unhook = true; 
+
+                ImGui::SameLine(); ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 20);
+                if (ImGui::Checkbox("Output debug messages", g_Options.debugstuff))
                 {
                     if (*g_Options.debugstuff.value)
                     {
@@ -2018,19 +2023,14 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         SetValueUnrestricted("developer", 0);
                         SetValueUnrestricted("sv_show_usermessage", 0);
                     }
-                } 
-
-                style->ItemSpacing = ImVec2(20.0f, 0.0f);
-
-                if (ImGui::Button("Unhook", ImVec2(70, 22)))
-                    opt.unhook = true; 
+                }
 
                 ImGui::NextColumn();
 
                 static int selected = 0; 
                 static char name[255] = "";  
 
-                style->ItemSpacing = ImVec2(20.0f, 9.0f);
+                style->ItemSpacing = ImVec2(7.0f, 2.0f); 
                 if (ImGui::BeginListBox("##cfgs", ImVec2(251.0f, 5 * ImGui::GetTextLineHeightWithSpacing())))
                 {
                     ImGui::PushFont(ifontmini);
