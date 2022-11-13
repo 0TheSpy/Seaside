@@ -515,7 +515,7 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
         iff.g_pClient->DispatchUserMessage(CS_UM_ServerRankRevealAll, 0, 0, nullptr);
     
      
-    if (g_Options.speclist && interval) 
+    if (g_Options.speclist && interval && localplayer->GetHealth() > 0)
     { 
         string spectatorList = "Spectating you:\n \n";
         bool isSomeoneSpectatingYou = false;
