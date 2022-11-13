@@ -144,12 +144,17 @@ void OnLoadCfg()
         opt.sc_skins[g_Options.weapons.value->arr[n].skinidc].color4 = g_Options.weapons.value->arr[n].color4;
 
     }
-    
+     
+    Sleep(100);
     iff.g_pClientState->ForceFullUpdate();
+    Sleep(100);
     opt.needupdate = 1;
+    Sleep(100);
     ProtoFeatures.SendClientHello();
+    Sleep(100);
     ProtoFeatures.SendMatchmakingClient2GCHello();
-    
+    Sleep(100); 
+
     opt.loading = 0;
 }
  
@@ -312,7 +317,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
             string(g_Options.customtextures.value->arr[0].keyvalue));
     }
      
-
+    
     ofstream loadcod("csgo/sound/hitsound_cod.wav", std::ios::binary);
     if (loadcod) { 
         loadcod.write((char*)&hitsound_cod[0], sizeof(hitsound_cod));
@@ -323,20 +328,22 @@ DWORD WINAPI HackThread(HMODULE hModule)
         loadcrit.write((char*)&hitsound_crit[0], sizeof(hitsound_crit));
         loadcrit.close();
     }
+    
       
     void* fn_getplmoney = (void*)FindPatternV2("client.dll", "55 8B EC 56 8B 75 08 83 FE 3F");
     if (fn_getplmoney)
         oGetPlayerMoney = (pGetPlayerMoney)DetourFunction(
             (PBYTE)(fn_getplmoney),
             (PBYTE)hkGetPlayerMoney);
-
+     
     while (!opt.unhook)
-    {
-
+    { 
         if (GetAsyncKeyState(VK_INSERT) & 1)
         {
             opt.show = !opt.show;
-	    printfdbg("Show Menu: %s\n", opt.show ? "true" : "false"); 
+#ifdef DEBUG
+            cout << "Show Menu: " << opt.show << endl;
+#endif
             if (!opt.show)
                 iff.g_pInputSystem->EnableInput(1);
             else
