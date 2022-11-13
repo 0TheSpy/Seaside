@@ -445,7 +445,9 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
     const auto pre_flags = localplayer->GetFlags();
 
     bool interval = !((pCmd->tick_count + 1) % 10);
-
+     
+    if (g_Options.faststop)
+        fastStop(localplayer, pre_flags, pCmd);
     if (g_Options.slidewalk)
         pCmd->buttons ^= IN_FORWARD | IN_BACK | IN_MOVELEFT | IN_MOVERIGHT; 
     if (g_Options.fastduck)
@@ -539,27 +541,22 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
         if (isSomeoneSpectatingYou) ShowMenu(spectatorList);
     }
        
-    if (g_Options.faststop)
-        fastStop(localplayer, pre_flags, pCmd);
 
 
     /*
     if (localplayer)
     {
         prediction::start(pCmd, localplayer);
-        
-        /*
+         
         if (iff.g_pInputSystem->IsButtonDown(KEY_SPACE) && !(pre_flags & FL_ONGROUND) && (localplayer->GetFlags() & FL_ONGROUND))//predicting that we're gonna hit the ground
         {
             pCmd->buttons |= IN_DUCK;
             pCmd->buttons &= IN_JUMP;
-        }
-        
+        } 
         
         prediction::end(localplayer);  
-    }
-
-    //*/
+    } 
+    */
      
      
     pCmd->viewangles.Clamp();
