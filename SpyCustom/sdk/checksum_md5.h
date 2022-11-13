@@ -48,4 +48,7 @@ inline bool MD5Value_t::operator!=(const MD5Value_t& src) const
 	return !MD5_Compare(*this, src);
 }
 
+//
+
+
 #endif  

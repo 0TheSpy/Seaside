@@ -64,6 +64,8 @@ public:
 		NETVAR2(GetViewOffset, "DT_CSPlayer", "m_vecViewOffset[0]", Vector);
 		NETVAR2(GetVelocity, "DT_CSPlayer", "m_vecVelocity[0]", Vector);
 
+		NETVAR2(GetGroundEntity, "DT_BasePlayer", "m_hGroundEntity", int);
+
 		int GetSequenceActivity(int sequence, studiohdr_t* hdr)
 		{
 			static auto getSequenceActivity = (DWORD)(FindPatternV2("client.dll", "55 8B EC 53 8B 5D 08 56 8B F1 83"));            
@@ -83,7 +85,7 @@ public:
 			printf("Set new sequence %d\n",sequence);
 			typedef  void(__thiscall* OriginalFn)(void*, int);
 			return getvfunc<OriginalFn>(this, 246)(this, sequence);
-		}
+		} 
 
 	};
 

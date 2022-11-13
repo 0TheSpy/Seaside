@@ -721,7 +721,22 @@ inline int ClampArrayBounds(int n, unsigned maxindex)
 	:										\
 		BoxOnPlaneSide( (emins), (emaxs), (p)))
 
-void AngleVectors(const QAngle& angles, Vector* forward);
+ 
+inline void AngleVectors(const QAngle& angles, Vector* forward)
+{
+	Assert(s_bMathlibInitialized);
+	Assert(forward);
+
+	float	sp, sy, cp, cy;
+
+	SinCos(DEG2RAD(angles[YAW]), &sy, &cy);
+	SinCos(DEG2RAD(angles[PITCH]), &sp, &cp);
+
+	forward->x = cp * cy;
+	forward->y = cp * sy;
+	forward->z = -sp;
+}
+
 void AngleVectors(const QAngle& angles, Vector* forward, Vector* right, Vector* up);
 void AngleVectorsTranspose(const QAngle& angles, Vector* forward, Vector* right, Vector* up);
 void AngleMatrix(const QAngle& angles, matrix3x4_t& mat);
