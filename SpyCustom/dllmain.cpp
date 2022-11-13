@@ -336,9 +336,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
         if (GetAsyncKeyState(VK_INSERT) & 1)
         {
             opt.show = !opt.show;
-#ifdef DEBUG
-            cout << "Show Menu: " << opt.show << endl;
-#endif
+	    printfdbg("Show Menu: %s\n", opt.show ? "true" : "false"); 
             if (!opt.show)
                 iff.g_pInputSystem->EnableInput(1);
             else
