@@ -371,7 +371,9 @@ bool Changer()
      
     if (g_Options.weapons.value->arr[0].active && g_Options.weapons.value->arr[0].modelactive) 
     { 
-        static int lastmdlindex = -1;
+        //May cause crash idk why
+        /*
+        static int lastmdlindex = -1; 
         int curmdlindex = pViewModel->GetModelIndex();
         if (lastmdlindex != curmdlindex)  
         {
@@ -388,6 +390,7 @@ bool Changer()
                 
             }
         }
+        */
 
         if (view_model_weapon && is_knife(view_model_weapon->GetItemDefinitionIndex())) 
         {
