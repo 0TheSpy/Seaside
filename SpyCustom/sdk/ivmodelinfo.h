@@ -7,6 +7,7 @@
 
 #include "platform.h"
 #include "dbg.h"
+#include "gametrace.h"
 
 class IMaterial;
 class KeyValues;
@@ -14,7 +15,7 @@ struct vcollide_t;
 struct model_t;
 class Vector;
 class QAngle;
-class CGameTrace;
+//class CGameTrace;
 struct cplane_t;
 typedef CGameTrace trace_t;
 struct studiohdr_t;

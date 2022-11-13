@@ -62,6 +62,7 @@ public:
 
 		NETVAR2(IsScoped, "DT_CSPlayer", "m_bIsScoped", bool);
 		NETVAR2(GetViewOffset, "DT_CSPlayer", "m_vecViewOffset[0]", Vector);
+		NETVAR2(GetVelocity, "DT_CSPlayer", "m_vecVelocity[0]", Vector);
 
 		int GetSequenceActivity(int sequence, studiohdr_t* hdr)
 		{
@@ -114,7 +115,8 @@ public:
 
 		NETVAR2(GetTickBase, "DT_BasePlayer", "m_nTickBase", unsigned);
 		NETVAR2(GetObserverTarget, "DT_BasePlayer", "m_hObserverTarget", short); 
-
+		 
+		NETVAR2(GetAccount, "DT_CSPlayer", "m_iAccount", int);
 		/*
 		bool isDormant()
 		{
@@ -189,7 +191,21 @@ public:
 		NETVAR(GetScore, "CCSPlayerResource", "m_iScore", int[MAX_PLAYERS]);
 
 		NETVAR(IsVIP, "CCSPlayerResource", "m_iPlayerVIP", int[MAX_PLAYERS]);
+		 
+		NETVAR(GetTotalCashSpent, "CCSPlayerResource", "m_iTotalCashSpent", int[MAX_PLAYERS]);
+		NETVAR(GetCashSpentThisRound, "CCSPlayerResource", "m_iCashSpentThisRound", int[MAX_PLAYERS]);
+		NETVAR(GetMatchStats_CashEarned_Total, "CCSPlayerResource", "m_iMatchStats_CashEarned_Total", int[MAX_PLAYERS]);
+		NETVAR(IsAlive, "CCSPlayerResource", "m_bAlive", bool[MAX_PLAYERS]);
+		NETVAR(IsConnected, "CCSPlayerResource", "m_bConnected", bool[MAX_PLAYERS]);
 
+		static C_CS_PlayerResource** GetPlayerResource() 
+		{  
+			const auto team_arr_prop = C_CS_PlayerResource::GetTeamProp();
+			const auto team_prop = team_arr_prop->m_pDataTable->m_pProps;
+			const auto proxy_addr = std::uintptr_t(team_prop->m_ProxyFn);
+			printfdbg("PlayerResource proxy_addr ptr: %x\n", proxy_addr + 0x10);
+			return *reinterpret_cast<C_CS_PlayerResource***>(proxy_addr + 0x10); 
+		}
 	};
 
 	class CBaseWeaponWorldModel : public C_BaseEntity
@@ -221,7 +237,8 @@ public:
 		NETVAR2(GetBombDefuser, "DT_PlantedC4", "m_hBombDefuser", int);
 		NETVAR2(IsHaveBombDefuser, "DT_PlantedC4", "m_hBombDefuser", bool);
 		NETVAR2(GetBombSite, "DT_PlantedC4", "m_nBombSite", unsigned);
-	};
+	}; 
 
+	
 
 #endif

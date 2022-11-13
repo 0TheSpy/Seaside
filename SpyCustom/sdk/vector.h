@@ -23,6 +23,13 @@
 #include "minmax.h"
 
 
+#include <cmath>
+//#include <numbers>.
+#define pi_v 3.14159265358979323846
+template <typename T> constexpr auto deg2rad(T degrees) noexcept { return degrees * (static_cast<T>(pi_v) / static_cast<T>(180)); }
+template <typename T> constexpr auto rad2deg(T radians) noexcept { return radians * (static_cast<T>(180) / static_cast<T>(pi_v)); }
+
+
 #define X_INDEX	0
 #define Y_INDEX	1
 #define Z_INDEX	2
@@ -150,6 +157,26 @@ public:
 private:
 	Vector(const Vector& vOther);
 #endif
+
+	inline Vector toAngle() const
+	{
+		return Vector{ rad2deg(std::atan2(-z, std::hypot(x, y))),
+					   rad2deg(std::atan2(y, x)),
+					   0.0f };
+	}
+	  
+	static auto fromAngle(const Vector& angle)
+	{
+		return Vector{ std::cos(deg2rad(angle.x)) * std::cos(deg2rad(angle.y)),
+					   std::cos(deg2rad(angle.x)) * std::sin(deg2rad(angle.y)),
+					  -std::sin(deg2rad(angle.x)) };
+	}
+
+	auto length2D() const noexcept
+	{
+		return std::sqrt(x * x + y * y);
+	}
+
 };
 
 FORCEINLINE void NetworkVarConstruct(Vector& v) { v.Zero(); }
@@ -1892,5 +1919,10 @@ inline bool Vector::IsLengthLessThan(float val) const
 {
 	return LengthSqr() < val * val;
 }
+
+
+
+
+
 
 #endif

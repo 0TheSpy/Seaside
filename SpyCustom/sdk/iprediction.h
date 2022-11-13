@@ -259,6 +259,27 @@ public:
 	CPDumpPanel* m_pPDumpPanel;
 
 #endif
+	 
+
+	bool InPrediction_v() {
+		typedef bool(__thiscall* o_in_prediction)(void*); 
+		return getvfunc<o_in_prediction>(this, 10)(this);
+	}
+
+	void RunCommand_v(C_BaseEntity* player, CUserCmd* cmd, IMoveHelper* helper) {
+		typedef void(__thiscall* o_run_command)(void*, C_BaseEntity*, CUserCmd*, IMoveHelper*); 
+		return getvfunc<o_run_command>(this, 19)(this, player, cmd, helper);
+	}
+
+	void SetupMove_v(C_BaseEntity* player, CUserCmd* cmd, IMoveHelper* helper, void* data) {
+		typedef void(__thiscall* o_setup_move)(void*, C_BaseEntity*, CUserCmd*, IMoveHelper*, void*); 
+		return getvfunc<o_setup_move>(this, 20)(this, player, cmd, helper, data);
+	}
+
+	void FinishMove_v(C_BaseEntity* player, CUserCmd* cmd, void* data) {
+		typedef void(__thiscall* o_finish_move)(void*, C_BaseEntity*, CUserCmd*, void*); 
+		return getvfunc<o_finish_move>(this, 21)(this, player, cmd, data);
+	}
 
 };
 
