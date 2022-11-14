@@ -659,7 +659,8 @@ int __fastcall hkGetPlayerMoney(void* this_, void* edx, int ent_index)
     auto player = iff.g_pEntityList->GetClientEntity(ent_index);
     auto localplayer = ((C_BasePlayer*)iff.g_pEntityList->GetClientEntity(iff.g_pEngineClient->GetLocalPlayer()));
      
-    if (!*g_Options.moneyreveal || !player || !localplayer || !(*g_player_resource) || ((C_BasePlayer*)player)->GetTeam() == localplayer->GetTeam() ) return oGetPlayerMoney(this_, edx, ent_index);
+    if (!*g_Options.moneyreveal || !player || !localplayer || !(*g_player_resource) || ((C_BasePlayer*)player)->GetTeam() == localplayer->GetTeam() ) 
+        return oGetPlayerMoney(this_, edx, ent_index);
       
     if (player->IsDormant())
     {
