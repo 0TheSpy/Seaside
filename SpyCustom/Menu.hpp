@@ -133,28 +133,29 @@ void InitImGui(LPDIRECT3DDEVICE9 pDevice)
     style->WindowMenuButtonPosition = 2;
     style->WindowTitleAlign = ImVec2(0.00f, 1.2f);
     style->WindowRounding = 6;
-    style->Colors[ImGuiCol_FrameBg] = ImVec4(0.463f, 0.463f, 0.463f, 1.0f);
-    style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.635f, 0.635f, 0.635f, 1.0f);
-    style->Colors[ImGuiCol_TitleBg] = ImVec4(0.635f, 0.635f, 0.635f, 1.0f);
-    style->Colors[ImGuiCol_WindowBg] = ImVec4(0.635f, 0.635f, 0.635f, 1.0f);
-    style->Colors[ImGuiCol_MenuBarBg] = ImVec4(0.635f, 0.635f, 0.635f, 1.0f);
-    style->Colors[ImGuiCol_Button] = ImVec4(0.635f, 0.635f, 0.635f, 1.0f);
+    float alpha = 0.6f;
+    style->Colors[ImGuiCol_FrameBg] = ImVec4(0.463f, 0.463f, 0.463f, alpha); //1
+    style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.635f, 0.635f, 0.635f, alpha);
+    style->Colors[ImGuiCol_TitleBg] = ImVec4(0.635f, 0.635f, 0.635f, alpha);
+    style->Colors[ImGuiCol_WindowBg] = ImVec4(0.635f, 0.635f, 0.635f, alpha);
+    style->Colors[ImGuiCol_MenuBarBg] = ImVec4(0.635f, 0.635f, 0.635f, alpha);
+    style->Colors[ImGuiCol_Button] = ImVec4(0.635f, 0.635f, 0.635f, alpha);
     style->ButtonTextAlign = ImVec2(0.1f, 0.5f);
     style->TabRounding = 0;
     style->TabBorderSize = 1;
-    style->Colors[ImGuiCol_Tab] = ImVec4(0.635f, 0.635f, 0.635f, 1.0f);
+    style->Colors[ImGuiCol_Tab] = ImVec4(0.635f, 0.635f, 0.635f, alpha);
     style->WindowPadding = ImVec2(20.0f, 20.0f);
     style->ItemSpacing = ImVec2(7.0f, 15.0f);
-    style->Colors[ImGuiCol_Border] = ImVec4(0.757f, 0.757f, 0.757f, 1.0f);
-    style->Colors[ImGuiCol_CheckMark] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-    style->Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.757f, 0.757f, 0.757f, 1.0f);
-    style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.757f, 0.757f, 0.757f, 1.0f);
-    style->Colors[ImGuiCol_HeaderHovered] = ImVec4(1.0f, 0.612f, 0, 1.0f);
-    style->Colors[ImGuiCol_HeaderActive] = ImVec4(1.0f, 0.612f, 0, 1.0f);
-    style->Colors[ImGuiCol_Header] = ImVec4(1.0f, 0.612f, 0, 1.0f);
-    style->Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.424f, 0.424f, 0.424f, 1.0f);
-    style->Colors[ImGuiCol_SliderGrab] = ImVec4(0.424f, 0.424f, 0.424f, 1.0f);
-    style->Colors[ImGuiCol_PopupBg] = ImVec4(0.635f, 0.635f, 0.635f, 1.0f);
+    style->Colors[ImGuiCol_Border] = ImVec4(0.757f, 0.757f, 0.757f, alpha);
+    style->Colors[ImGuiCol_CheckMark] = ImVec4(1.0f, 1.0f, 1.0f, alpha);
+    style->Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.757f, 0.757f, 0.757f, alpha);
+    style->Colors[ImGuiCol_FrameBgActive] = ImVec4(0.757f, 0.757f, 0.757f, alpha);
+    style->Colors[ImGuiCol_HeaderHovered] = ImVec4(1.0f, 0.612f, 0, alpha);
+    style->Colors[ImGuiCol_HeaderActive] = ImVec4(1.0f, 0.612f, 0, alpha);
+    style->Colors[ImGuiCol_Header] = ImVec4(1.0f, 0.612f, 0, alpha);
+    style->Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.424f, 0.424f, 0.424f, alpha);
+    style->Colors[ImGuiCol_SliderGrab] = ImVec4(0.424f, 0.424f, 0.424f, alpha);
+    style->Colors[ImGuiCol_PopupBg] = ImVec4(0.635f, 0.635f, 0.635f, alpha);
     style->ScrollbarRounding = 0;
     style->SelectableTextAlign = ImVec2(0, 0);
 
@@ -213,7 +214,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
-        ImGuiStyle* style = &ImGui::GetStyle();
+        ImGuiStyle* style = &ImGui::GetStyle(); 
 
         ImGui::PushFont(ifontBD);
 
@@ -1715,7 +1716,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         *(int*)((DWORD)&nameConvar->m_fnChangeCallbacks.m_Size) = 0;
                         printfdbg("m_fnChangeCallbacks %x\n", (DWORD)&nameConvar->m_fnChangeCallbacks.m_Size);
                         //nameConvar->SetValue(MakeControlChars(g_Options.playername.value->mystring)); 
-                        *g_Options.changing_name = 1;
+                        *g_Options.changing_name = 1; 
                         NETSetConVar("name", MakeControlChars(g_Options.playername.value->mystring));
                         
                     }
@@ -1916,7 +1917,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                    
                 style->ItemSpacing = ImVec2(7.0f, 10.0f);  
                 ImGui::Checkbox("C4 timer", g_Options.c4timer);
-                ImGui::Checkbox("Bunny hop", g_Options.bunnyhop);
+                ImGui::Checkbox("Stick to heads", g_Options.blockbot);
                 style->ItemSpacing = ImVec2(7.0f, 17.0f);   
 
                 if (ImGui::SliderFloat("Viewmodel pos X", g_Options.viewmodel_x, -90.0f, 90.0f))
@@ -1931,9 +1932,8 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::NextColumn();  
 
                 style->ItemSpacing = ImVec2(7.0f, 10.0f);  
-                  
-                ImGui::Checkbox("Stick to heads", g_Options.blockbot);
-
+                   
+                ImGui::Checkbox("Bunny hop", g_Options.bunnyhop);
                 DisableElements(*g_Options.bunnyhop, 1); 
                 ImGui::Checkbox("Auto strafe", g_Options.autostrafe);
                 DisableElements(*g_Options.bunnyhop, 0); 
