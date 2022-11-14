@@ -617,15 +617,15 @@ __int64 __cdecl hkDevWarningMsg(_In_z_ _Printf_format_string_ char const* const 
     __crt_va_end(_ArgList); 
     return oDevWarningMsg(_Format, NULL, _ArgList);
 }
-
-
  
 int msgcount = 0;
 
 //sv_show_usermessage 2 //https://www.unknowncheats.me/forum/counterstrike-global-offensive/492173-dispatchusermessage-client-call.html
 bool __fastcall hkDispatchUserMessage(void* thisptr, void*, int msg_type, int32 nFlags, int size, bf_read& msg_data)
-{  
-    //printfdbg("DispatchUserMessage %d %d %d %x\n", msg_type, nFlags, size, &msg_data);
+{   
+    if (*g_Options.debugstuff)
+        printfdbg("DispatchUserMessage type %d flags %d size %d data -> %x\n", msg_type, nFlags, size, &msg_data);
+
     static auto ofunc = ClientHook->GetOriginal<bool(__thiscall*)(void*, int, int32, int, const void*)>(38);
       
     /* //read chat example
@@ -659,10 +659,9 @@ int __fastcall hkGetPlayerMoney(void* this_, void* edx, int ent_index)
     auto player = iff.g_pEntityList->GetClientEntity(ent_index);
     auto localplayer = ((C_BasePlayer*)iff.g_pEntityList->GetClientEntity(iff.g_pEngineClient->GetLocalPlayer()));
      
-    if (!*g_Options.moneyreveal || !player || !localplayer  || ((C_BasePlayer*)player)->GetTeam() == localplayer->GetTeam() ) 
-        return oGetPlayerMoney(this_, edx, ent_index);
+    if (!*g_Options.moneyreveal || !player || !localplayer || !(*g_player_resource) || ((C_BasePlayer*)player)->GetTeam() == localplayer->GetTeam() ) return oGetPlayerMoney(this_, edx, ent_index);
       
-    if (player->IsDormant() && *g_player_resource)
+    if (player->IsDormant())
     {
         int money = (*g_player_resource)->GetMatchStats_CashEarned_Total()[ent_index] - (*g_player_resource)->GetTotalCashSpent()[ent_index]; 
         money += iff.g_pCVar->FindVar("mp_startmoney")->GetInt(); 
