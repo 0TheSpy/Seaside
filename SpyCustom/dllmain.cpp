@@ -166,7 +166,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
     while (!GetModuleHandleA("serverbrowser.dll"))
         Sleep(1000);
 
-#ifdef DEBUG
+#ifdef CONSOLE
     AllocConsole();
     FILE* f;
     freopen_s(&f, "CONOUT$", "w", stdout);
@@ -341,9 +341,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
         if (GetAsyncKeyState(VK_INSERT) & 1)
         {
             opt.show = !opt.show;
-#ifdef DEBUG
-            cout << "Show Menu: " << opt.show << endl;
-#endif
+            printfdbg("Show menu: %d\n", opt.show);
             if (!opt.show)
                 iff.g_pInputSystem->EnableInput(1);
             else
@@ -457,7 +455,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
 
     Sleep(1000);
     
-#ifdef DEBUG
+#ifdef CONSOLE
     if (f) fclose(f);
     FreeConsole();
 #endif
