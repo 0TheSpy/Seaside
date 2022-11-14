@@ -659,10 +659,10 @@ int __fastcall hkGetPlayerMoney(void* this_, void* edx, int ent_index)
     auto player = iff.g_pEntityList->GetClientEntity(ent_index);
     auto localplayer = ((C_BasePlayer*)iff.g_pEntityList->GetClientEntity(iff.g_pEngineClient->GetLocalPlayer()));
      
-    if (!*g_Options.moneyreveal || !player || !localplayer || !(*g_player_resource) || ((C_BasePlayer*)player)->GetTeam() == localplayer->GetTeam() ) 
+    if (!*g_Options.moneyreveal || !player || !localplayer  || ((C_BasePlayer*)player)->GetTeam() == localplayer->GetTeam() ) 
         return oGetPlayerMoney(this_, edx, ent_index);
       
-    if (player->IsDormant())
+    if (player->IsDormant() && *g_player_resource)
     {
         int money = (*g_player_resource)->GetMatchStats_CashEarned_Total()[ent_index] - (*g_player_resource)->GetTotalCashSpent()[ent_index]; 
         money += iff.g_pCVar->FindVar("mp_startmoney")->GetInt(); 
