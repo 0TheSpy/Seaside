@@ -110,6 +110,14 @@ public:
 
         rename(name.c_str(), newname.c_str());
         Refresh();
+      
+        if (opt.autoconfig == selected)
+        {
+            ofstream autoload;
+            autoload.open("seaside_autoload");
+            autoload << Config::Get().configs[selected];
+            autoload.close();
+        }
     }
 
 
