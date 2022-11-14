@@ -9,6 +9,8 @@
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif
 #include "imgui_internal.h"
+  
+const ImU32 colWhite = 0x99C1C1C1; const ImU32 colBlack = 0x99585858; const ImU32 colWhiteText = 0x99D9D9D9;
 
 #include <ctype.h>       
 #if defined(_MSC_VER) && _MSC_VER <= 1500     
@@ -78,7 +80,6 @@ static bool             InputTextFilterCharacter(unsigned int* p_char, ImGuiInpu
 static int              InputTextCalcTextLenAndLineCount(const char* text_begin, const char** out_text_end);
 static ImVec2           InputTextCalcTextSizeW(const ImWchar* text_begin, const ImWchar* text_end, const ImWchar** remaining = NULL, ImVec2* out_offset = NULL, bool stop_on_new_line = false);
 
-const ImU32 colWhite = 0xFFC1C1C1; const ImU32 colBlack = 0xFF585858; const ImU32 colWhiteText = 0xFFD9D9D9;
 void ImGui::TextEx(const char* text, const char* text_end, ImGuiTextFlags flags)
 {
     ImGuiWindow* window = GetCurrentWindow();
