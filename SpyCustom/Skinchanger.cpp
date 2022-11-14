@@ -578,9 +578,7 @@ void InitSkinChanger()
     }
 
     auto musickitsS = itemSystem()->getItemSchema()->music_definitions;
-#ifdef DEBUG
-    std::cout << musickitsS.memory << " " << musickitsS.itemcount << std::endl;
-#endif
+
     for (int i = (int)musickitsS.memory; i < (int)musickitsS.memory + musickitsS.itemcount * 0x18; i += 0x18)
     {
         CEconMusicDefinition* music = *(CEconMusicDefinition**)(i + 0x14);
