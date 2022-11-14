@@ -135,6 +135,9 @@ void InitImGui(LPDIRECT3DDEVICE9 pDevice)
     style->WindowRounding = 6;
 
     float alpha = 0.6f; //other colors -> imgui_widgets.cpp 
+#ifdef OLDSTYLE
+    alpha = 1.0f;
+#endif
     style->Colors[ImGuiCol_FrameBg] = ImVec4(0.463f, 0.463f, 0.463f, alpha); //1
     style->Colors[ImGuiCol_TitleBgActive] = ImVec4(0.635f, 0.635f, 0.635f, alpha);
     style->Colors[ImGuiCol_TitleBg] = ImVec4(0.635f, 0.635f, 0.635f, alpha);
