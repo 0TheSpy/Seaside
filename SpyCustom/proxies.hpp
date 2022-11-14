@@ -181,7 +181,7 @@ void SetViewModelSequence(const CRecvProxyData* pDataConst, void* pStruct, void*
 
 				}
 				 
-				printfdbg("Sequence %s %d (%s)\n", (char*)pViewModel->GetSequenceActivity(m_nSequence), m_nSequence, szModel);
+				//printfdbg("Sequence %s %d (%s)\n", (char*)pViewModel->GetSequenceActivity(m_nSequence), m_nSequence, szModel);
  
 				pData->m_Value.m_Int = m_nSequence;
 			}

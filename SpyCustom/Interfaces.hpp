@@ -3,7 +3,7 @@
 #pragma once
 
 //do not delete
-#define DEBUG
+//#define DEBUG 
 
 #ifdef DEBUG
 #define printfdbg(data, ...) printf(XorStr(data), __VA_ARGS__)

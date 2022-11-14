@@ -242,10 +242,8 @@ void NETSetConVar(const char* cvarname, const char* cvarvalue)
 
     char name[1024]; char value[1024]; 
     strcpy(name, cvarname);
-    strcpy(value, cvarvalue);
-     
-    static void* pvSetConVar = (void*)FindPatternV2(("engine.dll"), ("8D 4C 24 1C E8 ? ? ? ? 56"));  
-    
+    strcpy(value, cvarvalue); 
+    static void* pvSetConVar = (void*)FindPatternV2(("engine.dll"), ("8D 4C 24 1C E8 ? ? ? ? 56"));   
     printfdbg("NETSetConVar %s %s\n", cvarname, value);
 
     if (pvSetConVar) { 

@@ -1718,6 +1718,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         printfdbg("m_fnChangeCallbacks %x\n", (DWORD)&nameConvar->m_fnChangeCallbacks.m_Size);
                         //nameConvar->SetValue(MakeControlChars(g_Options.playername.value->mystring)); 
                         *g_Options.changing_name = 1; 
+                        
                         NETSetConVar("name", MakeControlChars(g_Options.playername.value->mystring));
                         
                     }

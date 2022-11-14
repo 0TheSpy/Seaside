@@ -166,7 +166,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
     while (!GetModuleHandleA("serverbrowser.dll"))
         Sleep(1000);
 
-#ifdef CONSOLE
+#ifdef DEBUG
     AllocConsole();
     FILE* f;
     freopen_s(&f, "CONOUT$", "w", stdout);
@@ -455,7 +455,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
 
     Sleep(1000);
     
-#ifdef CONSOLE
+#ifdef DEBUG
     if (f) fclose(f);
     FreeConsole();
 #endif
