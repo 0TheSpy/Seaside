@@ -620,11 +620,13 @@ __int64 __cdecl hkDevWarningMsg(_In_z_ _Printf_format_string_ char const* const 
  
 int msgcount = 0;
 
-//sv_show_usermessage 2 //https://www.unknowncheats.me/forum/counterstrike-global-offensive/492173-dispatchusermessage-client-call.html
+//sv_show_usermessage 2 for local server //https://www.unknowncheats.me/forum/counterstrike-global-offensive/492173-dispatchusermessage-client-call.html
 bool __fastcall hkDispatchUserMessage(void* thisptr, void*, int msg_type, int32 nFlags, int size, bf_read& msg_data)
 {   
-    if (*g_Options.debugstuff)
-        printfdbg("DispatchUserMessage type %d flags %d size %d data -> %x\n", msg_type, nFlags, size, &msg_data);
+    printfdbg("DispatchUserMessage type %d flags %d size %d data -> %x\n", msg_type, nFlags, size, &msg_data);
+    if (*g_Options.debugstuff) { 
+        iff.myConMsg("[Seaside] DispatchUserMessage type %d flags %d size %d data -> %x\n", msg_type, nFlags, size, &msg_data);
+    }
 
     static auto ofunc = ClientHook->GetOriginal<bool(__thiscall*)(void*, int, int32, int, const void*)>(38);
       
