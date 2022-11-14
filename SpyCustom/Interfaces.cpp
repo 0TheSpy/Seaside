@@ -240,8 +240,7 @@ void NETSetConVar(const char* cvarname, const char* cvarvalue)
 {
     //__asm pushad
 
-    char name[1024]; char value[1024];
-    ZeroMemory(name, 1024); ZeroMemory(value, 1024);
+    char name[1024]; char value[1024]; 
     strcpy(name, cvarname);
     strcpy(value, cvarvalue);
      
