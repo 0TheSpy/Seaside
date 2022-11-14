@@ -2,8 +2,8 @@
 #define INTERFACES
 #pragma once
 
-//do not delete
-//#define DEBUG 
+//random crashes while loading config without DEBUG defined
+#define DEBUG 
 
 #ifdef DEBUG
 #define printfdbg(data, ...) printf(XorStr(data), __VA_ARGS__)
