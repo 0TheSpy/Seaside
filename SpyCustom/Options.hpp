@@ -708,6 +708,7 @@ public:
 
     OPTION(bool, predict, 0);
     OPTION(bool, blockbot, 0);
+    OPTION(bool, fastladder, 1);
 };
 
 inline Options g_Options;

@@ -2,6 +2,7 @@
 
 #include "sdk/particles.h"
 #include "ProtobuffMessages.h"
+ 
 
 VMTHook* SoundHook = nullptr;
 void __fastcall hkEmitSound1(void* _this, int edx, IRecipientFilter& filter, int iEntIndex, int iChannel, char* pSoundEntry, unsigned int nSoundEntryHash, const char* pSample, float flVolume, int nSeed, float flAttenuation, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, void* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity, int unk) {
@@ -428,6 +429,76 @@ void fastStop(C_BasePlayer* localplayer, int flags, CUserCmd* cmd) noexcept
     cmd->sidemove = negatedDirection.y;
 } 
 
+void FastLadder(C_BasePlayer* localplayer, CUserCmd* cmd)
+{
+    static bool checkkkk = false;
+    float Up_down;
+
+    Vector angle;
+    iff.g_pEngineClient->GetViewAngles(angle);
+    auto oldangles = cmd->viewangles;
+    if (localplayer->GetMoveType() == MOVETYPE_LADDER)
+    {
+        if (angle.x < 15)
+            Up_down = -89;
+        else Up_down = 89;
+        if (cmd->buttons & IN_FORWARD)
+        {
+            cmd->viewangles.x = Up_down;
+            if (oldangles.y > 135 && oldangles.y <= 180)
+            {
+                cmd->viewangles.y = 90.0f;
+                cmd->buttons |= IN_MOVELEFT;
+            }
+            else if (oldangles.y <= 135 && oldangles.y >= 90)
+            {
+                cmd->viewangles.y = 179.0f;
+                cmd->buttons |= IN_MOVERIGHT;
+            }
+            else if (oldangles.y <= -135 && oldangles.y >= -180.0f)
+            {
+                cmd->viewangles.y = -90.f;
+                cmd->buttons |= IN_MOVERIGHT;
+            }
+            else if (oldangles.y <= 90 && oldangles.y >= 45)
+            {
+                cmd->viewangles.y = 0;
+                cmd->buttons |= IN_MOVELEFT;
+            }
+            else if (oldangles.y >= -90 && oldangles.y <= -45)
+            {
+                cmd->viewangles.y = -0;
+                cmd->buttons |= IN_MOVERIGHT;
+            }
+            else if (oldangles.y <= -90 && oldangles.y >= -135)
+            {
+                cmd->viewangles.y = -179.0;
+                cmd->buttons |= IN_MOVELEFT;
+            }
+            else if (oldangles.y <= 45 && oldangles.y > 0)
+            {
+                cmd->viewangles.y = 90;
+                cmd->buttons |= IN_MOVERIGHT;
+            }
+            else if (oldangles.y <= -0 && oldangles.y >= -45)
+            {
+                cmd->viewangles.y = -90;
+                cmd->buttons |= IN_MOVELEFT;
+            }
+        }
+    }
+    //duck on edge of ladder??
+    if (localplayer->GetMoveType() == MOVETYPE_LADDER && !checkkkk)
+    {
+        checkkkk = true;
+    }
+    if (localplayer->GetMoveType() != MOVETYPE_LADDER && checkkkk)
+    {
+        cmd->buttons |= IN_DUCK;
+        checkkkk = false;
+    }
+
+}
 
 bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
 {
@@ -440,12 +511,16 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
     short localid = iff.g_pEngineClient->GetLocalPlayer();
     C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(localid));
 
+    if (!localplayer) return 0;
+
     const auto pre_flags = localplayer->GetFlags();
 
     bool interval = !((pCmd->tick_count + 1) % 10);
        
     if (g_Options.faststop)
         fastStop(localplayer, pre_flags, pCmd);
+    if (g_Options.fastladder)
+        FastLadder(localplayer, pCmd);
     if (g_Options.slidewalk)
         pCmd->buttons ^= IN_FORWARD | IN_BACK | IN_MOVELEFT | IN_MOVERIGHT; 
     if (g_Options.fastduck)

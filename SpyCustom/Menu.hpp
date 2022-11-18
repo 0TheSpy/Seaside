@@ -1870,13 +1870,14 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::Columns(3, nullptr, false);
                  
                 //   
-                style->ItemSpacing = ImVec2(7.0f, 10.0f); //10
+                style->ItemSpacing = ImVec2(7.0f, 8.0f); //10
                 ImGui::Checkbox("Spectator list", g_Options.speclist);
                 ImGui::Checkbox("Vote reveal", g_Options.votereveal);
                 ImGui::Checkbox("Rank reveal", g_Options.rankreveal); 
                 ImGui::Checkbox("Money reveal", g_Options.moneyreveal);
                 ImGui::Checkbox("Fast duck", g_Options.fastduck);
                 ImGui::Checkbox("Fast stop", g_Options.faststop);
+                ImGui::Checkbox("Fast ladder", g_Options.fastladder);
                 ImGui::Checkbox("Slide walk", g_Options.slidewalk); 
                  
                 //ImGui::NextColumn();
@@ -1920,10 +1921,10 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                  
                 ImGui::NextColumn();
                    
-                style->ItemSpacing = ImVec2(7.0f, 10.0f);  
+                style->ItemSpacing = ImVec2(7.0f, 8.0f);  //10
                 ImGui::Checkbox("C4 timer", g_Options.c4timer);
-                ImGui::Checkbox("Stick to heads", g_Options.blockbot);
-                style->ItemSpacing = ImVec2(7.0f, 17.0f);   
+                ImGui::Checkbox("Block bot", g_Options.blockbot);
+                style->ItemSpacing = ImVec2(7.0f, 19.0f);   //17
 
                 if (ImGui::SliderFloat("Viewmodel pos X", g_Options.viewmodel_x, -90.0f, 90.0f))
                     SetValueUnrestricted("viewmodel_offset_x", g_Options.viewmodel_x);  
@@ -1936,13 +1937,13 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                  
                 ImGui::NextColumn();  
 
-                style->ItemSpacing = ImVec2(7.0f, 10.0f);  
+                style->ItemSpacing = ImVec2(7.0f, 8.0f);   //10
                    
                 ImGui::Checkbox("Bunny hop", g_Options.bunnyhop);
                 DisableElements(*g_Options.bunnyhop, 1); 
                 ImGui::Checkbox("Auto strafe", g_Options.autostrafe);
                 DisableElements(*g_Options.bunnyhop, 0); 
-                style->ItemSpacing = ImVec2(7.0f, 17.0f);  
+                style->ItemSpacing = ImVec2(7.0f, 19.0f);  //17
                  
                 ImGui::SliderFloat("Viewmodel ang X", g_Options.viewmodel_ang_x, -180.0f, 180.0f);  
                 ImGui::SliderFloat("Viewmodel ang Y", g_Options.viewmodel_ang_y, -180.0f, 180.0f);
