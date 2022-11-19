@@ -251,26 +251,4 @@ public:
 		NETVAR2(GetBombSite, "DT_PlantedC4", "m_nBombSite", unsigned);
 	}; 
 
-	
-	/*
-	class CColliderable
-	{
-	public:
-		   
-		Vector& OBBMins()
-		{
-			using OriginalFn = Vector& (__thiscall* )(void*);
-			return getvfunc<OriginalFn>(this, 1)(this);
-		}
-
-		Vector& OBBMaxs()
-		{ 
-			typedef  Vector&(__thiscall* OriginalFn)(void*);
-			return getvfunc<OriginalFn>(this, 2)(this);
-		}
-
-	};
-	*/
-	
-
 #endif
