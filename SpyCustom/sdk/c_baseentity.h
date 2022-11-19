@@ -74,6 +74,7 @@ public:
 		NETVAR2(GetGroundEntity, "DT_BasePlayer", "m_hGroundEntity", int);
 		NETVAR2(GetCollisionGroup, "DT_CSPlayer", "m_CollisionGroup", int); 
 		
+		NETVAR2(GetColorRender, "DT_BaseEntity", "m_clrRender", int); 
 
 		int GetSequenceActivity(int sequence, studiohdr_t* hdr)
 		{
