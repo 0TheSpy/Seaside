@@ -13,7 +13,7 @@
 #ifdef OLDSTYLE
 const ImU32 colWhite = 0xFFC1C1C1; const ImU32 colBlack = 0xFF585858; const ImU32 colWhiteText = 0xFFD9D9D9;
 #else
-const ImU32 colWhite = 0x99C1C1C1; const ImU32 colBlack = 0x99585858; const ImU32 colWhiteText = 0x99D9D9D9;
+const ImU32 colWhite = 0xB2C1C1C1; const ImU32 colBlack = 0xB2585858; const ImU32 colWhiteText = 0xB2D9D9D9;
 #endif
 
 #include <ctype.h>       
