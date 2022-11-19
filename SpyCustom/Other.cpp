@@ -230,7 +230,7 @@ void do_precipitation() {
             rain_networkable = ((void* (*)(int, int))precipitation_client_class->m_pCreateFn)(MAX_EDICTS - 1, 0);
 
             if (rain_networkable) {
-                rain_ent = (C_Precipitation*)iff.g_pEntityList->GetClientEntity(MAX_EDICTS - 1);
+                rain_ent = (C_Precipitation*)iff.g_pEntityList->GetClientEntity(MAX_EDICTS - 1); 
 
                 rain_ent->GetPrecipitationType() = (PrecipitationType_t)*g_Options.weathertype; 
 
@@ -238,7 +238,11 @@ void do_precipitation() {
                 rain_ent->OnPreDataChanged(DataUpdateType_t::DATA_UPDATE_CREATED);
 
                 rain_ent->GetMins() = Vector(-32767.0f, -32767.0f, -32767.0f);
-                rain_ent->GetMaxs() = Vector(32767.0f, 32767.0f, 32767.0f);
+                rain_ent->GetMaxs() = Vector(32767.0f, 32767.0f, 32767.0f); 
+
+                auto collid = rain_ent->GetCollideable();
+                collid->OBBMins_() = Vector(-32767.0f, -32767.0f, -32767.0f);
+                collid->OBBMaxs_() = Vector(32767.0f, 32767.0f, 32767.0f); 
 
                 rain_ent->OnDataChanged(DataUpdateType_t::DATA_UPDATE_CREATED);
                 rain_ent->PostDataUpdate(DataUpdateType_t::DATA_UPDATE_CREATED);

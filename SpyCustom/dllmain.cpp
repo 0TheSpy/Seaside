@@ -178,7 +178,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
     opt.hModuleGlobal = hModule;
 
     NetvarSys::Get().Initialize();
-
+      
     void* ptrDevMsg = GetProcAddress(GetModuleHandleA("tier0.dll"), "?DevMsg@@YAXPBDZZ");
     printfdbg("DevMsg %x\n", ptrDevMsg);
 

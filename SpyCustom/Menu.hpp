@@ -134,7 +134,7 @@ void InitImGui(LPDIRECT3DDEVICE9 pDevice)
     style->WindowTitleAlign = ImVec2(0.00f, 1.2f);
     style->WindowRounding = 6;
 
-    float alpha = 0.6f; //other colors -> imgui_widgets.cpp 
+    float alpha = 0.7f; // other colors -> imgui_widgets.cpp 
 #ifdef OLDSTYLE
     alpha = 1.0f;
 #endif
@@ -1870,7 +1870,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                 ImGui::Columns(3, nullptr, false);
                  
                 //   
-                style->ItemSpacing = ImVec2(7.0f, 8.0f); //10
+                style->ItemSpacing = ImVec2(7.0f, 5.0f); //10
                 ImGui::Checkbox("Spectator list", g_Options.speclist);
                 ImGui::Checkbox("Vote reveal", g_Options.votereveal);
                 ImGui::Checkbox("Rank reveal", g_Options.rankreveal); 
@@ -1921,7 +1921,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                  
                 ImGui::NextColumn();
                    
-                style->ItemSpacing = ImVec2(7.0f, 8.0f);  //10
+                style->ItemSpacing = ImVec2(7.0f, 5.0f);  //10
                 ImGui::Checkbox("C4 timer", g_Options.c4timer);
                 ImGui::Checkbox("Block bot", g_Options.blockbot);
                 style->ItemSpacing = ImVec2(7.0f, 19.0f);   //17
@@ -1937,7 +1937,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                  
                 ImGui::NextColumn();  
 
-                style->ItemSpacing = ImVec2(7.0f, 8.0f);   //10
+                style->ItemSpacing = ImVec2(7.0f, 5.0f);   //10
                    
                 ImGui::Checkbox("Bunny hop", g_Options.bunnyhop);
                 DisableElements(*g_Options.bunnyhop, 1); 
