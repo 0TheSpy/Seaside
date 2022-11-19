@@ -31,6 +31,13 @@ private: \
     std::byte PAD_NAME(__COUNTER__) [size]; \
 public:
 
+	class ICollideable
+	{
+	public:
+		virtual HANDLE* GetEntityHandle() = 0;
+		virtual Vector& OBBMins_()  = 0;
+		virtual Vector& OBBMaxs_()  = 0;
+	};
 
 	class C_BaseEntity : public IClientEntity
 	{
@@ -65,6 +72,8 @@ public:
 		NETVAR2(GetVelocity, "DT_CSPlayer", "m_vecVelocity[0]", Vector);
 
 		NETVAR2(GetGroundEntity, "DT_BasePlayer", "m_hGroundEntity", int);
+		NETVAR2(GetCollisionGroup, "DT_CSPlayer", "m_CollisionGroup", int); 
+		
 
 		int GetSequenceActivity(int sequence, studiohdr_t* hdr)
 		{
@@ -241,6 +250,26 @@ public:
 		NETVAR2(GetBombSite, "DT_PlantedC4", "m_nBombSite", unsigned);
 	}; 
 
+	
+	/*
+	class CColliderable
+	{
+	public:
+		   
+		Vector& OBBMins()
+		{
+			using OriginalFn = Vector& (__thiscall* )(void*);
+			return getvfunc<OriginalFn>(this, 1)(this);
+		}
+
+		Vector& OBBMaxs()
+		{ 
+			typedef  Vector&(__thiscall* OriginalFn)(void*);
+			return getvfunc<OriginalFn>(this, 2)(this);
+		}
+
+	};
+	*/
 	
 
 #endif
