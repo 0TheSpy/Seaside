@@ -278,3 +278,15 @@ void ShowMenu(std::string text)
 }
  
  
+//if sv_voicecodec = vaudio_celt
+bool VoiceRecordStart(const char* pUncompressedFile)
+{
+    typedef bool(__cdecl* Voice_RecordStartFn)(const char*, const char*, const char*);
+    static Voice_RecordStartFn Voice_RecordStart = Voice_RecordStartFn(FindPatternV2("engine.dll", "55 8B EC 83 EC 0C 83 3D ?? ?? ?? ?? ?? 56 57"));
+
+    //m_FileDuration = GetWavFileDuration(WavSound);
+    //m_FilePlayEndTime = iff.g_pGlobals->curtime + m_FileDuration;
+     
+    iff.g_pEngineClient->ExecuteClientCmd("voice_loopback 1");
+    return Voice_RecordStart(pUncompressedFile, nullptr, nullptr);
+}
