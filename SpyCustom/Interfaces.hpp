@@ -375,6 +375,7 @@ void TextMsg(std::string text);
 void ShowMenu(std::string text);
 std::string GetName(int id);
  
+bool VoiceRecordStart(const char* pUncompressedFile); 
 
 
 #endif
