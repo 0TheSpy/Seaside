@@ -8,6 +8,8 @@
 
 #include "mathlib.h"
 
+
+
 #define DISPSURF_FLAG_SURFACE		(1<<0)
 #define DISPSURF_FLAG_WALKABLE		(1<<1)
 #define DISPSURF_FLAG_BUILDABLE		(1<<2)
@@ -26,9 +28,10 @@ public:
 
 public:
 
-	Vector			startpos;				  
-	Vector			endpos;					  
-	BYTE plane[20]; 
+	Vector			vecStart;		// start position
+	Vector			vecEnd;			// final position
+	cplane_t		plane;
+	
 
 	float			fraction;				       
 

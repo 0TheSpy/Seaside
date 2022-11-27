@@ -90,7 +90,7 @@ enum VertexTextureSampler_t
 
 #include "bittools.h"
 
-#define TICK_INTERVAL			(gpGlobals->interval_per_tick)
+#define TICK_INTERVAL			(iff.g_pGlobals->interval_per_tick)
 
 
 #define TIME_TO_TICKS( dt )		( (int)( 0.5f + (float)(dt) / TICK_INTERVAL ) )

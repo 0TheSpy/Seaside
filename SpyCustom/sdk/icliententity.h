@@ -28,7 +28,7 @@ public:
 
 	virtual void			Release(void) = 0;
 	virtual void Unknown000(void) = 0; 
-	const Vector& GetAbsOrigin() 
+	 Vector& GetAbsOrigin() 
 	{
 		typedef Vector& (__thiscall* GetAbsOriginFn)(void*);
 		return getvfunc<GetAbsOriginFn>(this, 10)(this);

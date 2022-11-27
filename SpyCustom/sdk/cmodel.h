@@ -35,6 +35,8 @@ struct csurface_t
 
 struct Ray_t
 {
+
+
 	VectorAligned  m_Start;	      
 	VectorAligned  m_Delta;	      
 	VectorAligned  m_StartOffset;	          

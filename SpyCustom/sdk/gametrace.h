@@ -29,7 +29,10 @@ public:
 
 	bool DidHit() const;
 
-	bool isVisible() const; 
+	inline bool IsVisible() const
+	{
+		return (fraction > 0.97f);
+	}
 
 #if defined( ENGINE_DLL )
 	void SetEdict(edict_t* pEdict);
@@ -43,13 +46,8 @@ public:
 	csurface_t	surface;				     
 	int			hitgroup;				        
 	short		physicsbone;			       
-
-#if defined( CLIENT_DLL )
-	C_BaseEntity* m_pEnt;
-#else
-	IClientEntity* m_pEnt;
-#endif
-	
+	std::uint16_t		uWorldSurfaceIndex;		// index of the msurface2_t, if applicable
+	C_BaseEntity* m_pEnt; 
 	int			hitbox;					      
 
 	CGameTrace() {}

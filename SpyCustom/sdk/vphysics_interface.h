@@ -720,12 +720,25 @@ struct surfacesoundhandles_t
 
 struct surfacegameprops_t
 {
+	float				flMaxSpeedFactor;
+	float				flJumpFactor;
+	float				flPenetrationModifier;
+	float				flDamageModifier;
+	MaterialHandle_t	hMaterial;
+	std::byte			dClimbable;
+	std::byte			pad0[0x4];
+}; // Size: 0x17
+
+/*
+struct surfacegameprops_t
+{
 	float			maxSpeedFactor;			         
 	float			jumpFactor;				            
 	unsigned short	material;
 	unsigned char	climbable;
 	unsigned char	pad;
 };
+*/
 
 struct surfacedata_t
 {

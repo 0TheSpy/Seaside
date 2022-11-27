@@ -69,6 +69,8 @@ public:
 	virtual void		GetRemoteFramerate(float* pflFrameTime, float* pflFrameTimeStdDeviation) const = 0;
 
 	virtual float		GetTimeoutSeconds() const = 0;
+
+
 };
 
 #endif  

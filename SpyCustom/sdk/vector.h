@@ -22,7 +22,7 @@
 #include "math_pfns.h"
 #include "minmax.h"
 
-
+#include <algorithm>
 #include <cmath>
 //#include <numbers>.
 #define pi_v 3.14159265358979323846
@@ -48,6 +48,7 @@ template <typename T> constexpr auto rad2deg(T radians) noexcept { return radian
 #define VecToString(v)	(static_cast<const char *>(CFmtStr("(%f, %f, %f)", (v).x, (v).y, (v).z)))          
 
 class VectorByValue;
+class QAngle;
 
 class Vector
 {
@@ -56,6 +57,8 @@ public:
 
 	Vector(void);
 	Vector(vec_t X, vec_t Y, vec_t Z);
+	inline Vector(QAngle v); 
+
 	explicit Vector(vec_t XYZ);   
 
 	void Init(vec_t ix = 0.0f, vec_t iy = 0.0f, vec_t iz = 0.0f);
@@ -127,7 +130,7 @@ public:
 
 	void	MulAdd(const Vector& a, const Vector& b, float scalar);
 
-	vec_t	Dot(const Vector& vOther) const;
+	vec_t	Dot(const Vector& vOther) const; 
 
 	Vector& operator=(const Vector& vOther);
 
@@ -175,6 +178,31 @@ private:
 	auto length2D() const noexcept
 	{
 		return std::sqrt(x * x + y * y);
+	}
+
+	void Clamp(void)
+	{
+		if (this->x < -89.f)
+			this->x = -89.f;
+
+		if (this->x > 89.f)
+			this->x = 89.f;
+
+		while (this->y < -180.f)
+			this->y += 360.f;
+
+		while (this->y > 180.f)
+			this->y -= 360.f;
+
+		this->z = 0.f;
+	}
+
+
+	void Normalize()
+	{
+		this->x = std::isfinite(this->x) ? std::remainderf(this->x, 360.f) : 0.f;
+		this->y = std::isfinite(this->y) ? std::remainderf(this->y, 360.f) : 0.f;
+		this->z = std::clamp(this->z, -50.f, 50.f);
 	}
 
 };
@@ -982,7 +1010,7 @@ inline Vector& AllocTempVector()
 
 
 
-FORCEINLINE vec_t DotProduct(const Vector& a, const Vector& b)
+FORCEINLINE vec_t DotProduct(const Vector& a, const Vector& b)  
 {
 	CHECK_VALID(a);
 	CHECK_VALID(b);
@@ -1444,6 +1472,12 @@ public:
 
 	QAngle(void);
 	QAngle(vec_t X, vec_t Y, vec_t Z);
+	QAngle(Vector v)
+	{
+		this->x = v.x;
+		this->y = v.y;
+		this->z = v.z;
+	}
 	operator QAngleByValue& () { return *((QAngleByValue*)(this)); }
 	operator const QAngleByValue& () const { return *((const QAngleByValue*)(this)); }
 
@@ -1488,8 +1522,8 @@ private:
 
 	void Clamp(void)
 	{ 
-		if (this->z < -89.f)
-			this->x = 89.f;
+		if (this->x < -89.f)
+			this->x = -89.f;
 
 		if (this->x > 89.f)
 			this->x = 89.f;
@@ -1503,7 +1537,31 @@ private:
 		this->z = 0.f;
 	}
 
+
+	void Normalize()
+	{
+		this->x = std::isfinite(this->x) ? std::remainderf(this->x, 360.f) : 0.f;
+		this->y = std::isfinite(this->y) ? std::remainderf(this->y, 360.f) : 0.f;
+		this->z = std::clamp(this->z, -50.f, 50.f);
+	}
+
+	float DistTo(const QAngle& other) {
+		QAngle delta;
+		delta.x = x - other.x;
+		delta.y = y - other.y;
+		delta.z = z - other.z;
+
+		return delta.Length();
+	}
+
 };
+
+inline Vector::Vector(QAngle v)
+{
+	this->x = v.x;
+	this->y = v.y;
+	this->z = v.z;
+}
 
 FORCEINLINE void NetworkVarConstruct(QAngle& q) { q.x = q.y = q.z = 0.0f; }
 

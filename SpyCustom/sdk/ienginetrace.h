@@ -36,10 +36,18 @@ public:
 	virtual TraceType_t	GetTraceType() const = 0;
 };
 
-
+#include <functional>
 class CTraceFilter : public ITraceFilter
 {
+	using FilterCallbackFn = std::function<bool(IHandleEntity*, int)>;
 public:
+	 
+	CTraceFilter(const IHandleEntity* pSkipEntity, TraceType_t iTraceType = TRACE_EVERYTHING)
+		: pSkip((void*)pSkipEntity), iTraceType(iTraceType) { }
+
+	CTraceFilter(FilterCallbackFn&& checkCallback, TraceType_t iTraceType = TRACE_EVERYTHING)
+		: checkCallback(std::move(checkCallback)), iTraceType(iTraceType) { }
+
 	bool ShouldHitEntity(IHandleEntity* pEntityHandle, int )
 	{
 		return !(pEntityHandle == pSkip);
@@ -49,6 +57,8 @@ public:
 		return TRACE_EVERYTHING;
 	}
 	void* pSkip;
+	FilterCallbackFn checkCallback = nullptr;
+	TraceType_t iTraceType = TRACE_EVERYTHING;
 };
 
 class CTraceFilterEntitiesOnly : public ITraceFilter

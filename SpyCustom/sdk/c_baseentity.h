@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "icliententity.h"
+//#include "icliententity.h"
 #include "NetVarManager.hpp"
 #include "PatternScan.hpp"
 #include "netvars.hpp"
@@ -63,9 +63,12 @@ public:
 		NETVAR(GetModelScale, "CBaseAnimating", "m_flModelScale", float);
 		NETVAR(GetScaleType, "CBaseAnimating", "m_ScaleType", float);
 		NETVAR(GetFrozen, "CBaseAnimating", "m_flFrozen", float);
+
+		NETVAR(GetPoseParameter, "CBaseAnimating", "m_flPoseParameter", float);
 		  
 		NETVAR(GetMins, "CBaseEntity", "m_vecMins", Vector); 
 		NETVAR(GetMaxs, "CBaseEntity", "m_vecMaxs", Vector);   
+		NETVAR(GetSimulationTime, "CBaseEntity", "m_flSimulationTime", float);
 
 		NETVAR2(IsScoped, "DT_CSPlayer", "m_bIsScoped", bool);
 		NETVAR2(GetViewOffset, "DT_CSPlayer", "m_vecViewOffset[0]", Vector);
@@ -97,6 +100,25 @@ public:
 			return getvfunc<OriginalFn>(this, 246)(this, sequence);
 		} 
 
+		bool IsVisible(C_BaseEntity* pEntity, const Vector& vecEnd)
+		{ 
+			const Vector vecStart = this->GetViewPos();
+
+			Ray_t ray; ray.Init(vecStart, vecEnd);
+			CTraceFilter filter(this);
+
+			//Trace_t trace = { };
+			CGameTrace trace = {}; 
+			iff.g_pEnginetrace->TraceRay(ray, MASK_SHOT, &filter, &trace);
+
+			// trace check
+			if ((trace.IsVisible() || trace.m_pEnt == pEntity))
+				return true;
+
+			return false;
+		}
+		
+
 	};
 
 	class C_BaseCombatCharacter : public C_BaseEntity
@@ -104,6 +126,7 @@ public:
 	public:
 		NETVAR(GetWeapons, "CBaseCombatCharacter", "m_hMyWeapons", std::array<CBaseHandle, MAX_WEAPONS>);
 		PNETVAR(GetWearables, "CBaseCombatCharacter", "m_hMyWearables", CBaseHandle); 
+		NETVAR(GetActiveWeapon, "CBaseCombatCharacter", "m_hActiveWeapon", CBaseHandle);
 	};
 
 	class C_BasePlayer : public C_BaseCombatCharacter
@@ -129,6 +152,13 @@ public:
 		NETVAR2(GetObserverTarget, "DT_BasePlayer", "m_hObserverTarget", short); 
 		 
 		NETVAR2(GetAccount, "DT_CSPlayer", "m_iAccount", int);
+		NETVAR2(GetAimPunchAngle, "DT_CSPlayer", "m_aimPunchAngle", Vector);
+		NETVAR2(GetViewPunchAngle, "DT_CSPlayer", "m_viewPunchAngle", Vector);
+
+		NETVAR2(GetFlashMaxAlpha, "DT_CSPlayer", "m_flFlashMaxAlpha", float);
+		NETVAR2(GetLowerBodyYawTarget, "DT_CSPlayer", "m_flLowerBodyYawTarget", float);
+		NETVAR2(HasImmunity, "DT_CSPlayer", "m_bGunGameImmunity", bool);
+		
 		/*
 		bool isDormant()
 		{
@@ -137,6 +167,16 @@ public:
 			return *reinterpret_cast<std::add_pointer_t<bool>>(addr);  
 		}
 		*/
+
+		bool IsPlayer()
+		{
+			// @xref: "effects/nightvision"  
+			typedef  bool(__thiscall* OriginalFn)(void*);
+			return getvfunc<OriginalFn>(this, 157)(this);
+		}
+
+		inline bool IsPlayerValid(); 
+
 
 	};  
 
@@ -207,8 +247,9 @@ public:
 		NETVAR(GetTotalCashSpent, "CCSPlayerResource", "m_iTotalCashSpent", int[MAX_PLAYERS]);
 		NETVAR(GetCashSpentThisRound, "CCSPlayerResource", "m_iCashSpentThisRound", int[MAX_PLAYERS]);
 		NETVAR(GetMatchStats_CashEarned_Total, "CCSPlayerResource", "m_iMatchStats_CashEarned_Total", int[MAX_PLAYERS]);
-		NETVAR(IsAlive, "CCSPlayerResource", "m_bAlive", bool[MAX_PLAYERS]);
-		NETVAR(IsConnected, "CCSPlayerResource", "m_bConnected", bool[MAX_PLAYERS]);
+ 
+		NETVAR2(IsAlive, "DT_CSPlayerResource", "m_bAlive", bool[MAX_PLAYERS]);
+		NETVAR2(IsConnected, "DT_CSPlayerResource", "m_bConnected", bool[MAX_PLAYERS]);
 
 		static C_CS_PlayerResource** GetPlayerResource() 
 		{  
@@ -234,7 +275,7 @@ public:
 	class C_Precipitation : public C_BaseEntity
 	{ 
 	public:
-		NETVAR2(GetPrecipitationType, "DT_Precipitation", "m_nPrecipType", PrecipitationType_t); 
+		NETVAR2(GetPrecipitationType, "DT_Precipitation", "m_nPrecipType", PrecipitationType_t);  
 	};
 
 	class CPlantedC4 : public C_BaseEntity
@@ -250,5 +291,27 @@ public:
 		NETVAR2(IsHaveBombDefuser, "DT_PlantedC4", "m_hBombDefuser", bool);
 		NETVAR2(GetBombSite, "DT_PlantedC4", "m_nBombSite", unsigned);
 	}; 
+
+	
+	/*
+	class CColliderable
+	{
+	public:
+		   
+		Vector& OBBMins()
+		{
+			using OriginalFn = Vector& (__thiscall* )(void*);
+			return getvfunc<OriginalFn>(this, 1)(this);
+		}
+
+		Vector& OBBMaxs()
+		{ 
+			typedef  Vector&(__thiscall* OriginalFn)(void*);
+			return getvfunc<OriginalFn>(this, 2)(this);
+		}
+
+	};
+	*/
+	
 
 #endif
