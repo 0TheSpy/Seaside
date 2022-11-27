@@ -103,9 +103,31 @@ void OnLevelInit()
     SetValueUnrestricted("mat_drawgray", g_Options.drawgray); 
     SetValueUnrestricted("mat_showlowresimage", g_Options.showlowresimage); 
 
+    if (g_Options.rcs)
+        SetValueUnrestricted("view_recoil_tracking", 0.0f);
+
+    if (g_Options.overhead)
+    {
+        DWORD oldProtect = 0;
+        VirtualProtect(iff.OverheadInfo, 2, PAGE_EXECUTE_READWRITE, &oldProtect);
+        BYTE ovbytes[2] = { 0x90, 0x90 };
+        memcpy(iff.OverheadInfo, ovbytes, 2);
+        VirtualProtect(iff.OverheadInfo, 2, oldProtect, NULL);
+    } 
+
+    if (g_Options.nochokelimit)
+    {
+        auto clMoveChokeClamp = FindPatternV2("engine.dll", "B8 ? ? ? ? 3B F0 0F 4F F0 89 5D FC") + 1;
+        unsigned long protect = 0;
+        VirtualProtect((void*)clMoveChokeClamp, 4, PAGE_EXECUTE_READWRITE, &protect);
+        *(std::uint32_t*)clMoveChokeClamp = 62;
+        VirtualProtect((void*)clMoveChokeClamp, 4, protect, &protect);
+    } 
 
     colorWorld();
 
+    if (g_Options.wfsmoke)
+        wfsmoke(1);
 
 }
  
@@ -198,6 +220,10 @@ DWORD WINAPI HackThread(HMODULE hModule)
     DMEHook = new VMTHook(iff.g_pMdlRender);
     DMEHook->SwapPointer(21, reinterpret_cast<void*>(DrawModelExecute));
     DMEHook->ApplyNewTable();
+
+    ViewRenderHook = new VMTHook(iff.g_ViewRender);
+    ViewRenderHook->SwapPointer(41, reinterpret_cast<void*>(hkRenderSmokeOverlay));
+    ViewRenderHook->ApplyNewTable();
     
     D3DHook = new VMTHook(iff.g_pD3DDevice9);
     D3DHook->SwapPointer(42, reinterpret_cast<void*>(hkEndScene));
@@ -219,8 +245,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
     SoundHook = new VMTHook(iff.g_pEngineSound);
     SoundHook->SwapPointer(5, reinterpret_cast<void*>(hkEmitSound1));
     SoundHook->ApplyNewTable();
-
-    
+     
     VGUISurfHook = new VMTHook(iff.g_pVGuiSurface);
     VGUISurfHook->SwapPointer(67, reinterpret_cast<void*>(hkLockCursor));
     VGUISurfHook->ApplyNewTable();
@@ -230,6 +255,8 @@ DWORD WINAPI HackThread(HMODULE hModule)
     ClientModeHook->SwapPointer(18, reinterpret_cast<void*>(hkOverrideView));
     ClientModeHook->SwapPointer(24, reinterpret_cast<void*>(hkCreateMove));
     ClientModeHook->ApplyNewTable();
+
+    printfdbg("CreateMove\n");
      
     FileSystemHook = new VMTHook(iff.g_pFullFileSystem);
     FileSystemHook->SwapPointer(101, reinterpret_cast<void*>(hkGetUnverifiedFileHashes));
@@ -316,9 +343,12 @@ DWORD WINAPI HackThread(HMODULE hModule)
             string(g_Options.customtextures.value->arr[0].Name),
             string(g_Options.customtextures.value->arr[0].keyvalue));
     }
-     
-    
-    ofstream loadcod("csgo/sound/hitsound_cod.wav", std::ios::binary);
+      
+    if (!fs::is_directory("csgo/sound") || !fs::exists("csgo/sound")) { // Check if src folder exists
+        fs::create_directory("csgo/sound"); // create src folder
+    }
+
+    ofstream loadcod("csgo/sound/hitsound_cod.wav", std::ios::binary); 
     if (loadcod) { 
         loadcod.write((char*)&hitsound_cod[0], sizeof(hitsound_cod));
         loadcod.close();
@@ -327,8 +357,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
     if (loadcrit) { 
         loadcrit.write((char*)&hitsound_crit[0], sizeof(hitsound_crit));
         loadcrit.close();
-    }
-    
+    }  
       
     void* fn_getplmoney = (void*)FindPatternV2("client.dll", "55 8B EC 56 8B 75 08 83 FE 3F");
     if (fn_getplmoney)
@@ -411,10 +440,12 @@ DWORD WINAPI HackThread(HMODULE hModule)
     
     SetValueUnrestricted("developer", 0);
     SetValueUnrestricted("sv_show_usermessage", 0);
+    SetValueUnrestricted("view_recoil_tracking", 0.45f);
 
     ResetMisc();
      
-    DMEHook->RestoreOldTable(); 
+    DMEHook->RestoreOldTable();
+    ViewRenderHook->RestoreOldTable();
     D3DHook->RestoreOldTable();
     ClientHook->RestoreOldTable();
     GameEventManagerHook->RestoreOldTable();

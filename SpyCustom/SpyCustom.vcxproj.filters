@@ -1302,6 +1302,15 @@
     <ClInclude Include="resources.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
+    <ClInclude Include="sdk\glow_outline_effect.h">
+      <Filter>Header Files\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\cs_weapon_parse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Aimbot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -1356,6 +1365,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="checksum_md5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Aimbot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

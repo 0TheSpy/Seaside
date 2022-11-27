@@ -84,6 +84,43 @@ public:
 };
 
 
+class Glow
+{
+public:
+    Glow() {};
+    Glow(char name1[256])
+    {
+        strcpy(name, name1);
+    }
+    Glow(char name1[256], float3 color1)
+    {
+        strcpy(name, name1);
+        color = color1;
+    }
+    char name[256];
+    bool enabled = false;
+    float3 color = { 1.f, 1.f, 1.f, 1.f }; 
+    float alphamax = .5f;
+    int glowstyle = 0;
+    bool fullbloomrender = false;
+    bool isSelected = false;
+};
+
+class glowobjects
+{
+public:
+    glowobjects()
+    {
+        int i = 0;
+        arr[i] = Glow("Enemies", float3(1.f, 0, 0, 1.f)); i++;
+        arr[i] = Glow("Allies", float3(0, 1.f, 0, 1.f)); i++;
+        itemcount = i;
+    }
+    Glow arr[64];
+    int itemcount = 0;
+};
+
+
 class weapon
 {
 public:
@@ -271,6 +308,7 @@ public:
     bool wireframe = 0;
     bool nodraw = 0;
     bool flat = 0;
+    bool ignorez = 0;
     ImVec4 coloralpha = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     bool isSelected = 0;
     int customtextureselected = -1;
@@ -564,8 +602,8 @@ inline Vector CalcAngle(register const Vector& src, register const Vector& dst)
     Vector angles; 
     Vector delta = src - dst; 
     float hyp = sqrt(delta.x * delta.x + delta.y * delta.y);  
-    angles.x = atan(delta.z / hyp) * (180.0f / 3.14);  
-    angles.y = atanf(delta.y / delta.x) * (180.0f / 3.14) + !((*(DWORD*)&delta.x) >> 31 & 1) * 180.0f;  
+    angles.x = atan(delta.z / hyp) * (180.0f / pi_v);
+    angles.y = atanf(delta.y / delta.x) * (180.0f / pi_v) + !((*(DWORD*)&delta.x) >> 31 & 1) * 180.0f;
     angles.z = 0.0f;  
     return angles;
 }
@@ -708,7 +746,24 @@ public:
 
     OPTION(bool, predict, 0);
     OPTION(bool, blockbot, 0);
-    OPTION(bool, fastladder, 1);
+    OPTION(bool, fastladder, 0);
+
+    OPTION(bool, rcs, 0); 
+    OPTION(glowobjects, glowObjects, glowobjects());
+    OPTION(bool, overhead, 0);
+
+    OPTION(float, flashalpha, 255.0f);
+    OPTION(bool, wfsmoke, 0);
+    OPTION(int, fakelag, 0);
+
+    OPTION(bool, backtrack, 0);
+    OPTION(bool, pingspike, 0);
+    OPTION(bool, nochokelimit, 0);
+
+    OPTION(bool, aimbot, 0);
+    OPTION(bool, silentaim, 0);
+    OPTION(bool, aimbotautoshoot, 0);
+    OPTION(float, aimbotfov, 0.0f);
 };
 
 inline Options g_Options;
@@ -797,6 +852,13 @@ public:
       "Other"
     };
 
+    std::vector<std::string> GlowStyles = {
+      "Default",
+      "RimGlow3D",
+      "Edge_Highlight",
+      "Edge_Highlight_Pulse"
+    };
+     
     std::map<std::string, std::vector<std::string>> Map = { 
         {"CEffectsClient", IEffects},
         {"CTEEffectDispatch", DispatchEffect},

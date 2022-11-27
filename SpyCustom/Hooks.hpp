@@ -1,8 +1,8 @@
 #pragma once
 
 #include "sdk/particles.h"
-#include "ProtobuffMessages.h"
- 
+#include "ProtobuffMessages.h" 
+#include "Aimbot.hpp"
 
 VMTHook* SoundHook = nullptr;
 void __fastcall hkEmitSound1(void* _this, int edx, IRecipientFilter& filter, int iEntIndex, int iChannel, char* pSoundEntry, unsigned int nSoundEntryHash, const char* pSample, float flVolume, int nSeed, float flAttenuation, int iFlags, int iPitch, const Vector* pOrigin, const Vector* pDirection, void* pUtlVecOrigins, bool bUpdatePositions, float soundtime, int speakerentity, int unk) {
@@ -35,7 +35,7 @@ void replacemat(int d)
     else
         material = iff.g_pMaterialSystem->FindMaterial(g_Options.materials.value->arr[d].texture, TEXTURE_GROUP_MODEL);
     material->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, g_Options.materials.value->arr[d].wireframe);
-    material->SetMaterialVarFlag(MATERIAL_VAR_FLAT, g_Options.materials.value->arr[d].flat);
+    material->SetMaterialVarFlag(MATERIAL_VAR_IGNOREZ, g_Options.materials.value->arr[d].ignorez);
     material->SetMaterialVarFlag(MATERIAL_VAR_NO_DRAW, g_Options.materials.value->arr[d].nodraw);
     material->ColorModulate(g_Options.materials.value->arr[d].coloralpha.x, g_Options.materials.value->arr[d].coloralpha.y, g_Options.materials.value->arr[d].coloralpha.z);
     material->AlphaModulate(g_Options.materials.value->arr[d].coloralpha.w);
@@ -85,7 +85,7 @@ void __stdcall DrawModelExecute(IMatRenderContext* ctx, const DrawModelState_t& 
                 replacemat(d);
             }
         }
-    }
+    }  
 
     ofunc(iff.g_pMdlRender, ctx, state, pInfo, pCustomBoneToWorld);
 
@@ -166,12 +166,12 @@ static void __stdcall hkdoPostScreenEffects(void* param) noexcept
 {
     static auto ofunc = ClientModeHook->GetOriginal<void(__thiscall*)(IClientMode*, void*)>(44);
 
+    int localplayer_index = iff.g_pEngineClient->GetLocalPlayer();
+    C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(localplayer_index));
+
     if (*g_Options.entityloop_count) {
         if (iff.g_pEngineClient->IsInGame())
         {
-            int localplayer_index = iff.g_pEngineClient->GetLocalPlayer();
-            C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(localplayer_index));
-
             for (int i = iff.g_pEngineClient->GetMaxClients() + 1; i <= iff.g_pEntityList->GetHighestEntityIndex(); ++i)
             {
                 C_BasePlayer* pEntity = (C_BasePlayer*)iff.g_pEntityList->GetClientEntity(i);
@@ -199,9 +199,53 @@ static void __stdcall hkdoPostScreenEffects(void* param) noexcept
                             modelprecache->AddString(false, model);
                     }
                 }
+
+
             }
         }
     }
+
+
+    for (int i = 0; i < iff.g_GlowObjectManager->m_GlowObjectDefinitions.Count(); i++)
+    {
+        CGlowObjectManager::GlowObjectDefinition_t& glow = iff.g_GlowObjectManager->m_GlowObjectDefinitions[i];
+
+        if (glow.m_nNextFreeSlot != CGlowObjectManager::GlowObjectDefinition_t::ENTRY_IN_USE)
+            continue;
+
+        if (!glow.m_pEntity)
+            continue;
+
+        if (fnv2::hash(glow.m_pEntity->GetClientClass()->GetName()) == fnv2::hash("CCSPlayer"))
+        {
+            if (localplayer->GetTeam() != ((C_BasePlayer*)glow.m_pEntity)->GetTeam() && g_Options.glowObjects.value->arr[0].enabled)
+            {
+                memcpy(&glow.m_vGlowColor, &g_Options.glowObjects.value->arr[0].color, sizeof(float) * 4);
+                glow.m_bRenderWhenOccluded = true;
+                glow.m_bRenderWhenUnoccluded = false;
+                glow.m_flGlowAlphaMax = g_Options.glowObjects.value->arr[0].alphamax;
+                glow.m_nRenderStyle = g_Options.glowObjects.value->arr[0].glowstyle;
+                glow.m_bFullBloomRender = false;
+                glow.m_nFullBloomStencilTestValue = 0;
+            }
+
+            if (localplayer->GetTeam() == ((C_BasePlayer*)glow.m_pEntity)->GetTeam() && g_Options.glowObjects.value->arr[1].enabled)
+            {
+                memcpy(&glow.m_vGlowColor, &g_Options.glowObjects.value->arr[1].color, sizeof(float) * 4);
+                glow.m_bRenderWhenOccluded = true;
+                glow.m_bRenderWhenUnoccluded = false;
+                glow.m_flGlowAlphaMax = g_Options.glowObjects.value->arr[1].alphamax;
+                glow.m_nRenderStyle = g_Options.glowObjects.value->arr[1].glowstyle;
+                glow.m_bFullBloomRender = false;
+                glow.m_nFullBloomStencilTestValue = 0;
+            } 
+        }
+    } 
+
+    if (g_Options.flashalpha != 255.0f)
+    {
+        localplayer->GetFlashMaxAlpha() = g_Options.flashalpha;
+    } 
 
     ofunc(iff.g_ClientMode, param);
 }
@@ -215,7 +259,7 @@ void __stdcall hkOverrideView(CViewSetup* vsView) {
     {
 
         if (!localplayer->IsScoped())
-        vsView->fov = g_Options.fov;
+            vsView->fov = g_Options.fov;
 
         auto ViewModel = reinterpret_cast<C_BaseViewModel*>(iff.g_pEntityList->GetClientEntityFromHandle(localplayer->GetViewModel()));
         if (ViewModel)
@@ -227,6 +271,7 @@ void __stdcall hkOverrideView(CViewSetup* vsView) {
             ViewModel->GetAbsAngles() = eyeAng; 
         }
     }
+     
       
     ofunc(vsView);
 }
@@ -500,19 +545,44 @@ void FastLadder(C_BasePlayer* localplayer, CUserCmd* cmd)
 
 }
 
-bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
+
+bool bSendPacket = 1;
+bool __stdcall hkCreateMove2(float frame_time, CUserCmd* pCmd);
+
+__declspec(naked) bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
+{ 
+    __asm
+    {
+        push ebp
+        mov ebp, esp
+        mov bSendPacket, bl
+    }
+
+    hkCreateMove2(frame_time, pCmd);
+
+__asm{
+        mov bl, bSendPacket
+        pop ebp
+        ret 0x08
+    }
+}
+
+
+bool __stdcall hkCreateMove2(float frame_time, CUserCmd* pCmd)
 {
-    uintptr_t* frame_pointer;
-    __asm mov frame_pointer, ebp;
-    bool& send_packet = *reinterpret_cast<bool*>(*frame_pointer - 0x1C);
-     
     static auto ofunc = ClientModeHook->GetOriginal<bool(__stdcall*)( float, CUserCmd*)>(24); 
           
     short localid = iff.g_pEngineClient->GetLocalPlayer();
     C_BasePlayer* localplayer = static_cast<C_BasePlayer*>(iff.g_pEntityList->GetClientEntity(localid));
 
-    if (!localplayer) return 0;
+    iff.pLocal = localplayer;
 
+    if (!localplayer) return ofunc(frame_time, pCmd);
+
+    if (g_Options.rcs) localplayer->GetViewPunchAngle() = Vector(0, 0, 0);
+     
+    if (!pCmd->command_number) return ofunc(frame_time, pCmd);
+     
     const auto pre_flags = localplayer->GetFlags();
 
     bool interval = !((pCmd->tick_count + 1) % 10);
@@ -550,7 +620,7 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
                 {
                     auto entityList = iff.g_pEntityList->GetClientEntity(i); 
                     if (entityList && _tcsstr(entityList->GetClientClass()->GetName(), "CPlantedC4") != NULL && tick < ((CPlantedC4*)entityList)->GetC4Blow())
-                    {
+                    { 
                         printfdbg("Found PlantedC4 %d (%f %f)\n", i, tick, ((CPlantedC4*)entityList)->GetC4Blow());
                         c4id = i;
                         break;
@@ -640,22 +710,60 @@ bool __stdcall hkCreateMove(float frame_time, CUserCmd* pCmd)
             Vector delta = localpos - entpos;
             float deltaXold = delta[0]; float deltaYold = delta[1];
             delta[0] = deltaXold * cos(viewAngles[1] * PI / 180) + deltaYold * sin(viewAngles[1] * PI / 180);
-            delta[1] = -deltaXold * sin(viewAngles[1] * PI / 180) + deltaYold * cos(viewAngles[1] * PI / 180);
-            pCmd->forwardmove = -delta[0] * 40;
-            pCmd->sidemove = delta[1] * 40;
+            delta[1] = -deltaXold * sin(viewAngles[1] * PI / 180) + deltaYold * cos(viewAngles[1] * PI / 180); 
+            pCmd->forwardmove = std::clamp(-delta[0] * 40, -450.f, 450.f);
+            pCmd->sidemove = std::clamp(delta[1] * 40, -450.f, 450.f);
         }
     }
+
+    if (g_Options.rcs) {
+        Vector aimPunchAngles = localplayer->GetAimPunchAngle(); 
+        Vector currentViewAngles; iff.g_pEngineClient->GetViewAngles(currentViewAngles); 
+        Vector newAngles = (currentViewAngles - aimPunchAngles * 2);
+        newAngles.Clamp(); newAngles.Normalize();
+        pCmd->viewangles = newAngles;   
+        //localplayer->GetViewPunchAngle() = Vector(0, 0, 0);
+    } 
+      
+    
+    if (g_Options.fakelag)
+    {
+        auto choked = iff.g_pClientState->m_nChokedCommands;
+
+        if (choked < g_Options.fakelag)
+            bSendPacket = 0;
+        else
+            bSendPacket = 1;
+    }
+    
      
+    /*
+    if (!iff.g_pClientState->m_nChokedCommands)
+    {
+        static bool flip_movement = false;
+
+        if (pCmd->forwardmove == 0.0f && !(pCmd->buttons & (int)IN_JUMP))
+        {
+            pCmd->forwardmove += flip_movement ? -1.01f : 1.01f;
+        }//nonsense
+        flip_movement = !flip_movement;
+    }
+    */
+
+    if (g_Options.aimbot)
+        if (g_Options.aimbotautoshoot || iff.g_pInputSystem->IsButtonDown(MOUSE_LEFT))
+            AimBot(pCmd);
+
     pCmd->viewangles.Clamp();
+    pCmd->viewangles.Normalize();
     pCmd->forwardmove = std::clamp(pCmd->forwardmove, -450.f, 450.f);
     pCmd->sidemove = std::clamp(pCmd->sidemove, -450.f, 450.f);
     pCmd->upmove = std::clamp(pCmd->upmove, -320.f, 320.f);
 
-    //return ofunc(frame_time, pCmd);
+    //return ofunc(frame_time, pCmd); 
      
     return false;
 } 
-
 
 
 
@@ -704,7 +812,7 @@ bool __fastcall hkDispatchUserMessage(void* thisptr, void*, int msg_type, int32 
     }
 
     static auto ofunc = ClientHook->GetOriginal<bool(__thiscall*)(void*, int, int32, int, const void*)>(38);
-      
+        
     /* //read chat example
     if (msg_type == CS_UM_SayText2)
     {
@@ -752,4 +860,14 @@ int __fastcall hkGetPlayerMoney(void* this_, void* edx, int ent_index)
        // printfdbg("NotDormant %d Money %d\n", ent_index, ((C_BasePlayer*)player)->GetAccount());  
         return ((C_BasePlayer*)player)->GetAccount();
     }
+}
+
+VMTHook* ViewRenderHook = nullptr;
+  
+void __fastcall hkRenderSmokeOverlay(uintptr_t ecx, uintptr_t edx, bool a1)
+{
+    static auto oRenderSmokeOverlay = ViewRenderHook->GetOriginal<void(__thiscall*)(uintptr_t, bool)>(41);
+    if (!g_Options.wfsmoke)
+        oRenderSmokeOverlay(ecx, a1);
+    else *reinterpret_cast<float*>(std::uintptr_t(iff.g_ViewRender) + 0x588) = 0.0f;
 }

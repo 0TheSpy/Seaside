@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Aimbot.hpp" />
     <ClInclude Include="Config.hpp" />
     <ClInclude Include="detours.h" />
     <ClInclude Include="EventListener.hpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="sdk\cs_achievementdefs.h" />
     <ClInclude Include="sdk\cs_shareddefs.h" />
     <ClInclude Include="sdk\cs_view_scene.h" />
+    <ClInclude Include="sdk\cs_weapon_parse.h" />
     <ClInclude Include="sdk\Cursor.h" />
     <ClInclude Include="sdk\c_baseanimating.h" />
     <ClInclude Include="sdk\c_baseanimatingoverlay.h" />
@@ -285,6 +287,7 @@
     <ClInclude Include="sdk\game_item_schema.h" />
     <ClInclude Include="sdk\generichash.h" />
     <ClInclude Include="sdk\globalvars_base.h" />
+    <ClInclude Include="sdk\glow_outline_effect.h" />
     <ClInclude Include="sdk\groundlink.h" />
     <ClInclude Include="sdk\HTML.h" />
     <ClInclude Include="sdk\htmlmessages.h" />
@@ -574,6 +577,7 @@
     <ClInclude Include="XorStr.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Aimbot.cpp" />
     <ClCompile Include="checksum_md5.cpp" />
     <ClCompile Include="ConVars.cpp" />
     <ClCompile Include="dllmain.cpp" />

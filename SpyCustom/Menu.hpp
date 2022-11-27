@@ -1,5 +1,59 @@
 #pragma once
 
+LPDIRECT3DVERTEXBUFFER9 v_buffer = NULL;
+struct vertex {
+    FLOAT x, y, z,
+        rhw;
+    DWORD color;
+};
+
+void DrawCircle(IDirect3DDevice9* p_Device, float x, float y, float rad, float rotate, int resolution, DWORD color)
+{ 
+    vector<vertex> circle(resolution + 2);  
+    float angle = rotate * PI / 180; 
+
+    circle[0].x = x - rad; 
+    circle[0].y = y; 
+    circle[0].z = 0; 
+    circle[0].rhw = 1; 
+    circle[0].color = color; 
+
+    for (int i = 1; i < resolution + 2; i++)
+    {
+        circle[i].x = (float)(x - rad * cos(PI * ((i - 1) / (resolution / 2.0f)))); 
+        circle[i].y = (float)(y - rad * sin(PI * ((i - 1) / (resolution / 2.0f)))); 
+        circle[i].z = 0; 
+        circle[i].rhw = 1; 
+        circle[i].color = color; 
+    }
+
+    // Rotate matrix
+    int _res = resolution + 2; 
+    for (int i = 0; i < _res; i++)
+    {
+        circle[i].x = x + cos(angle) * (circle[i].x - x) - sin(angle) * (circle[i].y - y); 
+        circle[i].y = y + sin(angle) * (circle[i].x - x) + cos(angle) * (circle[i].y - y); 
+    }
+
+    p_Device->CreateVertexBuffer((resolution + 2) * sizeof(vertex), D3DUSAGE_WRITEONLY, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &v_buffer, NULL); 
+
+    VOID* pVertices; 
+    v_buffer->Lock(0, (resolution + 2) * sizeof(vertex), (void**)&pVertices, 0); 
+    memcpy(pVertices, &circle[0], (resolution + 2) * sizeof(vertex)); 
+    v_buffer->Unlock(); 
+
+    p_Device->SetTexture(0, NULL); 
+    p_Device->SetPixelShader(NULL); 
+    p_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE); 
+    p_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA); 
+    p_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA); 
+
+    p_Device->SetStreamSource(0, v_buffer, 0, sizeof(vertex)); 
+    p_Device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE); 
+    p_Device->DrawPrimitive(D3DPT_LINESTRIP, 0, resolution); 
+    if (v_buffer != NULL) v_buffer->Release(); 
+}
+
 IMaterial* CreateMaterial(std::string matname, std::string mat_data = "")
 {
     KeyValues* keyValues = new KeyValues(matname.c_str());
@@ -10,6 +64,32 @@ IMaterial* CreateMaterial(std::string matname, std::string mat_data = "")
     return newmat;
 }
 
+void wfsmoke(bool on = 1) noexcept
+{
+    constexpr std::array smokeMaterials{
+        "particle/vistasmokev1/vistasmokev1_emods",
+        "particle/vistasmokev1/vistasmokev1_emods_impactdust",
+        "particle/vistasmokev1/vistasmokev1_fire",
+        "particle/vistasmokev1/vistasmokev1_smokegrenade"
+    };
+
+    if (on) 
+    {
+        if (!*g_Options.wfsmoke) return;
+
+        for (const auto mat : smokeMaterials) {
+            const auto material = iff.g_pMaterialSystem->FindMaterial(mat, TEXTURE_GROUP_PARTICLE);
+            material->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, true); 
+        }
+    }
+    else
+    {
+        for (const auto mat : smokeMaterials) {
+            const auto material = iff.g_pMaterialSystem->FindMaterial(mat, TEXTURE_GROUP_PARTICLE);
+            material->SetMaterialVarFlag(MATERIAL_VAR_WIREFRAME, false);
+        }
+    }
+}
 
 void colorWorld(bool on = 1) noexcept
 { 
@@ -82,6 +162,27 @@ void ResetMisc()
     SetValueUnrestricted("cl_wpn_sway_scale", GetVisibleFloat("cl_wpn_sway_scale"));
     iff.g_pCVar->FindVar("cl_ragdoll_gravity")->SetValue(600.0f);  memcpy(g_Options.ragdollgravity, &f600, 4);
     SetValueUnrestricted("cl_phys_timescale", 1.0f); memcpy(g_Options.ragdolltime, &f1, 4);
+
+    if (g_Options.overhead) 
+    {
+        DWORD oldProtect = 0;
+        VirtualProtect(iff.OverheadInfo, 2, PAGE_EXECUTE_READWRITE, &oldProtect);
+        BYTE ovbytes[2] = { 0x3B, 0xC6 };
+        memcpy(iff.OverheadInfo, ovbytes, 2);
+        VirtualProtect(iff.OverheadInfo, 2, oldProtect, NULL);
+    }
+
+    if (g_Options.nochokelimit)
+    {
+        auto clMoveChokeClamp = FindPatternV2("engine.dll", "B8 ? ? ? ? 3B F0 0F 4F F0 89 5D FC") + 1;
+        unsigned long protect = 0;
+        VirtualProtect((void*)clMoveChokeClamp, 4, PAGE_EXECUTE_READWRITE, &protect);
+        *(std::uint32_t*)clMoveChokeClamp = 15;
+        VirtualProtect((void*)clMoveChokeClamp, 4, protect, &protect);
+    }
+
+    if (g_Options.wfsmoke)
+        wfsmoke(0);
 }
 
 void RefreshThread(int* skinid)
@@ -326,8 +427,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                         ImGui::PushFont(ifont);
                         ImGui::EndCombo();
                     }
-                    style->WindowPadding = ImVec2(20.f, 20.0f);
-
+                    style->WindowPadding = ImVec2(20.f, 20.0f); 
 
                     ImGui::TableNextColumn();
 
@@ -1112,7 +1212,7 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
                     ImGui::TableNextRow();
                     ImGui::TableNextColumn();
                     ImGui::Checkbox("Wireframe", &g_Options.materials.value->arr[selectedwep].wireframe);
-                    ImGui::Checkbox("Flat", &g_Options.materials.value->arr[selectedwep].flat);
+                    ImGui::Checkbox("Ignore Z", &g_Options.materials.value->arr[selectedwep].ignorez);
                     ImGui::TableNextColumn();
                     ImGui::Checkbox("No draw", &g_Options.materials.value->arr[selectedwep].nodraw);
                     ImGui::ColorEdit4("MyColor##0", (float*)&g_Options.materials.value->arr[selectedwep].coloralpha, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaPreviewHalf | ImGuiColorEditFlags_AlphaBar);
@@ -1975,22 +2075,153 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
             }
             ImGui::EndTabItem();
         }
-
-#ifdef DEBUG
-        /*
-        if (ImGui::BeginTabItem("Test"))
+         
+        if (ImGui::BeginTabItem("Rage"))
         { 
             style->ChildBorderSize = 0; style->WindowPadding = ImVec2(20.0f, 5.0f);
             if (ImGui::BeginChild("ChildTab", ImVec2(665, 350), true, ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysUseWindowPadding)) {
                 style->ChildBorderSize = 1; style->WindowPadding = ImVec2(20.0f, 20.0f);
-                ImGui::Columns(2, nullptr, false);
+                ImGui::Columns(3, nullptr, false);
+                 
+                //if (ImGui::Button("Voicerecord", ImVec2(70, 22)))
+                //    printfdbg("VoiceRecordStart: %d\n", VoiceRecordStart("test.wav"));
+                 
+                static int selectedglow = 0;
+                
+
+                if (ImGui::Checkbox("Overhead info/Radar", g_Options.overhead))
+                {
+                    if (g_Options.overhead)
+                    {
+                        DWORD oldProtect = 0;
+                        VirtualProtect(iff.OverheadInfo, 2, PAGE_EXECUTE_READWRITE, &oldProtect);
+                        BYTE ovbytes[2] = { 0x90, 0x90 };
+                        memcpy(iff.OverheadInfo, ovbytes, 2);
+                        VirtualProtect(iff.OverheadInfo, 2, oldProtect, NULL);
+                    }
+                    else
+                    {
+                        DWORD oldProtect = 0;
+                        VirtualProtect(iff.OverheadInfo, 2, PAGE_EXECUTE_READWRITE, &oldProtect);
+                        BYTE ovbytes[2] = { 0x3B, 0xC6 };
+                        memcpy(iff.OverheadInfo, ovbytes, 2);
+                        VirtualProtect(iff.OverheadInfo, 2, oldProtect, NULL);
+                    }
+                }
+                 
+                style->WindowPadding = ImVec2(5.0f, 5.0f);
+                if (ImGui::BeginCombo("Glow", g_Options.glowObjects.value->arr[selectedglow].name))
+                {
+                    ImGui::PushFont(ifontmini);
+                    style->ItemSpacing = ImVec2(7.0f, 2.0f);
+                    for (int n = 0; n < g_Options.glowObjects.value->itemcount; n++)
+                    {
+                        g_Options.glowObjects.value->arr[n].isSelected = (selectedglow == n);
+                        if (ImGui::Selectable(g_Options.glowObjects.value->arr[n].name, g_Options.glowObjects.value->arr[n].isSelected, 0, ImVec2(0, 0), false))
+                            selectedglow = n;
+                        if (g_Options.glowObjects.value->arr[n].isSelected)
+                            ImGui::SetItemDefaultFocus();
+                    }
+
+                    style->ItemSpacing = ImVec2(7.0f, 15.0f);
+                    ImGui::PushFont(ifont);
+                    ImGui::EndCombo();
+                }
+                style->WindowPadding = ImVec2(20.f, 20.0f);
+                 
+                DisableElements(g_Options.glowObjects.value->arr[selectedglow].enabled, 1);
+               
+                ImGui::SliderFloat("Thickness", &g_Options.glowObjects.value->arr[selectedglow].alphamax, 0.0f, 1.0f);
+
+                DisableElements(g_Options.glowObjects.value->arr[selectedglow].enabled, 0);
+                 
+                ImGui::SliderFloat("Flashbang alpha", g_Options.flashalpha, 0.0f, 255.0f);
+
+                ImGui::SliderInt("Fake lag", g_Options.fakelag, 0, 63);
+
+                ImGui::Checkbox("Aimbot", g_Options.aimbot);
+                ImGui::Checkbox("Silent aim", g_Options.silentaim);
+
                 ImGui::NextColumn();
+
+                if (ImGui::Checkbox("No Recoil", g_Options.rcs))
+                {
+                    if (g_Options.rcs)
+                        SetValueUnrestricted("view_recoil_tracking", 0.0f);
+                    else
+                        SetValueUnrestricted("view_recoil_tracking", 0.45f);
+                }
+
+                ImGui::Checkbox("Active", &g_Options.glowObjects.value->arr[selectedglow].enabled);
+                ImGui::SameLine();
+
+                DisableElements(g_Options.glowObjects.value->arr[selectedglow].enabled, 1);
+                ImGui::ColorEdit4("Color", (float*)&g_Options.glowObjects.value->arr[selectedglow].color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaPreviewHalf | ImGuiColorEditFlags_AlphaBar);
+
+                style->WindowPadding = ImVec2(5.0f, 5.0f);
+                if (ImGui::BeginCombo("Style", opt.GlowStyles.at(g_Options.glowObjects.value->arr[selectedglow].glowstyle).c_str()))
+                {
+                    ImGui::PushFont(ifontmini);
+                    style->ItemSpacing = ImVec2(7.0f, 2.0f);
+                    for (int n = 0; n < opt.GlowStyles.size(); n++)
+                    {
+                        bool selected = (g_Options.glowObjects.value->arr[selectedglow].glowstyle == n);
+                        if (ImGui::Selectable(opt.GlowStyles.at(n).c_str(), selected, 0, ImVec2(0, 0), false))
+                        {
+                            g_Options.glowObjects.value->arr[selectedglow].glowstyle = n;
+                        }
+                        if (selected)
+                            ImGui::SetItemDefaultFocus();
+                    }
+
+                    style->ItemSpacing = ImVec2(7.0f, 15.0f);
+                    ImGui::PushFont(ifont); 
+                    ImGui::EndCombo();
+                }
+                style->WindowPadding = ImVec2(20.f, 20.0f);
+
+                DisableElements(g_Options.glowObjects.value->arr[selectedglow].enabled, 0);
+
+                if (ImGui::Checkbox("Wireframe smoke", g_Options.wfsmoke))
+                {
+                    if (g_Options.wfsmoke)
+                        wfsmoke(1); else wfsmoke(0);
+                }
+
+                if (ImGui::Checkbox("No choked ticks limit", g_Options.nochokelimit))
+                {
+                    if (g_Options.nochokelimit)
+                    { 
+                        auto clMoveChokeClamp = FindPatternV2("engine.dll", "B8 ? ? ? ? 3B F0 0F 4F F0 89 5D FC") + 1; 
+                        unsigned long protect = 0; 
+                        VirtualProtect((void*)clMoveChokeClamp, 4, PAGE_EXECUTE_READWRITE, &protect);
+                        *(std::uint32_t*)clMoveChokeClamp = 62;
+                        VirtualProtect((void*)clMoveChokeClamp, 4, protect, &protect);
+                    }
+                    else
+                    {
+                        auto clMoveChokeClamp = FindPatternV2("engine.dll", "B8 ? ? ? ? 3B F0 0F 4F F0 89 5D FC") + 1; 
+                        unsigned long protect = 0; 
+                        VirtualProtect((void*)clMoveChokeClamp, 4, PAGE_EXECUTE_READWRITE, &protect);
+                        *(std::uint32_t*)clMoveChokeClamp = 15;
+                        VirtualProtect((void*)clMoveChokeClamp, 4, protect, &protect); 
+                    }
+                }
+
+
+               // ImGui::Checkbox("Ping spike", g_Options.pingspike);
+
+                ImGui::SliderFloat("Aimbot FOV", g_Options.aimbotfov, 0.0f, 360.0f);
+                ImGui::Checkbox("Auto shoot", g_Options.aimbotautoshoot);
+                
+
+                ImGui::NextColumn(); //3
+
+
                 ImGui::EndChild(); 
             }
             ImGui::EndTabItem();
-        }
-        */
-#endif
+        }  
 
         if (ImGui::BeginTabItem("About"))
         {
@@ -2191,6 +2422,21 @@ long __stdcall hkEndScene(IDirect3DDevice9* pDevice)
             bulletdata[i].time += iff.g_pGlobals->curtime - bulletdata[i].time;
         }
     } 
+
+    if (g_Options.aimbot && g_Options.aimbotfov <= 90)
+    {
+        if (iff.g_pEngineClient->IsInGame() && iff.pLocal && iff.pLocal->GetHealth() > 0) {
+            int width = 0, height = 0;
+            iff.g_pEngineClient->GetScreenSize(width, height);
+
+            float radius = tanf(DEG2RAD(g_Options.aimbotfov) / 2) / tanf(DEG2RAD(g_Options.fov) / 2) * (width / 1.0f);
+            radius = radius * 0.75; //aspect ratio fix
+
+            DrawCircle(pDevice, width / 2.0f, height / 2.0f,
+                radius, 0, 360, D3DCOLOR_ARGB(50, 255, 255, 0));
+        }
+    }
+
     return oEndScene(pDevice);
 }
 

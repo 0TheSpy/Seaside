@@ -506,7 +506,7 @@ void __fastcall hkFrameStageNotify(IBaseClientDLL* thisptr, void* edx, ClientFra
 
             if (g_Options.models.value->arr[team].active_scale)
                 pEntity->GetModelScale() = g_Options.models.value->arr[team].scale;
-
+             
         }
     }
 

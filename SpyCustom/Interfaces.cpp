@@ -167,6 +167,13 @@ void IF::Init()
     GameRulesProxy = *(C_GameRulesProxy**)(FindPatternV2("client.dll", "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A")+1); //C_GameRulesProxy
     dwRadarBase = FindPatternV2("client.dll", "A1 ? ? ? ? 8B 0C B0 8B 01 FF 50 ? 46 3B 35 ? ? ? ? 7C EA 8B 0D") + 1;  
     g_pMoveHelper = **reinterpret_cast<IMoveHelper***>(FindPatternV2("client.dll", "8B 0D ? ? ? ? 8B 46 08 68") + 2);
+    g_GlowObjectManager = *(CGlowObjectManager**)(FindPatternV2("client.dll", "0F 11 05 ? ? ? ? 83 C8 01") + 3);
+    printfdbg("g_GlowObjectManager %x\n", g_GlowObjectManager);
+
+    OverheadInfo = (void*)(FindPatternV2("client.dll", "E8 ? ? ? ? 3B C6 5E 5F") + 5);
+    pLocal = 0;
+
+    g_pWeaponSystem = *reinterpret_cast<IWeaponSystem**>(FindPatternV2("client.dll", "8B 35 ? ? ? ? FF 10 0F B7 C0") + 0x2);
 }
 
 
@@ -277,16 +284,19 @@ void ShowMenu(std::string text)
     }
 }
  
- 
-//if sv_voicecodec = vaudio_celt
+
+
 bool VoiceRecordStart(const char* pUncompressedFile)
 {
     typedef bool(__cdecl* Voice_RecordStartFn)(const char*, const char*, const char*);
     static Voice_RecordStartFn Voice_RecordStart = Voice_RecordStartFn(FindPatternV2("engine.dll", "55 8B EC 83 EC 0C 83 3D ?? ?? ?? ?? ?? 56 57"));
 
-    //m_FileDuration = GetWavFileDuration(WavSound);
-    //m_FilePlayEndTime = iff.g_pGlobals->curtime + m_FileDuration;
+    //const char* WavSound = "MyCustomPathToMyFile.wav";
+
+    //m_FileDuration = Utils.GetWavFileDuration(WavSound);
+    //m_FilePlayEndTime = I::Globals->curtime + m_FileDuration;
      
+    //iff.g_pCVar->FindVar("sv_voicecodec")->SetValue("vaudio_celt"); 
     iff.g_pEngineClient->ExecuteClientCmd("voice_loopback 1");
     return Voice_RecordStart(pUncompressedFile, nullptr, nullptr);
 }
