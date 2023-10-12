@@ -461,7 +461,7 @@ DWORD WINAPI HackThread(HMODULE hModule)
         DetourRemove(reinterpret_cast<BYTE*>(oSendNetMsg), reinterpret_cast<BYTE*>(hkSendNetMsg));
     }
 
-    DetourRemove(reinterpret_cast<BYTE*>(oGetAccountData), reinterpret_cast<BYTE*>(hkGetAccountData));
+    //DetourRemove(reinterpret_cast<BYTE*>(oGetAccountData), reinterpret_cast<BYTE*>(hkGetAccountData));
     DetourRemove(reinterpret_cast<BYTE*>(oParticleCollectionSimulate), reinterpret_cast<BYTE*>(hkParticleCollectionSimulate));
       
     if (ptrDevMsg)
