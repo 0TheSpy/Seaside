@@ -264,9 +264,10 @@ DWORD WINAPI HackThread(HMODULE hModule)
 
     InitSkinChanger();
 
-    oGetAccountData = (pGetAccountData)DetourFunction(
-        (PBYTE)(iff.fn_get_account_data),
-        (PBYTE)hkGetAccountData);
+	//crash 
+    //oGetAccountData = (pGetAccountData)DetourFunction(
+    //    (PBYTE)(iff.fn_get_account_data),
+    //    (PBYTE)hkGetAccountData);
 
     oParticleCollectionSimulate = (pParticleCollectionSimulate)DetourFunction(
         (PBYTE)(iff.ParticleCollectionSimulateAdr),
